@@ -1,5 +1,6 @@
 package services;
 
+import java.util.List;
 import java.util.Set;
 
 import enums.ECommande;
@@ -16,12 +17,12 @@ public interface IMoteurJeuService {
 	 boolean estFini();
 	 EResultat resultatFinal();
 	 
-	 Set<Integer> numerosVillageois();
+	 List<IVillageoisService> numerosVillageois();
 	 IVillageoisService getVillageois(int n);
 	 int positionVillageoisX(int n);
 	 int positionVillageoisY(int n);
 	 
-	 Set<Integer> numerosMine();
+	 List<IMineService> numerosMine();
 	 IMineService getMine(int n);
 	 int positionMineX(int n);
 	 int positionMineY(int n);
@@ -36,8 +37,8 @@ public interface IMoteurJeuService {
 	 
 	 
 	 IHotelVilleService HotelDeVille();
-	 int positionHotelVilleX(int n);
-	 int positionHotelVilleY(int n);
+	 int positionHotelVilleX();
+	 int positionHotelVilleY();
 	 /*
 		 * pre 
 		 * 		peutEntrerHotelVille(M, numVillageois, numMine) require 
@@ -45,7 +46,7 @@ public interface IMoteurJeuService {
 		 */
 	 boolean peutEntrerHotelVille(int numVillageois);
 	 
-	 Set<Integer> numerosRoute();
+	 List<IRouteService> numerosRoute();
 	 IRouteService getRoute(int n);
 	 int positionRouteX(int n);
 	 int positionRouteY(int n);
@@ -57,8 +58,8 @@ public interface IMoteurJeuService {
 		 */
 	 boolean estSurRoute(int numVillageois, int numRoute);
 	 
-	 Set<Integer> numerosMuraille();
-	 IRouteService getMuraille(int n);
+	 List<IMurailleService>numerosMuraille();
+	 IMurailleService getMuraille(int n);
 	 int positionMurailleX(int n);
 	 int positionMurailleY(int n);
 	 
