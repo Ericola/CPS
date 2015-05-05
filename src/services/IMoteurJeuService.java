@@ -14,7 +14,6 @@ public interface IMoteurJeuService {
 	 int HauteurTerrain();
 	 int MaxPasJeu();	 
 	 int pasJeuCourant();
-	 boolean estFini();
 	 EResultat resultatFinal();
 	 
 	 List<IVillageoisService> numerosVillageois();
@@ -37,14 +36,16 @@ public interface IMoteurJeuService {
 	 
 	 
 	 IHotelVilleService HotelDeVille();
-	 int positionHotelVilleX();
-	 int positionHotelVilleY();
+	 IHotelVilleService HotelDeVille2();
+	 int positionHotelVilleX(int n);
+	 int positionHotelVilleY(int n);
 	 /*
 		 * pre 
 		 * 		peutEntrerHotelVille(M, numVillageois, numMine) require 
 		 *      numVillageois in numerosVillageois(M, numVillageois)
+		 *      numHotelDeVille in [1,2]
 		 */
-	 boolean peutEntrerHotelVille(int numVillageois);
+	 boolean peutEntrerHotelVille(int numVillageois, int numHotelDeVille);
 	 
 	 List<IRouteService> numerosRoute();
 	 IRouteService getRoute(int n);
@@ -82,10 +83,14 @@ public interface IMoteurJeuService {
 		
 		/*
 		 * pre 
-		 * 		pasJeu(ECommande Commande,int numVillageois,int argument) 
-		 * require !estFini(M) ^ Commande = DEPLACER => 0 <= argument <= 360
-		 * ^ Commande = ENTRERMINE => argument in numerosMine(M) ^ peutEntrer(M, numVillageois, argument) 
-		 * ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, numVillageois)	
+		 * 		pasJeu(c, c2, n, n2, a, a2) 
+		 * require !estFini(M) ^ c = DEPLACER => 0 <= a <= 360
+		 * ^ c = ENTRERMINE => a in numerosMine(M) ^ peutEntrer(M, n, a) 
+		 * ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n)
+		 * 	 ^ c2 = DEPLACER => 0 <= a2 <= 360
+		 * ^ c2 = ENTRERMINE => a2 in numerosMine(M) ^ peutEntrer(M, n2, a2) 
+		 * ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
+		 * ^ n != n2
 		 * post 
 				pasJeuCourant(pasJeu(M, c, numVillageois, arg)) = pasJeuCourant(M) + 1
 				getMine(pasJeu(M, c, numVillageois, arg), numMine) = Mine::abandoned(getMine(M,numMine)) si 
@@ -95,7 +100,8 @@ public interface IMoteurJeuService {
 			    A FINIR PARALOS VILLAGOS
 				
 		 */
-		IMoteurJeuService pasJeu(ECommande Commande,int numVillageois,int argument);
+		IMoteurJeuService pasJeu(ECommande Commande,ECommande Commande2, int numVillageois, int numVillageois2,
+				int argument, int argument2);
 		
 		/**
 		 * Invariants
