@@ -333,18 +333,6 @@ public class MoteurImplem implements IMoteurJeuService {
 
 	public Point deplacer(int argument,Point point,int numVillageois){
 		int vitesse = villageois.get(numVillageois).getVitesse();
-		 Label ("Key Listener!" ) ;
-			p.add(l1);  
-			add(p);
-			addKeyListener ( this ) ; 
-			setSize ( 200,100 );
-			setVisible(true);
-			addWindowListener(new WindowAdapter(){
-				public void windowClosing(WindowEvent e){
-					System.exit(0);
-				}
-			});
-			this.moteurJeu = moteurJeu;
 		if(argument<46){
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x+vitesse,point.y-vitesse);

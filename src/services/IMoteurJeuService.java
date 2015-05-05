@@ -14,6 +14,7 @@ public interface IMoteurJeuService {
 	 int HauteurTerrain();
 	 int MaxPasJeu();	 
 	 int pasJeuCourant();
+	 boolean estFini();
 	 EResultat resultatFinal();
 	 
 	 List<IVillageoisService> numerosVillageois();

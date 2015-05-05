@@ -118,21 +118,27 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionHotelVilleX() {
+	public IHotelVilleService HotelDeVille2() {
 		// TODO Auto-generated method stub
-		return delegate.positionHotelVilleX();
+		return delegate.HotelDeVille2();
+	}
+	
+	@Override
+	public int positionHotelVilleX(int n) {
+		// TODO Auto-generated method stub
+		return delegate.positionHotelVilleX(n);
 	}
 
 	@Override
-	public int positionHotelVilleY() {
+	public int positionHotelVilleY(int n) {
 		// TODO Auto-generated method stub
-		return delegate.positionHotelVilleY();
+		return delegate.positionHotelVilleY(n);
 	}
 
 	@Override
-	public boolean peutEntrerHotelVille(int numVillageois) {
+	public boolean peutEntrerHotelVille(int numVillageois, int hv) {
 		// TODO Auto-generated method stub
-		return delegate.peutEntrerHotelVille(numVillageois);
+		return delegate.peutEntrerHotelVille(numVillageois, hv);
 	}
 
 	@Override
@@ -196,10 +202,10 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public IMoteurJeuService pasJeu(ECommande Commande, int numVillageois,
-			int argument) {
+	public IMoteurJeuService pasJeu(ECommande Commande, ECommande Commande2, int numVillageois, 
+			 int numVillageois2, int argument, int argument2) {
 		// TODO Auto-generated method stub
-		return delegate.pasJeu(Commande, numVillageois, argument);
+		return delegate.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
 	}
 
 }
