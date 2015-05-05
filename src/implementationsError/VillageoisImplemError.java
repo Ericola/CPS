@@ -73,4 +73,10 @@ public class VillageoisImplemError implements IVillageoisService{
 	public boolean estMort() {
 		return estMort; 
 	}
+	
+	@Override
+	public IVillageoisService setQtor(int s) {
+		this.quantiteDor = s + 50;
+		return this;
+	}
 }

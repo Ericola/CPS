@@ -73,6 +73,13 @@ public class VillageoisImplem implements IVillageoisService{
 	public boolean estMort() {
 		return estMort; 
 	}
+
+
+	@Override
+	public IVillageoisService setQtor(int s) {
+		this.quantiteDor = s;
+		return this;
+	}
 	
 	
 	

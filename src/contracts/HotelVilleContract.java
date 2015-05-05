@@ -3,6 +3,7 @@ package contracts;
 import decorators.HotelVilleDecorator;
 import decorators.MineDecorator;
 import services.IHotelVilleService;
+import services.IMineService;
 import exceptions.InvariantError;
 import exceptions.PostconditionError;
 import exceptions.PreconditionError;
@@ -13,7 +14,7 @@ public class HotelVilleContract extends HotelVilleDecorator{
 	}
 
 	private void checkInvariants() {
-		/* estLaminee(M) =(min) orRestant(M) <=  0 */
+		/* estLaminee(H) =(min) orRestant(H) <=  0 */
 		if(!(estLaminee() && (orRestant() <= 0))){
 			throw new InvariantError("estLaminee(M) =(min) orRestant(M) <=  0 incorrecte");
 		}
@@ -89,9 +90,9 @@ public class HotelVilleContract extends HotelVilleDecorator{
 	}
 
 	public  IHotelVilleService depot(int s){
-		/* pre depot(M, s)) require !estLaminee(M) */
+		/* pre depot(H, s)) require !estLaminee(H) */
 		if((estLaminee())){
-			throw new PreconditionError("retrait(M, s)) require !estLaminee(M) incorrecte");
+			throw new PreconditionError("retrait(M, s)) require !estLaminee(H) incorrecte");
 		}
 
 		// inv avant 
@@ -106,12 +107,44 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		// inv apres
 		checkInvariants();
 
-		/* post orRestant(depot(M,s)) == orRestant(M) + s */
+		/* post orRestant(depot(H,s)) == orRestant(H) + s */
 		if(!(orRestant() == (oldOrRest + s))){
 			throw new PostconditionError("orRestant(depot(M,s)) == orRestant(M) + s incorrecte");
 		}
 
 		return this;
 
+	}
+	
+	@Override
+	public IHotelVilleService setOrRestant(int s) {
+		// pre setOrRestant(H, s) require s > 0
+		if (!(s > 0)) {
+			throw new PreconditionError("setOrRestant(H, s) require s > 0 incorrecte");
+		}
+		
+		// capture 
+		int oldOrRestant = orRestant();
+		
+		// inv avant 
+		checkInvariants();
+		
+		// run
+		super.setOrRestant(s);
+		
+		// inv apres
+		checkInvariants();
+		
+		//post orRestant(setOrRestant(H, s)) = orRestant(H)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setOrRestant(H, s)) = orRestant(H) incorrecte");
+		}	
+		
+		//post orRestant(setOrRestant(H, s)) = s
+		if (!(orRestant() == s)) {
+			throw new PostconditionError("orRestant(setOrRestant(H, s)) = s incorrecte");
+		}	
+		
+		return this;
 	}
 }

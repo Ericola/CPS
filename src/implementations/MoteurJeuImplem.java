@@ -17,7 +17,7 @@ import enums.ECommande;
 import enums.ERace;
 import enums.EResultat;
 
-public class MoteurImplem implements IMoteurJeuService {
+public class MoteurJeuImplem implements IMoteurJeuService {
 	private int maxPasJeu;
 	private int pasJeuCourant;
 	private int largeurTerrain;
@@ -34,7 +34,7 @@ public class MoteurImplem implements IMoteurJeuService {
 	private List<IMurailleService> murailles;
 
 	private List<Integer> villageoisAttente;
-	
+
 	private HashMap<Object, Point> positions;
 	@Override
 	public int LargeurTerrain() {
@@ -130,14 +130,10 @@ public class MoteurImplem implements IMoteurJeuService {
 	}
 
 	@Override
-	public IHotelVilleService HotelDeVille() {
+	public IHotelVilleService HotelDeVille(int n) {
 		// TODO Auto-generated method stub
-		return hotelDeVille;
-	}
-
-	@Override
-	public IHotelVilleService HotelDeVille2() {
-		// TODO Auto-generated method stub
+		if(n == 1)
+			return hotelDeVille;
 		return hotelDeVille2;
 	}
 
@@ -194,10 +190,14 @@ public class MoteurImplem implements IMoteurJeuService {
 	}
 
 	@Override
-	public boolean estSurRoute(int numVillageois, int numRoute) {
+	public boolean estSurRoute(int numVillageois) {
 		// TODO Auto-generated method stub
-		Rectangle rect = new Rectangle(positionRouteX(numRoute), positionRouteY(numRoute), routes.get(numRoute).getLargeur(), routes.get(numRoute).getHauteur());
-		return rect.contains(positions.get(getVillageois(numVillageois)));
+		for(int numRoute = 0; numRoute < routes.size(); numRoute++){
+			Rectangle rect = new Rectangle(positionRouteX(numRoute), positionRouteY(numRoute), routes.get(numRoute).getLargeur(), routes.get(numRoute).getHauteur());
+			if(rect.contains(positions.get(getVillageois(numVillageois))))
+				return true;
+		}
+		return false;
 	}
 
 	public boolean estSurMuraille(Point p) {
@@ -248,6 +248,8 @@ public class MoteurImplem implements IMoteurJeuService {
 
 		hotelDeVille.init(50, 50);
 		hotelDeVille2.init(50, 50);
+		hotelDeVille.setOrRestant(16);
+		hotelDeVille2.setOrRestant(16);
 
 		positions.put(hotelDeVille, new Point(l/2, 10));
 		positions.put(hotelDeVille2, new Point(l/2, h -60));
@@ -276,7 +278,7 @@ public class MoteurImplem implements IMoteurJeuService {
 		for(int i = 0; i < villageois.size(); i++){
 			villageoisAttente.add(0);
 		}
-		
+
 		mines=new ArrayList<IMineService>();
 		IMineService m = new MineImplem();
 		IMineService m1 = new MineImplem();
@@ -333,6 +335,10 @@ public class MoteurImplem implements IMoteurJeuService {
 
 	public Point deplacer(int argument,Point point,int numVillageois){
 		int vitesse = villageois.get(numVillageois).getVitesse();
+
+		if(estSurRoute(numVillageois)){
+			vitesse = 2*vitesse;
+		}
 		if(argument<46){
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x+vitesse,point.y-vitesse);
@@ -361,7 +367,7 @@ public class MoteurImplem implements IMoteurJeuService {
 		if(argument<361){
 			return new Point(point.x+vitesse,point.y);
 		}
-		
+
 		return point;
 	}
 
@@ -388,23 +394,16 @@ public class MoteurImplem implements IMoteurJeuService {
 		//il a une piece :)
 		//qtor++
 		//villageoisAttente.add(numVillageois, pasJeuCourant + 16)
-		
-		case ENTRERHOTELVILLE : break;
-		//ajouter un boolean au villageois actif/inactif
 
+		case ENTRERHOTELVILLE : 
+		// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
+		HotelDeVille(argument).setOrRestant(HotelDeVille(argument).orRestant() 
+				+ villageois.get(numVillageois).getQtor());
 
+		//villageois a plus de piece :)
+		//qtor(villageois)=0
+		villageois.get(numVillageois).setQtor(0);
 
-		//il a plus de piece :)
-		//qtor=0
-
-		/*rajout de case : murailleMeet
-		 * 
-		 * 
-		 * rajout SurRoute
-		 * Multiplier par 2 la vitesse du villageois !
-		 * 
-		 * 
-		 */
 		default:
 			break;
 
@@ -420,7 +419,7 @@ public class MoteurImplem implements IMoteurJeuService {
 		case ENTRERMINE : break;
 		//ajouter un boolean au villageois actif/inactif
 
-		//tester si la mine si abandonné -> non abandonné
+		//tester si la mine si abandonnee -> non abandonnee
 
 		//mettre le bool a inactif
 		//une fois les 16pas de jeu fini le remettre actif
@@ -428,37 +427,29 @@ public class MoteurImplem implements IMoteurJeuService {
 		//qtor++
 		//villageoisAttente.add(numVillageois, pasJeuCourant + 16)
 
-		case ENTRERHOTELVILLE : break;
-		//ajouter un boolean au villageois actif/inactif
+		case ENTRERHOTELVILLE : 
+			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
+			HotelDeVille(argument).setOrRestant(HotelDeVille(argument2).orRestant() 
+					+ villageois.get(numVillageois2).getQtor());
 
-
-
-		//il a plus de piece :)
-		//qtor=0
-
-		/*rajout de case : murailleMeet
-		 * 
-		 * 
-		 * rajout SurRoute
-		 * Multiplier par 2 la vitesse du villageois !
-		 * 
-		 * 
-		 */
-		default:
+			//villageois a plus de piece :)
+			//qtor(villageois)=0
+			villageois.get(numVillageois2).setQtor(0);
 			break;
 
 
 		}
-		
+
 		for(int i = 0; i < villageoisAttente.size(); i++){
-			if(villageoisAttente.get(i) == pasJeuCourant){
+			if(villageoisAttente.get(i) == pasJeuCourant && pasJeuCourant != 0){
 				villageoisAttente.add(numVillageois, 0);
+				villageois.get(i).setQtor(villageois.get(i).getQtor() + 1);
 			}
 		}
-		
+
 		pasJeuCourant++;
-		
-		
+
+
 		return this;
 	}
 

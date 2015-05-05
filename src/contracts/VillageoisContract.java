@@ -181,4 +181,37 @@ public class VillageoisContract extends VillageoisDecorator {
 		
 		return this;
 	}
+	
+
+	@Override
+	public IVillageoisService setQtor(int s) {
+		// pre setQtor(V, s) require s > 0
+		if (!(s > 0)) {
+			throw new PreconditionError("setQtor(V, s) require s > 0 incorrecte");
+		}
+		
+		// capture 
+		int oldQtor = getQtor();
+		
+		// inv avant 
+		checkInvariants();
+		
+		// run
+		super.setQtor(s);
+		
+		// inv apres
+		checkInvariants();
+		
+		//post getQtor(setQtor(V, s)) = getQtor(V)
+		if (!(getQtor() == oldQtor)) {
+			throw new PostconditionError("getQtor(setQtor(V, s)) = getQtor(V) incorrecte");
+		}	
+		
+		//post getQtor(setQtor(V, s)) = s
+		if (!(getQtor() == s)) {
+			throw new PostconditionError("getQtor(setQtor(V, s)) = s incorrecte");
+		}	
+		
+		return this;
+	}
 }

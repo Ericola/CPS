@@ -48,6 +48,14 @@ public interface IVillageoisService {
 		 */
 	 IVillageoisService retrait(int s);
 	  
+	 /*	pre 
+	  * setQtor(V, s) require s > 0
+	  *	post
+			getQtor(setQtor(V, s)) = getQtor(V)
+			getQtor(setQtor(V, s)) = s
+				
+		 */
+	 IVillageoisService setQtor(int s);
      /**
 	     * Invariants
 	     */

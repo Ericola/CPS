@@ -80,4 +80,11 @@ public class MineImplem implements IMineService{
 		this.estAbandonnee = true;
 		return this;
 	}
+	
+
+	@Override
+	public IMineService setOrRestant(int s) {
+		this.orRestant = s;
+		return this;
+	}
 }

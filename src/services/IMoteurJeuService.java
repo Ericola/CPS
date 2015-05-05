@@ -35,9 +35,12 @@ public interface IMoteurJeuService {
 	 boolean peutEntrer(int numVillageois, int numMine);
 	 
 	 
-	 
-	 IHotelVilleService HotelDeVille();
-	 IHotelVilleService HotelDeVille2();
+	 /*
+		 * pre 
+		 * 		HotelVille(M, n) require 
+		 *      n in [1,2]
+		 */
+	 IHotelVilleService HotelDeVille(int n);
 	 int positionHotelVilleX(int n);
 	 int positionHotelVilleY(int n);
 	 /*
@@ -54,11 +57,10 @@ public interface IMoteurJeuService {
 	 int positionRouteY(int n);
 	 /*
 		 * pre 
-		 * 		estSurRoute(M, numVillageois, numRoute) require 
-		 *      numVillageois in numerosVillageois(M, numVillageois) ^
-		 *      numRoute in numerosRoute(M, numRoute);
+		 * 		estSurRoute(M, numVillageois) require 
+		 *      numVillageois in numerosVillageois(M, numVillageois) 
 		 */
-	 boolean estSurRoute(int numVillageois, int numRoute);
+	 boolean estSurRoute(int numVillageois);
 	 
 	 List<IMurailleService>numerosMuraille();
 	 IMurailleService getMuraille(int n);

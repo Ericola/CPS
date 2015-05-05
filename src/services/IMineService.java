@@ -61,6 +61,14 @@ public interface IMineService {
 	*/
 	 IMineService abandoned();
 	 
+	/* pre 
+	 * 		setOrRestant(M, s) require s > 0
+	 * post
+			orRestant(setOrRestant(M, s)) = orRestant(M)
+			orRestant(setOrRestant(M, s)) = s
+				
+		 */
+	 IMineService setOrRestant(int s);
      /**
 	     * Invariants
 	     */

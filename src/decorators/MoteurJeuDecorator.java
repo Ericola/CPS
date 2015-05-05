@@ -112,15 +112,9 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public IHotelVilleService HotelDeVille() {
+	public IHotelVilleService HotelDeVille(int n) {
 		// TODO Auto-generated method stub
-		return delegate.HotelDeVille();
-	}
-
-	@Override
-	public IHotelVilleService HotelDeVille2() {
-		// TODO Auto-generated method stub
-		return delegate.HotelDeVille2();
+		return delegate.HotelDeVille(n);
 	}
 	
 	@Override
@@ -166,9 +160,9 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public boolean estSurRoute(int numVillageois, int numRoute) {
+	public boolean estSurRoute(int numVillageois) {
 		// TODO Auto-generated method stub
-		return delegate.estSurRoute(numVillageois, numRoute);
+		return delegate.estSurRoute(numVillageois);
 	}
 
 	@Override

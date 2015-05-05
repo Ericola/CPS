@@ -73,5 +73,10 @@ private IVillageoisService delegate;
 		// TODO Auto-generated method stub
 		return delegate.estMort();
 	}
+	
+	@Override
+	public IVillageoisService setQtor(int s) {
+		return delegate.setQtor(s);
+	}
 
 }

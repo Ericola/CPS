@@ -57,5 +57,11 @@ public class HotelVilleImplemError implements IHotelVilleService{
 		this.orRestant = this.orRestant + s-314;
 		return this;
 	}
+	
+	@Override
+	public IHotelVilleService setOrRestant(int s) {
+		this.orRestant = s + 50;
+		return this;
+	}
 
 }

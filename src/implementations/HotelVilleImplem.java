@@ -1,6 +1,7 @@
 package implementations;
 
 import services.IHotelVilleService;
+import services.IMineService;
 
 
 
@@ -58,4 +59,9 @@ public class HotelVilleImplem implements IHotelVilleService{
 		return this;
 	}
 
+	@Override
+	public IHotelVilleService setOrRestant(int s) {
+		this.orRestant = s;
+		return this;
+	}
 }

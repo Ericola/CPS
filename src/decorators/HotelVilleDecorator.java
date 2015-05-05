@@ -47,4 +47,9 @@ public class HotelVilleDecorator implements IHotelVilleService {
 		// TODO Auto-generated method stub
 		return delegate.depot(s);
 	}
+	
+	@Override
+	public IHotelVilleService setOrRestant(int s) {
+		return delegate.setOrRestant(s);
+	}
 }

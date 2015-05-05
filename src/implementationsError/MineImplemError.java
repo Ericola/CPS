@@ -81,4 +81,10 @@ public class MineImplemError implements IMineService{
 		this.estAbandonnee = false;
 		return this;
 	}
+	
+	@Override
+	public IMineService setOrRestant(int s) {
+		this.orRestant = s + 50;
+		return this;
+	}
 }

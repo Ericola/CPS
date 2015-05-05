@@ -70,5 +70,11 @@ public class MineDecorator implements IMineService {
 		// TODO Auto-generated method stub
 		return delegate.abandoned();
 	}
+	
+
+	@Override
+	public IMineService setOrRestant(int s) {
+		return delegate.setOrRestant(s);
+	}
 
 }

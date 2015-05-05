@@ -1,6 +1,7 @@
 package contracts;
 
 import services.IMineService;
+import services.IVillageoisService;
 import decorators.MineDecorator;
 import enums.ERace;
 import exceptions.InvariantError;
@@ -144,18 +145,18 @@ public class MineContract extends MineDecorator {
 		if(!(abandonCompteur() == oldabanComp)){
 			throw new PostconditionError("abandonCompteur(retrait(M,s)) = abandonCompteur(M) incorrecte.");
 		}
-		
+
 		return this;
 
 	}
-	
+
 	public IMineService accueil(){
-		
+
 		/* pre accueil(M) require !estAbandonnee(M) */
 		if((!(estAbandonnee()))){
 			throw new PreconditionError("accueil(M) require !estAbandonnee(M) incorrecte");
 		}
-	
+
 		// inv avant 
 		checkInvariants();
 
@@ -167,50 +168,84 @@ public class MineContract extends MineDecorator {
 
 		// inv apres
 		checkInvariants();
-		
+
 		/*post orRestant(accueil(M,s)) == orRestant(M) */
 		if(!(orRestant() == oldOrRest)){
 			throw new PostconditionError("orRestant(accueil(M,s)) == orRestant(M) incorrecte");
 		}
-		
+
 		/*post abandonCompteur(accueil(M,s)) = 0 */
 		if(!(abandonCompteur() == 0)){
 			throw new PostconditionError("abandonCompteur(accueil(M,s)) = 0 incorrecte");
 		}
-		
+
 		return this;
 	}
 
-public IMineService abandoned(){
-		
+	public IMineService abandoned(){
+
 		/* pre abandoned(M) require !estAbandonee(M) */
 		if(((estAbandonnee()))){
 			throw new PreconditionError("abandoned(M) require estAbandonee(M) incorrecte");
 		}
-	
+
 		// inv avant 
 		checkInvariants();
 
 		// capture 
 		int oldOrRest = orRestant();
 		int oldabanComp = abandonCompteur();
-		
+
 		// run
 		super.abandoned();
 
 		// inv apres
 		checkInvariants();
-		
+
 		/*post orRestant(abandoned(M,s)) == orRestant(M) */
 		if(!(orRestant() == oldOrRest)){
 			throw new PostconditionError("orRestant(abandoned(M,s)) == orRestant(M) incorrecte");
 		}
-		
+
 		/*post abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 */
 		if(!(abandonCompteur() == oldabanComp + 1)){
 			throw new PostconditionError("abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 incorrecte");
 		}
+
+		return this;
+	}
+	
+	@Override
+	public IMineService setOrRestant(int s) {
+		// pre setOrRestant(M, s) require s > 0
+		if (!(s > 0)) {
+			throw new PreconditionError("setOrRestant(M, s) require s > 0 incorrecte");
+		}
+		
+		// capture 
+		int oldOrRestant = orRestant();
+		
+		// inv avant 
+		checkInvariants();
+		
+		// run
+		super.setOrRestant(s);
+		
+		// inv apres
+		checkInvariants();
+		
+		//post orRestant(setOrRestant(M, s)) = orRestant(M)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setOrRestant(M, s)) = orRestant(M) incorrecte");
+		}	
+		
+		//post orRestant(setOrRestant(M, s)) = s
+		if (!(orRestant() == s)) {
+			throw new PostconditionError("orRestant(setOrRestant(M, s)) = s incorrecte");
+		}	
 		
 		return this;
 	}
 }
+
+

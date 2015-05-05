@@ -32,16 +32,26 @@ public interface IHotelVilleService {
 		 */
 	 /*
 		 * pre 
-		 * 		depot(M, s)) require !estLaminee(M)
+		 * 		depot(H, s)) require !estLaminee(H)
 		 * post 
-				orRestant(depot(M,s)) == orRestant(M) + s
+				orRestant(depot(H,s)) == orRestant(H) + s
 	*/
 	 IHotelVilleService depot(int s);
 	 
+	 
+	/* 
+	     * pre 
+	     * 		setOrRestant(H, s) require s > 0
+		 * post
+				orRestant(setOrRestant(H, s)) = orRestant(H)
+				orRestant(setOrRestant(H, s)) = s
+					
+			 */
+		 IHotelVilleService setOrRestant(int s);
 	 /**
 	     * Invariants
 	     */
 	 
-	/* estLaminee(M) =(min) orRestant(M) <=  0 */
+	/* estLaminee(H) =(min) orRestant(H) <=  0 */
 	
 }
