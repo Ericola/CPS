@@ -301,8 +301,6 @@ public class MoteurImplem implements IMoteurJeuService {
 		 */
 		default:
 			break;
-			
-		
 		}
 		pasJeuCourant++;
 		return this;

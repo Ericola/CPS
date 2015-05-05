@@ -72,6 +72,8 @@ public interface IMoteurJeuService {
 		 * post 
 				getMaxPasJeu(init(p,l,h)) = p
 				getPasJeuCourant(init(p,l,h)) = 0
+				LargeurTerrain(init(p,l,h)) = l
+				HauteurTerrain(init(p,l,h)) = h
 				
 		 */
 		IMoteurJeuService init(int maxPasJeu,int l,int h);
