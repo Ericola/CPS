@@ -92,4 +92,9 @@ public class MineImplemError implements IMineService{
 		this.orRestant = s + 50;
 		return this;
 	}
+	
+	public IMineService setAbandonCompteur(int s){
+		this.abandonCompteur = s + 50;
+		return this;
+	}
 }

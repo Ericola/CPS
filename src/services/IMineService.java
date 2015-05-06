@@ -71,6 +71,14 @@ public interface IMineService {
 				
 		 */
 	 IMineService setOrRestant(int s);
+	 /* pre 
+		 * 		setAbandonCompteur(M, s) require s > 0
+		 * post
+				orRestant(setAbandonCompteur(M, s)) = AbandonCompteur(M)
+				orRestant(setAbandonCompteur(M, s)) = s
+					
+			 */
+	 IMineService setAbandonCompteur(int s);
      /**
 	     * Invariants
 	     */

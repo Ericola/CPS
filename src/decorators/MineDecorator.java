@@ -77,6 +77,10 @@ public class MineDecorator implements IMineService {
 	public IMineService setOrRestant(int s) {
 		return delegate.setOrRestant(s);
 	}
+	
+	public IMineService setAbandonCompteur(int s){
+		return delegate.setAbandonCompteur(s);
+	}
 
 	@Override
 	public ERace appartenance() {

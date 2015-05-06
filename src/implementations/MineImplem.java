@@ -89,6 +89,11 @@ public class MineImplem implements IMineService{
 		return this;
 	}
 	
+	public IMineService setAbandonCompteur(int s){
+		this.abandonCompteur = s;
+		return this;
+	}
+	
 
 	@Override
 	public IMineService setOrRestant(int s) {

@@ -449,7 +449,11 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 
 		pasJeuCourant++;
 
-
+		// On modifie les abandons compteurs de la mine
+		for(int i = 0; i < numerosMine().size(); i++){
+			getMine(i).setAbandonCompteur(getMine(i).abandonCompteur() + 1);
+		}
+		
 		return this;
 	}
 

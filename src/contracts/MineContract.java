@@ -260,6 +260,37 @@ public class MineContract extends MineDecorator {
 		
 		return this;
 	}
+	
+	public IMineService setAbandonCompteur(int s){
+		// pre setAbandonCompteur(M, s) require s > 0
+		if (!(s > 0)) {
+			throw new PreconditionError("setAbandonCompteur require s > 0 incorrecte");
+		}
+		
+		// capture 
+		int oldAbandonCompteur = abandonCompteur();
+		
+		// inv avant 
+		checkInvariants();
+		
+		// run
+		super.setAbandonCompteur(s);
+		
+		// inv apres
+		checkInvariants();
+		
+		//post abandonCompteur(setabandonCompteur(M, s)) = abandonCompteur(M)
+		if (!(abandonCompteur() == oldAbandonCompteur)) {
+			throw new PostconditionError("orRestant(setAbandonCompteur(M, s)) = abandonCompteur(M) incorrecte");
+		}	
+		
+		//post abandonCompteur(setAbandonCompteur(M, s)) = s
+		if (!(abandonCompteur() == s)) {
+		throw new PostconditionError("abandonCompteur(setAbandonCompteur(M, s)) = s incorrecte");
+		}	
+		
+		return this;
+	}
 }
 
 
