@@ -1,0 +1,41 @@
+Service : HotelVille
+Types: 
+Observators :
+	getLargeur : [HotelVille] → int
+	getHauteur : [HotelVille] → int 
+	orRestant : [HotelVille] → int 
+	estAbandonnee : [HotelVille] → boolean
+	estLaminee : [HotelVille] → boolean 
+	abandonCompteur : [HotelVille] → int
+
+Constructors :
+	init : int × int → [HotelVille]
+		pre init(largeur,hauteur) require largeur%2=1 ∧ hauteur%2=1
+
+Operators
+	retrait : [HotelVille] × int → [HotelVille]
+		pre retrait(H,s) require ¬estLaminee(H) ∧ s>0
+	accueil : [HotelVille] → [HotelVille]
+		pre accueil(H) require ¬abandoned(H)
+	abandoned : [HotelVille] → [HotelVille]
+		pre abandoned(H) require ¬accueil(H)
+	 setOrRestant : [HotelVille] x int → [HotelVille] 
+        pre setOrRestant(H, s) require s > 0
+		
+Observations :
+	[invariants]
+		estLaminee(H) =(Hin) orRestant(H) <=  0			
+		estAbandonnee(H) = abandonCompteur = 51
+		0 ≤abandonCompteur(H)≤ 51 
+		
+	[init]
+		largeur(init(l,h))=l hauteur(init(l,h))=h 
+		orRestant(init(l,h))=51 
+		abandonCompteur(init(l,h))=51
+	
+	[retrait]
+		orRestant(retrait(H,s))=orRestant(H)-s 
+		estAbandonnee(retrait(H,s))=false
+
+
+	

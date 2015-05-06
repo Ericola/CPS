@@ -14,6 +14,7 @@ public interface IMineService {
 	 boolean estAbandonnee();
 	 boolean estLaminee();
 	 int abandonCompteur();
+	 ERace appartenance();
 	 
 	 /**
 		 * Constructors
@@ -48,9 +49,10 @@ public interface IMineService {
 		 * 		accueil(M) require !estAbandonee(M)
 		 * post 
 				orRestant(accueil(M,s)) == orRestant(M)
-				abandonCompteur(accueil(M,s)) = 0
+				abandonCompteur(accueil(M,r)) = 0
+				appartenance(accueil(M,r)) = r 
 	*/
-	 IMineService accueil();
+	 IMineService accueil(ERace r);
 	  
 	 /*
 		 * pre 

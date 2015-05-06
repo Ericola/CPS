@@ -70,6 +70,11 @@ public class MineContract extends MineDecorator {
 
 		return super.abandonCompteur();
 	}
+	
+	public ERace appartenance() {
+		// TODO Auto-generated method stub
+		return super.appartenance();
+	}
 
 	public IMineService init(int largeur, int hauteur){
 
@@ -150,7 +155,7 @@ public class MineContract extends MineDecorator {
 
 	}
 
-	public IMineService accueil(){
+	public IMineService accueil(ERace r){
 
 		/* pre accueil(M) require !estAbandonnee(M) */
 		if((!(estAbandonnee()))){
@@ -164,7 +169,7 @@ public class MineContract extends MineDecorator {
 		int oldOrRest = orRestant();
 
 		// run
-		super.accueil();
+		super.accueil(r);
 
 		// inv apres
 		checkInvariants();
@@ -179,6 +184,10 @@ public class MineContract extends MineDecorator {
 			throw new PostconditionError("abandonCompteur(accueil(M,s)) = 0 incorrecte");
 		}
 
+		/*post 	appartenance(accueil(M,r)) = r */
+		if(!(appartenance() == r)){
+			throw new PostconditionError("appartenance(accueil(M,r)) = r incorrecte");
+		}
 		return this;
 	}
 
@@ -210,6 +219,11 @@ public class MineContract extends MineDecorator {
 		/*post abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 */
 		if(!(abandonCompteur() == oldabanComp + 1)){
 			throw new PostconditionError("abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 incorrecte");
+		}
+		
+		/*post appartenance(accueil(M,r)) = RIEN */
+		if(!(appartenance() == ERace.RIEN)){
+			throw new PostconditionError("appartenance(accueil(M,r)) = RIEN incorrecte");
 		}
 
 		return this;

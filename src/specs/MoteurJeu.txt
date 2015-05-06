@@ -1,0 +1,94 @@
+Service : Mine
+Use: HotelVille , Mine , Muraille, Route , Villageois
+Types: int, boolean enum ECommande{RIEN, DEPLACER, ENTRERHOTELVILLE, ENTRERMINE} , enum EResultat{GAGNE, PERDU, DRAW} 
+       ERace{HUMAIN, ORC, RIEN}
+
+Observators :
+	const MaxPasJeu : [MoteurJeu] -> int
+	PasJeuCourant : [MoteurJeu] -> int
+	
+	 LargeurTerrain : [MoteurJeu] -> int
+	 HauteurTerrain : [MoteurJeu] -> int
+	 
+	 numerosVillageois : [MoteurJeu] -> List<IVillageoisService>
+	 getVillageois: [MoteurJeu] x int -> IVillageoisService
+	 positionVillageoisX : [MoteurJeu] x int -> int
+	 positionVillageoisY : [MoteurJeu] x int -> int
+	
+	
+	 numerosMine : [MoteurJeu] -> List<IMineService>
+	 getMine: [MoteurJeu] x int -> IMinesService
+	 positionMineX : [MoteurJeu] x int -> int
+	 positionMineY : [MoteurJeu] x int -> int
+	 peutEntrer: [MoteurJeu] x int x int -> boolean 
+			pre peutEntrer(M, numVillageois, numMine) require 
+		    numVillageois in numerosVillageois(M, numVillageois) ^
+		    numMine in numerosMine(M, numMine)
+		
+	
+	 HotelDeVille :[MoteurJeu] x int -> IHotelVilleService
+	 	 pre HotelVille(M, n) require  n in [1,2]
+	 positionHotelVilleX : [MoteurJeu] x int -> int
+	 positionHotelVilleY : [MoteurJeu] x int -> int
+	 peutEntrerHotelVille : [MoteurJeu] x int x int -> boolean	    
+	 		pre peutEntrerHotelVille(M, numVillageois, numMine) require 
+		    numVillageois in numerosVillageois(M, numVillageois) 
+		    numHotelDeVille in [1,2]
+		    
+	 numerosRoute : [MoteurJeu] -> List<IRouteService>
+	 getRoute: [MoteurJeu] x int -> IRouteService
+	 positionRouteX : [MoteurJeu] x int -> int
+	 positionRouteY : [MoteurJeu] x int -> int
+	 estSurRoute : [MoteurJeu] x int -> boolean
+		  pre estSurRoute(M, numVillageois) require 
+		  numVillageois in numerosVillageois(M, numVillageois)  
+		  
+	 numerosMuraille : [MoteurJeu] -> List<IMurailleService>
+	 getMuraille: [MoteurJeu] x int -> IMurailleService
+	 positionMurailleX : [MoteurJeu] x int -> int
+	 positionMurailleY : [MoteurJeu] x int -> int
+		  
+	estFini : [MoteurJeu] -> boolean
+	resultatFinal : [MoteurJeu] -> ERESULTAT
+		pre resultatFinal(M) require estFini(M)
+
+Constructors :
+	init : int -> [MoteurJeu]
+		pre init(MaxPasJeu) require maxPasJeu >= 0 ^ l>=600 ^ h>=400
+
+Operators : 
+
+	pasJeu : [MoteurJeu] x Commande x Commande2 x int x int x int x int -> [MoteurJeu]
+		pre pasJeu(M ,c, c2, n, n2, a, a2)  require not estFini(M) 
+		 c = DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in numerosMine(M) ^ 
+		 peutEntrer(M, n, a)  ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n)
+		 ^ c2 = DEPLACER => 0 <= a2 <= 360 ^ c2 = ENTRERMINE => a2 in numerosMine(M)
+		 ^ peutEntrer(M, n2, a2)  ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
+		 ^ n != n2
+		
+		
+
+Observations :
+	[invariants]
+		0 <= getPasJeuCourant(M) <= getMaxPasJeu(M)
+		estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M,1)) >= 1664 && HotelVille::orRestant(hotelDeVille(M,2)) >= 1664|| pasJeuCourant(M) = maxPasJeu(M))
+		resultatFinal(M) = HUMAINGAGNE <=> HotelVille:orRestant(hotelDeville(M, 1)) >= 1664
+		resultatFinal(M) = ORCGAGNE <=> HotelVille:orRestant(hotelDeville(M, 2)) >= 1664
+		peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51
+		peutEntrerHotelVille(M, numVillageois) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
+        estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) avec n in [0, numeroRoutes(M).size() - 1]
+        estSurMuraille(M, numVillageois) = (min) Rectangle(positionMurailleX(M, n), positionMurailleY(M, n), Muraille::getLargeur(Mu), Muraille::getHauteur(Mu)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) avec m in [0, numeroMuraille(M).size() - 1]
+	    
+	    
+	[init]
+		getMaxPasJeu(init(p,l,h)) = p
+		getPasJeuCourant(init(p,l,h)) = 0
+		LargeurTerrain(init(p,l,h)) = l
+		HauteurTerrain(init(p,l,h)) = h
+		
+	[pasJeu] : 
+		pasJeuCourant(pasJeu(M ,c, c2, n, n2, a, a2)) = pasJeuCourant(M) + 1
+				getMine(pasJeu(M ,c, c2, n, n2, a, a2) , numMine) = Mine::abandoned(getMine(M,numMine)) si 
+				c != ENTRERMINE || arg != numMine
+			    ^
+			    Mine::accueil(getMine(M, numMine))

@@ -2,6 +2,7 @@ package implementations;
 
 import services.IMineService;
 import decorators.MineDecorator;
+import enums.ERace;
 
 public class MineImplem implements IMineService{
 	private int largeur;
@@ -10,6 +11,7 @@ public class MineImplem implements IMineService{
 	private boolean estAbandonnee;
 	private boolean estLaminee;
 	private int abandonCompteur;
+	private ERace appartenance;
 	
 	public MineImplem(){}
 	
@@ -35,6 +37,10 @@ public class MineImplem implements IMineService{
 	
 	public int abandonCompteur(){
 		return abandonCompteur;
+	}
+	
+	public ERace appartenance(){
+		return appartenance;
 	}
 
 	@Override
@@ -67,10 +73,11 @@ public class MineImplem implements IMineService{
 	}
 
 	@Override
-	public IMineService accueil() {
+	public IMineService accueil(ERace r) {
 		// TODO Auto-generated method stub
 		this.estAbandonnee = false;
 		this.abandonCompteur = 0;
+		this.appartenance = r;
 		return this;
 	}
 
@@ -78,6 +85,7 @@ public class MineImplem implements IMineService{
 	public IMineService abandoned() {
 		// TODO Auto-generated method stub
 		this.estAbandonnee = true;
+		this.appartenance = ERace.RIEN;
 		return this;
 	}
 	

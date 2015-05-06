@@ -1,5 +1,6 @@
 package decorators;
 
+import enums.ERace;
 import services.IMineService;
 import services.IVillageoisService;
 
@@ -60,9 +61,9 @@ public class MineDecorator implements IMineService {
 	}
 
 	@Override
-	public IMineService accueil() {
+	public IMineService accueil(ERace r) {
 		// TODO Auto-generated method stub
-		return delegate.accueil();
+		return delegate.accueil(r);
 	}
 
 	@Override
@@ -75,6 +76,12 @@ public class MineDecorator implements IMineService {
 	@Override
 	public IMineService setOrRestant(int s) {
 		return delegate.setOrRestant(s);
+	}
+
+	@Override
+	public ERace appartenance() {
+		// TODO Auto-generated method stub
+		return delegate.appartenance();
 	}
 
 }

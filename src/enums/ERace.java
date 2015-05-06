@@ -2,5 +2,6 @@ package enums;
 
 public enum ERace {
 	HUMAIN,
-	ORC;
+	ORC, 
+	RIEN;
 }

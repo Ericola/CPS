@@ -1,0 +1,28 @@
+Service : Muraille
+Types : 
+Observators : 
+	getLargeur : [Muraille] -> int
+	getHauteur : [Muraille] -> int
+	getPdv : [Muraille] -> int
+	estMort : [Muraille] -> boolean
+	
+Constructors :
+	init :  int x int x int-> [Muraille]
+		pre	init(l,h,pdv) require l % 2 = 1 ^ h % 2 = 1
+		
+Operators :
+	retrait : [Muraille] x int ->[Muraille]
+		pre getPdv(retrait(M, s)) require s > 0 ^ ¬estMort(M) 
+
+	
+Observations :
+	[invariants]
+		estMort(M) =(min) getpdv(M) <= 0 
+	[init]
+		getLargeur(init(l,h,pdv)) = l
+		getHauteur(init(l,h,pdv)) = h 
+		getPdv(init(l,h,pdv)) = pdv
+		
+	[retrait] : 
+		getPdv(retrait(V, s)) = getPdv(V) - s
+		

@@ -11,6 +11,7 @@ public class MineImplemError implements IMineService{
 	private boolean estAbandonnee;
 	private boolean estLaminee;
 	private int abandonCompteur;
+	private ERace appartenance;
 	
 	public MineImplemError(){}
 	
@@ -36,6 +37,10 @@ public class MineImplemError implements IMineService{
 	
 	public int abandonCompteur(){
 		return abandonCompteur;
+	}
+	
+	public ERace appartenance(){
+		return appartenance;
 	}
 
 	@Override
@@ -68,10 +73,10 @@ public class MineImplemError implements IMineService{
 	}
 
 	@Override
-	public IMineService accueil() {
+	public IMineService accueil(ERace r) {
 		// TODO Auto-generated method stub
 		this.estAbandonnee = true;
-		this.abandonCompteur = 0;
+		this.abandonCompteur = 10;
 		return this;
 	}
 

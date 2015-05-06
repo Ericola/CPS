@@ -1,0 +1,18 @@
+Service : Route
+Types : 
+Observators : 
+	getLargeur : [Route] -> int
+	getHauteur : [Route] -> int
+	
+Constructors :
+	init :  int x int -> [Route]
+		pre	init(l,h) require l % 2 = 1 ^ h % 2 = 1
+		
+Operators : 
+	
+Observations :
+	
+	[init]
+		getLargeur(init(t,l,h,f,v,pdv)) = l
+		getHauteur(init(t,l,h,f,v,pdv)) = h 
+		

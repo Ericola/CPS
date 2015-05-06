@@ -1,5 +1,6 @@
 package decorators;
 
+import java.awt.Point;
 import java.util.List;
 
 import enums.ECommande;
@@ -188,6 +189,10 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 		// TODO Auto-generated method stub
 		return delegate.positionMurailleY(n);
 	}
+	
+	 public boolean estSurMuraille(Point p){
+		 return delegate.estSurMuraille(p);
+	 }
 
 	@Override
 	public IMoteurJeuService init(int maxPasJeu, int l, int h) {

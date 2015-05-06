@@ -1,0 +1,53 @@
+Service : Mine
+Types: 
+Observators :
+	getLargeur : [Mine] → int
+	getHauteur : [Mine] → int 
+	orRestant : [Mine] → int 
+	estAbandonnee : [Mine] → boolean 
+	estLaminee : [Mine] → boolean 
+	abandonCompteur : [Mine] → int
+	appartenance : [Mine] → ERace
+
+Constructors :
+	init : int × int → [Mine]
+		pre init(largeur,hauteur) require largeur%2=1 ∧ hauteur%2=1 
+Operators
+	retrait : [Mine] × int → [Mine]
+		pre retrait(M,s) require ¬estLaminee(M) ∧ s>0
+	accueil : [Mine] → [Mine]
+		pre accueil(M) require ¬abandoned(M)
+	abandoned : [Mine] → [Mine]
+		pre abandoned(M) require ¬accueil(M)
+    setOrRestant : [Mine] x int → [Mine] 
+        pre setOrRestant(M, s) require s > 0
+		
+Observations :
+	[invariants]
+		estLaminee(M) =(min) orRestant(M) <=  0			
+		estAbandonnee(M) = abandonCompteur = 51
+		0 ≤abandonCompteur(M)≤ 51 
+	[init]
+	  
+        getLargeur(init(l, h)) = l
+        getHauteur(init(l, h)) = h
+        orRestant(init(l, h)) = 51
+        abandonCompteur(init(l, h)) = 51
+        appartenance(init(l,h)) = RIEN
+	
+	[retrait]
+		orRestant(retrait(M,s))=orRestant(M)-s 
+		abandonCompteur(retrait(M,s))=abandonCompteur(M)
+	[accueil] 
+		orRestant(accueil(M))=orRestant(M) 
+		abandonCompteur(accueil(M))=0
+		appartenance(accueil(M,r)) = r 
+		
+	[abandoned]
+		orRestant(abandoned(M))=orRestant(M) 
+		abandonCompteur(abandoned(M))=abandonCompteur()+1
+		appartenance(abandoned(M)) = RIEN
+		
+	[setOrRestant]
+        orRestant(setOrRestant(M, s)) = orRestant(M)
+        orRestant(setOrRestant(M, s)) = s

@@ -1,5 +1,6 @@
 package services;
 
+import java.awt.Point;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public interface IMoteurJeuService {
 		 *      numMine in numerosMine(M, numMine);
 		 */
 	 boolean peutEntrer(int numVillageois, int numMine);
+	 public boolean estSurMuraille(Point p);
 	 
 	 
 	 /*

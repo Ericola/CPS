@@ -1,6 +1,9 @@
 package enums;
 
 public enum EResultat {
-	GAGNE,
-	PERDU;
+	HUMAINGAGNE,
+	HUMAINPERDU,
+	ORCGAGNE,
+	ORCPERDU,
+	DRAW;
 }
