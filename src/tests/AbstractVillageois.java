@@ -10,7 +10,7 @@ import enums.ERace;
 import services.IVillageoisService;
 
 
-@Done
+//NOTDONE
 public abstract class AbstractVillageois extends AbstractAssertion {
 
 	protected IVillageoisService villageois;
