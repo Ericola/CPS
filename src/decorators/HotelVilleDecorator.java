@@ -30,13 +30,6 @@ public class HotelVilleDecorator implements IHotelVilleService {
 		return delegate.orRestant();
 	}
 
-
-	@Override
-	public boolean estLaminee() {
-		// TODO Auto-generated method stub
-		return delegate.estLaminee();
-	}
-
 	@Override
 	public IHotelVilleService init(int largeur, int hauteur) {
 		// TODO Auto-generated method stub
@@ -56,43 +49,42 @@ public class HotelVilleDecorator implements IHotelVilleService {
 
 	@Override
 	public boolean estAbandonnee() {
-		// TODO Auto-generated method stub
-		return false;
+		return delegate.estAbandonnee();
 	}
 
 	@Override
 	public int abandonCompteur() {
 		// TODO Auto-generated method stub
-		return 0;
+		return delegate.abandonCompteur();
 	}
 
 	@Override
 	public ERace appartenance() {
 		// TODO Auto-generated method stub
-		return null;
+		return delegate.appartenance();
 	}
 
 	@Override
 	public IHotelVilleService accueil(ERace r) {
 		// TODO Auto-generated method stub
-		return null;
+		return delegate.accueil(r);
 	}
 
 	@Override
 	public IHotelVilleService abandoned() {
 		// TODO Auto-generated method stub
-		return null;
+		return delegate.abandoned();
 	}
 
 	@Override
 	public IHotelVilleService setAbandonCompteur(int s) {
 		// TODO Auto-generated method stub
-		return null;
+		return delegate.setAbandonCompteur(s);
 	}
 
 	@Override
 	public IHotelVilleService setAppartenance(ERace r) {
 		// TODO Auto-generated method stub
-		return null;
+		return delegate.setAppartenance(r);
 	}
 }

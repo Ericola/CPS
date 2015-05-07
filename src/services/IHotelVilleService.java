@@ -54,9 +54,7 @@ public interface IHotelVilleService {
 	 IHotelVilleService abandoned();
 	 
 	 /*
-		 * pre 
-		 * 		depot(H, s)) require !estLaminee(H)
-		 * post 
+		 post 
 				orRestant(depot(H,s)) == orRestant(H) + s
 	*/
 	 IHotelVilleService depot(int s);
@@ -73,10 +71,10 @@ public interface IHotelVilleService {
 	IHotelVilleService setOrRestant(int s);
 		 
      /* pre 
-			 * 		setAbandonCompteur(M, s) require s > 0
+			 * 		setAbandonCompteur(H, s) require s > 0
 			 * post
-					orRestant(setAbandonCompteur(M, s)) = AbandonCompteur(M)
-					orRestant(setAbandonCompteur(M, s)) = s
+					orRestant(setAbandonCompteur(H, s)) = AbandonCompteur(H)
+					orRestant(setAbandonCompteur(H, s)) = s
 						
 				 */
     IHotelVilleService setAbandonCompteur(int s);
@@ -90,7 +88,8 @@ public interface IHotelVilleService {
 	 /**
 	     * Invariants
 	     */
-	/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 */
+	/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 && =(min) appartenance(M) = RIEN */
 	/* 0 <= abandonCompteur(M) <= 51 */
+	
 	
 }

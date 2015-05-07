@@ -50,7 +50,6 @@ public interface IMineService {
 		 * post 
 				orRestant(accueil(M,s)) == orRestant(M)
 				abandonCompteur(accueil(M,r)) = 0
-				appartenance(accueil(M,r)) = r 
 	*/
 	 IMineService accueil(ERace r);
 	  
@@ -91,7 +90,7 @@ public interface IMineService {
 	 
 	/* estLaminee(M) =(min) orRestant(M) <=  0 */
 	/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 */
-	/* 0 <= abandonCompteur(M) <= 51 */
+	/* 0 <= abandonCompteur(M) <= 51 */ 
 }
 
 

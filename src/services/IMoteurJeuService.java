@@ -115,7 +115,7 @@ public interface IMoteurJeuService {
 		 */
 		/*
 		 * 0 <= getPasJeuCourant(M) <= getMaxPasJeu(M)
-		 * estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M)) >= 1664 || pasJeuCourant(M) = maxPasJeu(M))
+		 * estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M)) >= 1664 V pasJeuCourant(M) = maxPasJeu(M))
 		 * resultatFinal(M) = GAGNE <=> HotelVille:orRestant(hotelDeville(M)) >= 1664
 		 * peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51
 		 * peutEntrerHotelVille(M, numVillageois) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51

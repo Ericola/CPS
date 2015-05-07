@@ -4,6 +4,7 @@ import decorators.HotelVilleDecorator;
 import decorators.MineDecorator;
 import services.IHotelVilleService;
 import services.IMineService;
+import enums.ERace;
 import exceptions.InvariantError;
 import exceptions.PostconditionError;
 import exceptions.PreconditionError;
@@ -14,10 +15,15 @@ public class HotelVilleContract extends HotelVilleDecorator{
 	}
 
 	private void checkInvariants() {
-		/* estLaminee(H) =(min) orRestant(H) <=  0 */
-		if(!(estLaminee() && (orRestant() <= 0))){
-			throw new InvariantError("estLaminee(M) =(min) orRestant(M) <=  0 incorrecte");
+		/* estAbandonnee(H) =(min) abandonCompteur(H) = 51 && =(min) appartenance(H) = RIEN */
+		if(!(estAbandonnee() && abandonCompteur() == 51 && appartenance() == ERace.RIEN)){
+			throw new InvariantError("estAbandonnee(H) =(min) abandonCompteur(H) = 51 && =(min) appartenance(H) = RIEN incorrecte");
 		}
+
+		/* 0 <= abandonCompteur(H) <= 51 */
+		if(!(abandonCompteur() >= 0 && abandonCompteur() <= 51 )){
+			throw new InvariantError("0 <= abandonCompteur(H) <= 51 incorrecte");
+		}	
 	}
 
 	public int getLargeur() {
@@ -42,13 +48,24 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		return super.orRestant();
 	}
 
-	public boolean estLaminee(){
+	public boolean estAbandonnee(){
 		// aucun pre 
 
 		// run
-		return super.estLaminee();
+		return super.estAbandonnee();
 	}
+	
+	public int abandonCompteur(){
+		// aucun pre 
 
+		return super.abandonCompteur();
+	}
+	
+	public ERace appartenance() {
+		// TODO Auto-generated method stub
+		return super.appartenance();
+	}
+	
 	public IHotelVilleService init(int largeur, int hauteur){
 
 		// pre init(l, h) require largeur %2 = 1
@@ -90,10 +107,6 @@ public class HotelVilleContract extends HotelVilleDecorator{
 	}
 
 	public  IHotelVilleService depot(int s){
-		/* pre depot(H, s)) require !estLaminee(H) */
-		if((estLaminee())){
-			throw new PreconditionError("retrait(M, s)) require !estLaminee(H) incorrecte");
-		}
 
 		// inv avant 
 		checkInvariants();
@@ -145,6 +158,80 @@ public class HotelVilleContract extends HotelVilleDecorator{
 			throw new PostconditionError("orRestant(setOrRestant(H, s)) = s incorrecte");
 		}	
 		
+		return this;
+	}
+	
+	public IHotelVilleService accueil(ERace r){
+
+		/* pre accueil(H) require !estAbandonnee(H) */
+		if((!(estAbandonnee()))){
+			throw new PreconditionError("accueil(H) require !estAbandonnee(H) incorrecte");
+		}
+
+		// inv avant 
+		checkInvariants();
+
+		// capture 
+		int oldOrRest = orRestant();
+
+		// run
+		super.accueil(r);
+
+		// inv apres
+		checkInvariants();
+
+		/*post orRestant(accueil(H,r)) == orRestant(H) */
+		if(!(orRestant() == oldOrRest)){
+			throw new PostconditionError("orRestant(accueil(H,r)) == orRestant(H) incorrecte");
+		}
+
+		/*post abandonCompteur(accueil(H,r)) = 0 */
+		if(!(abandonCompteur() == 0)){
+			throw new PostconditionError("abandonCompteur(accueil(H,r)) = 0 incorrecte");
+		}
+
+		/*post 	appartenance(accueil(M,r)) = r */
+		if(!(appartenance() == r)){
+			throw new PostconditionError("appartenance(accueil(M,r)) = r incorrecte");
+		}
+		return this;
+	}
+	
+	public IHotelVilleService abandoned(){
+
+		/* pre abandoned(M) require !estAbandonee(M) */
+		if(((estAbandonnee()))){
+			throw new PreconditionError("abandoned(H) require estAbandonee(H) incorrecte");
+		}
+
+		// inv avant 
+		checkInvariants();
+
+		// capture 
+		int oldOrRest = orRestant();
+		int oldabanComp = abandonCompteur();
+
+		// run
+		super.abandoned();
+
+		// inv apres
+		checkInvariants();
+
+		/*post orRestant(abandoned(M,s)) == orRestant(M) */
+		if(!(orRestant() == oldOrRest)){
+			throw new PostconditionError("orRestant(abandoned(M,s)) == orRestant(M) incorrecte");
+		}
+
+		/*post abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 */
+		if(!(abandonCompteur() == oldabanComp + 1)){
+			throw new PostconditionError("abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 incorrecte");
+		}
+		
+		/*post appartenance(accueil(M,r)) = RIEN */
+		if(!(appartenance() == ERace.RIEN)){
+			throw new PostconditionError("appartenance(accueil(M,r)) = RIEN incorrecte");
+		}
+
 		return this;
 	}
 }

@@ -1,7 +1,7 @@
 Service : Villageois
-Types : 
+Types : int, boolean, enum ERace{HUMAIN, ORC, RIEN}
 Observators : 
-	const getRace : [Race] -> TYPE_RACE 
+	const getRace : [Villageois] -> ERace 
 	getLargeur : [Villageois] -> int
 	getHauteur : [Villageois] -> int
 	getForce: [villageois] -> int
@@ -10,7 +10,7 @@ Observators :
 	getQtor : [villageois] -> int
 	estMort : [villageois] -> boolean
 Constructors :
-	init : ERACE x int x int x int x int x int -> [Villageois]
+	init : ERace x int x int x int x int x int -> [Villageois]
 		pre init(t,l,h,f,v,pdv) require largeur %2 = 1 ^
 		hauteur %2 = 1 ^ 0 < force < pdv ^ 0 <= vitesse
 Operators : 

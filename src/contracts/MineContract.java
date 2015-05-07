@@ -28,7 +28,12 @@ public class MineContract extends MineDecorator {
 		/* 0 <= abandonCompteur(M) <= 51 */
 		if(!(abandonCompteur() >= 0 && abandonCompteur() <= 51 )){
 			throw new InvariantError("0 <= abandonCompteur(M) <= 51 incorrecte");
-		}	
+		}
+		
+		 /* estAbandonnee(M) <=> appartenance(M) = RIEN */
+		if(! (estAbandonnee() && appartenance() == ERace.RIEN)){
+			throw new InvariantError("estAbandonnee(M) <=> appartenance(M) = RIEN incorrecte");
+		}
 	}
 
 	public int getLargeur() {
@@ -174,14 +179,14 @@ public class MineContract extends MineDecorator {
 		// inv apres
 		checkInvariants();
 
-		/*post orRestant(accueil(M,s)) == orRestant(M) */
+		/*post orRestant(accueil(M,r)) == orRestant(M) */
 		if(!(orRestant() == oldOrRest)){
-			throw new PostconditionError("orRestant(accueil(M,s)) == orRestant(M) incorrecte");
+			throw new PostconditionError("orRestant(accueil(M,r)) == orRestant(M) incorrecte");
 		}
 
-		/*post abandonCompteur(accueil(M,s)) = 0 */
+		/*post abandonCompteur(accueil(M,r)) = 0 */
 		if(!(abandonCompteur() == 0)){
-			throw new PostconditionError("abandonCompteur(accueil(M,s)) = 0 incorrecte");
+			throw new PostconditionError("abandonCompteur(accueil(M,r)) = 0 incorrecte");
 		}
 
 		/*post 	appartenance(accueil(M,r)) = r */

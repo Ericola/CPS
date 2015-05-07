@@ -1,25 +1,25 @@
 Service : Mine
 Types: 
 Observators :
-	getLargeur : [Mine] → int
-	getHauteur : [Mine] → int 
-	orRestant : [Mine] → int 
-	estAbandonnee : [Mine] → boolean 
-	estLaminee : [Mine] → boolean 
-	abandonCompteur : [Mine] → int
-	appartenance : [Mine] → ERace
+	getLargeur : [Mine] -> int
+	getHauteur : [Mine] -> int 
+	orRestant : [Mine] -> int 
+	estAbandonnee : [Mine] -> boolean 
+	estLaminee : [Mine] -> boolean 
+	abandonCompteur : [Mine] -> int
+	appartenance : [Mine] -> ERace
 
 Constructors :
-	init : int × int → [Mine]
+	init : int * int -> [Mine]
 		pre init(largeur,hauteur) require largeur%2=1 ∧ hauteur%2=1 
 Operators
-	retrait : [Mine] × int → [Mine]
-		pre retrait(M,s) require ¬estLaminee(M) ∧ s>0
-	accueil : [Mine] → [Mine]
-		pre accueil(M) require ¬abandoned(M)
-	abandoned : [Mine] → [Mine]
-		pre abandoned(M) require ¬accueil(M)
-    setOrRestant : [Mine] x int → [Mine] 
+	retrait : [Mine] * int -> [Mine]
+		pre retrait(M,s) require �estLaminee(M) && s>0
+	accueil : [Mine] -> [Mine]
+		pre accueil(M) require �abandoned(M)
+	abandoned : [Mine] -> [Mine]
+		pre abandoned(M) require �accueil(M)
+    setOrRestant : [Mine] * int -> [Mine] 
         pre setOrRestant(M, s) require s > 0
 		
 Observations :
