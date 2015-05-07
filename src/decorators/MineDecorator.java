@@ -87,5 +87,11 @@ public class MineDecorator implements IMineService {
 		// TODO Auto-generated method stub
 		return delegate.appartenance();
 	}
+	
+
+	@Override
+	public IMineService setAppartenance(ERace r) {
+		return delegate.setAppartenance(r);
+	}
 
 }

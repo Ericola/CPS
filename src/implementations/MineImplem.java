@@ -100,4 +100,11 @@ public class MineImplem implements IMineService{
 		this.orRestant = s;
 		return this;
 	}
+	
+	@Override
+	public IMineService setAppartenance(ERace r) {
+		this.appartenance = r;
+		return this;
+	}
+	
 }

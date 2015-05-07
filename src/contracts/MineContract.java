@@ -291,6 +291,29 @@ public class MineContract extends MineDecorator {
 		
 		return this;
 	}
+	
+
+	@Override
+	public IMineService setAppartenance(ERace r) {
+		// capture 
+				ERace oldAppartenance = appartenance();
+				
+				// inv avant 
+				checkInvariants();
+				
+				// run
+				super.setAppartenance(r);
+				
+				// inv apres
+				checkInvariants();
+				
+				//post appartenance(setAppartenance(M, r)) = r
+				if (!(appartenance() == oldAppartenance)) {
+					throw new PostconditionError("appartenance(setAppartenance(M, r)) = r incorrecte");
+				}		
+				
+				return this;
+	}
 }
 
 

@@ -1,5 +1,7 @@
 package services;
 
+import enums.ERace;
+
 public interface IHotelVilleService {
 
 	/**
@@ -10,7 +12,9 @@ public interface IHotelVilleService {
 	 int getHauteur();
 	 
 	 int orRestant();
-	 boolean estLaminee();
+	 boolean estAbandonnee();
+	 int abandonCompteur();
+	 ERace appartenance();
 	 
 	 /**
 		 * Constructors
@@ -32,6 +36,25 @@ public interface IHotelVilleService {
 		 */
 	 /*
 		 * pre 
+		 * 		accueil(H) require !estAbandonee(H)
+		 * post 
+				orRestant(accueil(H,s)) == orRestant(H)
+				abandonCompteur(accueil(H,r)) = 0
+				appartenance(accueil(H,r)) = r 
+	*/
+	 IHotelVilleService accueil(ERace r);
+	  
+	 /*
+		 * pre 
+		 * 		abandoned(H) require estAbandonee(H)
+		 * post 
+				orRestant(abandoned(H) == orRestant(H)
+				appartenance(abandoned(H)) = RIEN 
+	*/
+	 IHotelVilleService abandoned();
+	 
+	 /*
+		 * pre 
 		 * 		depot(H, s)) require !estLaminee(H)
 		 * post 
 				orRestant(depot(H,s)) == orRestant(H) + s
@@ -47,11 +70,27 @@ public interface IHotelVilleService {
 				orRestant(setOrRestant(H, s)) = s
 					
 			 */
-		 IHotelVilleService setOrRestant(int s);
+	IHotelVilleService setOrRestant(int s);
+		 
+     /* pre 
+			 * 		setAbandonCompteur(M, s) require s > 0
+			 * post
+					orRestant(setAbandonCompteur(M, s)) = AbandonCompteur(M)
+					orRestant(setAbandonCompteur(M, s)) = s
+						
+				 */
+    IHotelVilleService setAbandonCompteur(int s);
+		 
+
+		 /* post
+					appartenance(setAppartenance(M, r)) = r 
+						
+				 */
+	IHotelVilleService setAppartenance(ERace r);
 	 /**
 	     * Invariants
 	     */
-	 
-	/* estLaminee(H) =(min) orRestant(H) <=  0 */
+	/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 */
+	/* 0 <= abandonCompteur(M) <= 51 */
 	
 }

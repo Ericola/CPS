@@ -9,7 +9,7 @@ public class HotelVilleImplem implements IHotelVilleService{
 	private int largeur;
 	private int	hauteur;
 	private int orRestant;
-	private boolean estLaminee;
+	private boolean estAbandonnee;
 	
 	public HotelVilleImplem(){}
 	
@@ -23,12 +23,6 @@ public class HotelVilleImplem implements IHotelVilleService{
 	
 	public int orRestant(){
 		return orRestant;
-	}
-	
-	
-	
-	public boolean estLaminee(){
-		return estLaminee;
 	}
 	
 	@Override

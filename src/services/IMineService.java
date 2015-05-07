@@ -59,7 +59,6 @@ public interface IMineService {
 		 * 		abandoned(M) require estAbandonee(M)
 		 * post 
 				orRestant(abandoned(M,s)) == orRestant(M)
-				abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1
 	*/
 	 IMineService abandoned();
 	 
@@ -79,6 +78,13 @@ public interface IMineService {
 					
 			 */
 	 IMineService setAbandonCompteur(int s);
+	 
+
+	 /* post
+				appartenance(setAppartenance(M, r)) = r 
+					
+			 */
+	 IMineService setAppartenance(ERace r);
      /**
 	     * Invariants
 	     */

@@ -97,4 +97,11 @@ public class MineImplemError implements IMineService{
 		this.abandonCompteur = s + 50;
 		return this;
 	}
+	
+
+	@Override
+	public IMineService setAppartenance(ERace r) {
+		this.appartenance = r;
+		return this;
+	}
 }

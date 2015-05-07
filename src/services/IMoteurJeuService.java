@@ -95,8 +95,8 @@ public interface IMoteurJeuService {
 		 * ^ c = ENTRERMINE => a in numerosMine(M) ^ peutEntrer(M, n, a) 
 		 * ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n)
 		 * 	 ^ c2 = DEPLACER => 0 <= a2 <= 360
-		 * ^ c2 = ENTRERMINE => a2 in numerosMine(M) ^ peutEntrer(M, n2, a2) 
-		 * ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
+		 * ^ c2 = ENTRERMINE => a2 in numerosMine(M) ^ peutEntrer(M, n2, a2)  
+		 * ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2) ^
 		 * ^ n != n2
 		 * post 
 				pasJeuCourant(pasJeu(M, c, numVillageois, arg)) = pasJeuCourant(M) + 1

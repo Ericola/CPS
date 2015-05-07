@@ -384,16 +384,16 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 				positions.put(villageois.get(numVillageois), yo);
 			break;
 
-		case ENTRERMINE : break;
+		case ENTRERMINE : 
 		//ajouter un boolean au villageois actif/inactif
 
-		//tester si la mine si abandonnée -> non abandonnée
-		// tester si la mine appartient a ta race. Si non On peut pas entrer !!!!!
-		//mettre le bool a inactif
-		//une fois les 16pas de jeu fini le remettre actif
-		//il a une piece :)
-		//qtor++
-		//villageoisAttente.add(numVillageois, pasJeuCourant + 16)
+		//tester si la mine si abandonnee -> non abandonnee
+		if(getMine(argument).estAbandonnee()){
+			getMine(argument).accueil(getVillageois(numVillageois).getRace());
+		}
+		villageoisAttente.add(numVillageois, pasJeuCourant() + 16);
+		break;
+
 
 		case ENTRERHOTELVILLE : 
 		// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
@@ -416,16 +416,15 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			positions.put(villageois.get(numVillageois2), yo);
 			break;
 
-		case ENTRERMINE : break;
+		case ENTRERMINE : 
 		//ajouter un boolean au villageois actif/inactif
 
 		//tester si la mine si abandonnee -> non abandonnee
-
-		//mettre le bool a inactif
-		//une fois les 16pas de jeu fini le remettre actif
-		//il a une piece :)
-		//qtor++
-		//villageoisAttente.add(numVillageois, pasJeuCourant + 16)
+		if(getMine(argument2).estAbandonnee()){
+			getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
+		}
+		villageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
+		break;
 
 		case ENTRERHOTELVILLE : 
 			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
@@ -452,6 +451,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		// On modifie les abandons compteurs de la mine
 		for(int i = 0; i < numerosMine().size(); i++){
 			getMine(i).setAbandonCompteur(getMine(i).abandonCompteur() + 1);
+			if(getMine(i).abandonCompteur() >= 51){
+				getMine(i).setAppartenance(ERace.RIEN);
+				getMine(i).abandoned();
+			}
 		}
 		
 		return this;
