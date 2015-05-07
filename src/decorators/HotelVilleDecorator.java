@@ -1,5 +1,6 @@
 package decorators;
 
+import enums.ERace;
 import services.IHotelVilleService;
 import services.IMineService;
 
@@ -51,5 +52,47 @@ public class HotelVilleDecorator implements IHotelVilleService {
 	@Override
 	public IHotelVilleService setOrRestant(int s) {
 		return delegate.setOrRestant(s);
+	}
+
+	@Override
+	public boolean estAbandonnee() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int abandonCompteur() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ERace appartenance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService accueil(ERace r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService abandoned() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService setAbandonCompteur(int s) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService setAppartenance(ERace r) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

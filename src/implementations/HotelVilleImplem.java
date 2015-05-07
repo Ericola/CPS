@@ -1,5 +1,6 @@
 package implementations;
 
+import enums.ERace;
 import services.IHotelVilleService;
 import services.IMineService;
 
@@ -57,5 +58,47 @@ public class HotelVilleImplem implements IHotelVilleService{
 	public IHotelVilleService setOrRestant(int s) {
 		this.orRestant = s;
 		return this;
+	}
+
+	@Override
+	public boolean estAbandonnee() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int abandonCompteur() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ERace appartenance() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService accueil(ERace r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService abandoned() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService setAbandonCompteur(int s) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IHotelVilleService setAppartenance(ERace r) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
