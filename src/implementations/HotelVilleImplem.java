@@ -11,6 +11,8 @@ public class HotelVilleImplem implements IHotelVilleService{
 	private int	hauteur;
 	private int orRestant;
 	private boolean estAbandonnee;
+	private int abandonCompteur;
+	private ERace appartenance;
 	
 	public HotelVilleImplem(){}
 	
@@ -63,42 +65,46 @@ public class HotelVilleImplem implements IHotelVilleService{
 	@Override
 	public boolean estAbandonnee() {
 		// TODO Auto-generated method stub
-		return false;
+		return estAbandonnee;
 	}
 
 	@Override
 	public int abandonCompteur() {
 		// TODO Auto-generated method stub
-		return 0;
+		return abandonCompteur;
 	}
 
 	@Override
 	public ERace appartenance() {
 		// TODO Auto-generated method stub
-		return null;
+		return appartenance;
 	}
 
 	@Override
 	public IHotelVilleService accueil(ERace r) {
-		// TODO Auto-generated method stub
-		return null;
+		this.estAbandonnee = false;
+		this.abandonCompteur = 0;
+		this.appartenance = r;
+		return this;	
 	}
 
 	@Override
 	public IHotelVilleService abandoned() {
 		// TODO Auto-generated method stub
-		return null;
+		this.estAbandonnee = true;
+		this.appartenance = ERace.RIEN;
+		return this;
 	}
 
 	@Override
 	public IHotelVilleService setAbandonCompteur(int s) {
-		// TODO Auto-generated method stub
-		return null;
+		this.abandonCompteur = s;
+		return this;
 	}
 
 	@Override
 	public IHotelVilleService setAppartenance(ERace r) {
-		// TODO Auto-generated method stub
-		return null;
+		this.appartenance = r;
+		return this;
 	}
 }
