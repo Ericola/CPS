@@ -1,70 +1,87 @@
 Service : Mine
 Use: HotelVille , Mine , Muraille, Route , Villageois
-Types: int, boolean enum ECommande{RIEN, DEPLACER, ENTRERHOTELVILLE, ENTRERMINE} , enum EResultat{GAGNE, PERDU, DRAW} 
+Types: int, boolean, Object, Point enum ECommande{RIEN, DEPLACER, ENTRERHOTELVILLE, ENTRERMINE} , enum EResultat{GAGNE, PERDU, DRAW} 
        ERace{HUMAIN, ORC, RIEN}
 
 Observators :
-	const MaxPasJeu : [MoteurJeu] -> int
-	PasJeuCourant : [MoteurJeu] -> int
+	 const MaxPasJeu : [MoteurJeu] -> int
+	 PasJeuCourant : [MoteurJeu] -> int
 	
-	 LargeurTerrain : [MoteurJeu] -> int
-	 HauteurTerrain : [MoteurJeu] -> int
+	 const LargeurTerrain : [MoteurJeu] -> int
+	 const HauteurTerrain : [MoteurJeu] -> int
 	 
 	 numerosVillageois : [MoteurJeu] -> List<IVillageoisService>
 	 getVillageois: [MoteurJeu] x int -> IVillageoisService
-	 positionVillageoisX : [MoteurJeu] x int -> int
+	 pre : getVillageois(M, n) require n in [0, numerosVillageois.size()]	 
+	 positionVillageoisX : [MoteurJeu] x Villageois -> int
+	 pre : positionVillageoisX(M, v) require v in numerosVillageois(M)
 	 positionVillageoisY : [MoteurJeu] x int -> int
-	
+	 pre : positionVillageoisY(M, v) require v in numerosVillageois(M)
+	 estSurRoute : [MoteurJeu] x int -> boolean
+	  pre : estSurRoute(M, v) require v in [0, numerosVillageois.size()[
 	
 	 numerosMine : [MoteurJeu] -> List<IMineService>
 	 getMine: [MoteurJeu] x int -> IMinesService
-	 positionMineX : [MoteurJeu] x int -> int
+	 pre : getMine(M, ) require n in [0, numerosMine.size()[
+	 positionMineX : [MoteurJeu] x Mine -> int
+	 pre : positionMineX(M, m) require m in numerosMine(M)
 	 positionMineY : [MoteurJeu] x int -> int
+	 pre : positionMineY(M, m) require m in numerosMine(M)
 	 peutEntrer: [MoteurJeu] x int x int -> boolean 
-			pre peutEntrer(M, numVillageois, numMine) require 
-		    numVillageois in numerosVillageois(M, numVillageois) ^
-		    numMine in numerosMine(M, numMine)
-		
+	 pre peutEntrer(M, numVillageois, numMine) require 
+		 numVillageois in [0, numerosVillageois.size()[
+	   ^ numMine in numerosMine[0, numerosMine[	
 	
 	 HotelDeVille :[MoteurJeu] x int -> IHotelVilleService
-	 	 pre HotelVille(M, n) require  n in [1,2]
+	 pre HotelVille(M, n) require  n in [1,2]
 	 positionHotelVilleX : [MoteurJeu] x int -> int
+	 pre : positionHotelVilleX(M, n) require n in [1, 2]
 	 positionHotelVilleY : [MoteurJeu] x int -> int
+	 pre : positionHotelVilleY(M, n) require n in [1, 2]
 	 peutEntrerHotelVille : [MoteurJeu] x int x int -> boolean	    
-	 		pre peutEntrerHotelVille(M, numVillageois, numMine) require 
-		    numVillageois in numerosVillageois(M, numVillageois) 
+	 		pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
+		    numVillageois in [0, numerosVillageois.size()[ 
 		    numHotelDeVille in [1,2]
 		    
 	 numerosRoute : [MoteurJeu] -> List<IRouteService>
 	 getRoute: [MoteurJeu] x int -> IRouteService
-	 positionRouteX : [MoteurJeu] x int -> int
-	 positionRouteY : [MoteurJeu] x int -> int
+	 pre getRoute(M, r) require  r in [0, numerosRoute.size()[
+	 positionRouteX : [MoteurJeu] x Route -> int
+	 pre : positionRouteX(M, r) require r in numerosRoute(M)
+	 positionRouteY : [MoteurJeu] x Route -> int
+	 pre : positionRouteY(M, r) require r in numerosRoute(M)
 	 estSurRoute : [MoteurJeu] x int -> boolean
-		  pre estSurRoute(M, numVillageois) require 
-		  numVillageois in numerosVillageois(M, numVillageois)  
+     pre estSurRoute(M, numVillageois) require 
+		  numVillageois in [0, numerosVillageois.size()[ 
 		  
 	 numerosMuraille : [MoteurJeu] -> List<IMurailleService>
 	 getMuraille: [MoteurJeu] x int -> IMurailleService
-	 positionMurailleX : [MoteurJeu] x int -> int
-	 positionMurailleY : [MoteurJeu] x int -> int
-		  
+	 pre getMuraille(M, n) require  m in [0, numerosMuraille.size()[
+	 positionMurailleX : [MoteurJeu] x Muraille -> int
+	 pre : positionMurailleX(M, m) require m in [0, numerosMuraille.size()[
+	 positionMurailleY : [MoteurJeu] x Muraille -> int
+	 pre : positionMurailleY(M, m) require n in [0, numerosMuraille.size()[	 
+	 estSurMuraille : [MoteurJeu] x Point -> boolean
+	  
 	estFini : [MoteurJeu] -> boolean
 	resultatFinal : [MoteurJeu] -> ERESULTAT
 		pre resultatFinal(M) require estFini(M)
 
+    positions : [MoteurJeu] -> HashMap<Object, Point>
 Constructors :
 	init : int -> [MoteurJeu]
-		pre init(MaxPasJeu) require maxPasJeu >= 0 ^ l>=600 ^ h>=400
+	pre init(MaxPasJeu) require maxPasJeu >= 0 ^ l>=600 ^ h>=400
 
 Operators : 
 
-	pasJeu : [MoteurJeu] x Commande x Commande2 x int x int x int x int -> [MoteurJeu]
+	pasJeu : [MoteurJeu] x ECommande x ECommande x int x int x int x int -> [MoteurJeu]
 		pre pasJeu(M ,c, c2, n, n2, a, a2)  require not estFini(M) 
+		^ n in [0, numerosVillageois.size[ ^ getVillageois(M, n)::getRace() == HUMAIN
+		^ n2 in [0, numerosVillageois.size[ ^ getVillageois(M, n)::getRace() == ORC
 		 c = DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in numerosMine(M) ^ 
 		 peutEntrer(M, n, a)  ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n)
 		 ^ c2 = DEPLACER => 0 <= a2 <= 360 ^ c2 = ENTRERMINE => a2 in numerosMine(M)
 		 ^ peutEntrer(M, n2, a2)  ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
-		 ^ n != n2
 		
 		
 
@@ -85,6 +102,24 @@ Observations :
 		getPasJeuCourant(init(p,l,h)) = 0
 		LargeurTerrain(init(p,l,h)) = l
 		HauteurTerrain(init(p,l,h)) = h
+		
+		pour tout villageois in numerosVillageois(M) : 
+		Villageois::getLargeur(init(p,l,h)) = 10
+		Villageois::getHauteur(init(p,l,h)) = 10
+		
+		pour tout villageois V ayant ERace = HUMAIN && in numerosVillageois(M)
+		Villageois::getForce(init(p,l,h)) = 3
+		Villageois::getVitesseinit(p,l,h)) = 4
+		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
+		
+		
+		pour tout villageois V ayant ERace = ORC && in numerosVillageois(M)
+		Villageois::getForce(init(p,l,h)) = 4
+		Villageois::getVitesseinit(p,l,h)) = 3
+		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+		
+		
+		
 		
 	[pasJeu] : 
 		pasJeuCourant(pasJeu(M ,c, c2, n, n2, a, a2)) = pasJeuCourant(M) + 1

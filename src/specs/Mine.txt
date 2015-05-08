@@ -16,7 +16,7 @@ Operators
 	retrait : [Mine] * int -> [Mine]
 		pre retrait(M,s) require ¬estLaminee(M) && s>0
 	accueil : [Mine] * ERace-> [Mine]
-		pre accueil(M) require ¬estAbandonnee(M)
+		pre accueil(M, r) require ¬estAbandonnee(M) && r != RIEN
 	abandoned : [Mine] -> [Mine]
 		pre abandoned(M) require estAbandonee(M)
     setOrRestant : [Mine] * int -> [Mine] 

@@ -1,8 +1,8 @@
 Service : Muraille
-Types : 
+Types : int, boolean
 Observators : 
-	getLargeur : [Muraille] -> int
-	getHauteur : [Muraille] -> int
+	const getLargeur : [Muraille] -> int
+	const getHauteur : [Muraille] -> int
 	getPdv : [Muraille] -> int
 	estMort : [Muraille] -> boolean
 	
@@ -12,7 +12,7 @@ Constructors :
 		
 Operators :
 	retrait : [Muraille] x int ->[Muraille]
-		pre getPdv(retrait(M, s)) require s > 0 ^ Â¬estMort(M) 
+		pre getPdv(retrait(M, s)) require s > 0 ^ ¬estMort(M) 
 
 	
 Observations :

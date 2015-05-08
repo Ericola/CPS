@@ -1,8 +1,8 @@
 Service : HotelVille
 Types: int, boolean, enum ERace{HUMAIN, ORC, RIEN}
 Observators :
-	getLargeur : [HotelVille] -> int
-	getHauteur : [HotelVille] -> int 
+	const getLargeur : [HotelVille] -> int
+    const getHauteur : [HotelVille] -> int 
 	orRestant : [HotelVille] -> int 
 	estAbandonnee : [HotelVille] -> boolean
     appartenance : [HotelVille] -> ERace
@@ -14,10 +14,10 @@ Constructors :
 
 Operators
 	depot : [HotelVille] * int -> [HotelVille]
-	accueil : [HotelVille] * ERace -> [HotelVille]
-		pre accueil(H) require ¬abandoned(H)
+	accueil : [HotelVille] * ERace -> [HotelVille] 
+		pre accueil(H) require ¬estAbandonnee(H) && r != RIEN
 	abandoned : [HotelVille] -> [HotelVille]
-		pre abandoned(H) require ¬accueil(H)
+		pre abandoned(H) require estAbandonnee(H)
 	 setOrRestant : [HotelVille] * int -> [HotelVille] 
         pre setOrRestant(H, s) require s > 0
      setAppartenance : [HotelVille] * ERace -> [HotelVille]
@@ -26,11 +26,12 @@ Operators
 		
 Observations :
 	[invariants]	
-		estAbandonnee(H) =(min) abandonCompteur = 51 && =(min) appartenance(M) = RIEN
+		estAbandonnee(H) =(min) abandonCompteur = 51 && =(min) appartenance(H) = RIEN
 		0 <= abandonCompteur(H)<= 51 
 		
 	[init]
-		largeur(init(l,h,r))=l hauteur(init(l,h,r))=h 
+		largeur(init(l,h,r))=l 
+		hauteur(init(l,h,r))=h 
 		orRestant(init(l,h,r))=16
 		appartenance(init(l, h, r)) = r
 		
@@ -53,6 +54,7 @@ Observations :
 		
 	[setAppartenance]
 		appartenance(setAppartenance(H, r)) = r 
+		orRestant(setAppartenance(H, r)) = orRestant(H)
 		
 	[setAbandonCompteur]
 	    orRestant(setAbandonCompteur(H, s)) = AbandonCompteur(H)

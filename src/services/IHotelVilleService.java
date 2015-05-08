@@ -37,7 +37,7 @@ public interface IHotelVilleService {
 		 */
 	 /*
 		 * pre 
-		 * 		accueil(H) require !estAbandonee(H)
+		 * 		accueil(H, r) require !estAbandonee(H) && r != RIEN
 		 * post 
 				orRestant(accueil(H,s)) == orRestant(H)
 				abandonCompteur(accueil(H,r)) = 0
@@ -57,6 +57,7 @@ public interface IHotelVilleService {
 	 /*
 		 post 
 				orRestant(depot(H,s)) == orRestant(H) + s
+				appartenance(abandoned(H)) = RIEN
 	*/
 	 IHotelVilleService depot(int s);
 	 
@@ -82,15 +83,16 @@ public interface IHotelVilleService {
 		 
 
 		 /* post
-					appartenance(setAppartenance(M, r)) = r 
+					appartenance(setAppartenance(H, r)) = r 
+					orRestant(setAppartenance(H, r)) = orRestant(H)
 						
 				 */
 	IHotelVilleService setAppartenance(ERace r);
 	 /**
 	     * Invariants
 	     */
-	/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 && =(min) appartenance(M) = RIEN */
-	/* 0 <= abandonCompteur(M) <= 51 */
+	/* estAbandonnee(H) =(min) abandonCompteur(H) = 51 && =(min) appartenance(H) = RIEN */
+	/* 0 <= abandonCompteur(H) <= 51 */
 	
 	
 }

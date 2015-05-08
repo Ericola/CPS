@@ -46,7 +46,7 @@ public interface IMineService {
 	 
 	 /*
 		 * pre 
-		 * 		accueil(M) require !estAbandonee(M)
+		 * 		accueil(M) require !estAbandonee(M) && r != RIEN
 		 * post 
 				orRestant(accueil(M,s)) == orRestant(M)
 				abandonCompteur(accueil(M,r)) = 0

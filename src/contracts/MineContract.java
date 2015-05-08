@@ -168,9 +168,14 @@ public class MineContract extends MineDecorator {
 
 	public IMineService accueil(ERace r){
 
-		/* pre accueil(M) require !estAbandonnee(M) */
+		/* pre accueil(M, r) require !estAbandonnee(M) */
 		if((!(estAbandonnee()))){
 			throw new PreconditionError("accueil(M) require !estAbandonnee(M) incorrecte");
+		}
+		
+		/* pre accueil(M, r) require r != RIEN */
+		if((!(r == ERace.RIEN))){
+			throw new PreconditionError("accueil(M, r) require r != RIEN incorrecte");
 		}
 
 		// inv avant 
@@ -253,12 +258,7 @@ public class MineContract extends MineDecorator {
 		super.setOrRestant(s);
 
 		// inv apres
-		checkInvariants();
-
-		//post orRestant(setOrRestant(M, s)) = orRestant(M)
-		if (!(orRestant() == oldOrRestant)) {
-			throw new PostconditionError("orRestant(setOrRestant(M, s)) = orRestant(M) incorrecte");
-		}	
+		checkInvariants();	
 
 		//post orRestant(setOrRestant(M, s)) = s
 		if (!(orRestant() == s)) {

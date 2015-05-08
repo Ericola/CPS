@@ -54,18 +54,18 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		// run
 		return super.estAbandonnee();
 	}
-	
+
 	public int abandonCompteur(){
 		// aucun pre 
 
 		return super.abandonCompteur();
 	}
-	
+
 	public ERace appartenance() {
 		// TODO Auto-generated method stub
 		return super.appartenance();
 	}
-	
+
 	public IHotelVilleService init(int largeur, int hauteur, ERace r){
 
 		// pre init(l, h, r) require largeur %2 = 1
@@ -132,44 +132,50 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		return this;
 
 	}
-	
+
 	@Override
 	public IHotelVilleService setOrRestant(int s) {
 		// pre setOrRestant(H, s) require s > 0
 		if (!(s > 0)) {
 			throw new PreconditionError("setOrRestant(H, s) require s > 0 incorrecte");
 		}
-		
+
 		// capture 
 		int oldOrRestant = orRestant();
+		ERace oldAppartenance = appartenance();
 		
 		// inv avant 
 		checkInvariants();
-		
+
 		// run
 		super.setOrRestant(s);
-		
+
 		// inv apres
 		checkInvariants();
-		
-		//post orRestant(setOrRestant(H, s)) = orRestant(H)
-		if (!(orRestant() == oldOrRestant)) {
-			throw new PostconditionError("orRestant(setOrRestant(H, s)) = orRestant(H) incorrecte");
-		}	
-		
+
+		// post appartenance(setOrRestant(H, s)) = appartenance(H) */
+		if (!(appartenance() == oldAppartenance)) {
+			throw new PostconditionError("appartenance(setOrRestant(H, s)) = appartenance(H) incorrecte");
+		}
+
 		//post orRestant(setOrRestant(H, s)) = s
 		if (!(orRestant() == s)) {
 			throw new PostconditionError("orRestant(setOrRestant(H, s)) = s incorrecte");
 		}	
-		
+
 		return this;
 	}
-	
+
 	public IHotelVilleService accueil(ERace r){
 
 		/* pre accueil(H) require !estAbandonnee(H) */
 		if((!(estAbandonnee()))){
-			throw new PreconditionError("accueil(H) require !estAbandonnee(H) incorrecte");
+			throw new PreconditionError("accueil(H, r) require !estAbandonnee(H) incorrecte");
+		}
+
+		/* pre accueil(H, r) require r != RIEN */
+		if((!(r == ERace.RIEN))){
+			throw new PreconditionError("accueil(H, r) require r != RIEN incorrecte");
 		}
 
 		// inv avant 
@@ -194,16 +200,16 @@ public class HotelVilleContract extends HotelVilleDecorator{
 			throw new PostconditionError("abandonCompteur(accueil(H,r)) = 0 incorrecte");
 		}
 
-		/*post 	appartenance(accueil(M,r)) = r */
+		/*post 	appartenance(accueil(H,r)) = r */
 		if(!(appartenance() == r)){
-			throw new PostconditionError("appartenance(accueil(M,r)) = r incorrecte");
+			throw new PostconditionError("appartenance(accueil(H,r)) = r incorrecte");
 		}
 		return this;
 	}
-	
+
 	public IHotelVilleService abandoned(){
 
-		/* pre abandoned(M) require !estAbandonee(M) */
+		/* pre abandoned(H) require !estAbandonee(H) */
 		if(((estAbandonnee()))){
 			throw new PreconditionError("abandoned(H) require estAbandonee(H) incorrecte");
 		}
@@ -220,14 +226,74 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		// inv apres
 		checkInvariants();
 
-		/*post orRestant(abandoned(M,s)) == orRestant(M) */
+		/*post orRestant(abandoned(H,s)) == orRestant(H) */
 		if(!(orRestant() == oldOrRest)){
-			throw new PostconditionError("orRestant(abandoned(M,s)) == orRestant(M) incorrecte");
+			throw new PostconditionError("orRestant(abandoned(H,s)) == orRestant(H) incorrecte");
 		}
-		
-		/*post appartenance(accueil(M,r)) = RIEN */
+
+		/*post appartenance(accueil(H,r)) = RIEN */
 		if(!(appartenance() == ERace.RIEN)){
-			throw new PostconditionError("appartenance(accueil(M,r)) = RIEN incorrecte");
+			throw new PostconditionError("appartenance(accueil(H,r)) = RIEN incorrecte");
+		}
+
+		return this;
+	}
+
+	public IHotelVilleService setAbandonCompteur(int s){
+		// pre setAbandonCompteur(H, s) require s > 0
+		if (!(s > 0)) {
+			throw new PreconditionError("setAbandonCompteur require s > 0 incorrecte");
+		}
+
+		// capture 
+		int oldOrRestant = orRestant();
+
+		// inv avant 
+		checkInvariants();
+
+		// run
+		super.setAbandonCompteur(s);
+
+		// inv apres
+		checkInvariants();
+
+		//post abandonCompteur(setabandonCompteur(H, s)) = abandonCompteur(H)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setAbandonCompteur(H, s)) = abandonCompteur(H) incorrecte");
+		}	
+
+		//post abandonCompteur(setAbandonCompteur(H, s)) = s
+		if (!(abandonCompteur() == s)) {
+			throw new PostconditionError("abandonCompteur(setAbandonCompteur(H, s)) = s incorrecte");
+		}	
+
+		return this;
+	}
+
+
+	@Override
+	public IHotelVilleService setAppartenance(ERace r) {
+
+		// capture 
+		int oldOrRestant = orRestant();
+
+		// inv avant 
+		checkInvariants();
+
+		// run
+		super.setAppartenance(r);
+
+		// inv apres
+		checkInvariants();
+
+		//post appartenance(setAppartenance(H, r)) = r
+		if (!(appartenance() == r)) {
+			throw new PostconditionError("appartenance(setAppartenance(H, r)) = r incorrecte");
+		}	
+
+		//post orRestant(setAppartenance(H, r)) = orRestant(H)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setAppartenance(H, r)) = orRestant(H) incorrecte");
 		}
 
 		return this;

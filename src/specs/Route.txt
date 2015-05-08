@@ -1,8 +1,8 @@
 Service : Route
-Types : 
+Types : int
 Observators : 
-	getLargeur : [Route] -> int
-	getHauteur : [Route] -> int
+	const getLargeur : [Route] -> int
+	const getHauteur : [Route] -> int
 	
 Constructors :
 	init :  int x int -> [Route]
