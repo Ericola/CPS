@@ -40,10 +40,11 @@ public class HotelVilleImplemError implements IHotelVilleService{
 	}
 
 	@Override
-	public IHotelVilleService init(int largeur, int hauteur) {
+	public IHotelVilleService init(int largeur, int hauteur, ERace r) {
 		// TODO Auto-generated method stub
 		this.largeur = largeur+336;
 		this.hauteur = hauteur+33;
+		this.appartenance = r;
 		this.orRestant = -51;
 		return this;
 	}

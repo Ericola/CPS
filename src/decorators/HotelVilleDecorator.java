@@ -31,9 +31,9 @@ public class HotelVilleDecorator implements IHotelVilleService {
 	}
 
 	@Override
-	public IHotelVilleService init(int largeur, int hauteur) {
+	public IHotelVilleService init(int largeur, int hauteur, ERace r) {
 		// TODO Auto-generated method stub
-		return delegate.init(largeur, hauteur);
+		return delegate.init(largeur, hauteur, r);
 	}
 
 	@Override

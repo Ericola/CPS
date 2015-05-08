@@ -21,15 +21,16 @@ public interface IHotelVilleService {
 		 */
 	 /*
 		 * pre 
-		 * 		init(l,h) require l % 2 = 1 ^ h % 2 = 1
+		 * 		init(l,h, r) require l % 2 = 1 ^ h % 2 = 1
 		 *                                                
 		 * post 
-				getLargeur(init(l, h)) = l
-				getHauteur(init(l, h)) = h
-				orRestant(init(l, h)) = 51
+				getLargeur(init(l, h, r)) = l
+				getHauteur(init(l, h, r)) = h
+				orRestant(init(l, h, r)) = 16
+				appartenance(init(l, h, r)) = r
 					
 		 */
-	 IHotelVilleService init(int largeur, int hauteur);
+	 IHotelVilleService init(int largeur, int hauteur, ERace r);
 	 
 	 /**
 		 * Operators

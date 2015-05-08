@@ -2,9 +2,9 @@ Service : Villageois
 Types : int, boolean, enum ERace{HUMAIN, ORC, RIEN}
 Observators : 
 	const getRace : [Villageois] -> ERace 
-	getLargeur : [Villageois] -> int
-	getHauteur : [Villageois] -> int
-	getForce: [villageois] -> int
+	const getLargeur : [Villageois] -> int
+	const getHauteur : [Villageois] -> int
+	const getForce: [villageois] -> int
 	getVitesse : [villageois] ->int
 	getPdv : [villageois] -> int
 	getQtor : [villageois] -> int
@@ -34,7 +34,9 @@ Observations :
 	[retrait]
 		getPdv(retrait(V, s)) = getPdv(V) - s
 		getQtor(retrait(V, s)) = getQtor(V)
+		getVitesse(retrait(V, s)) = getVitesse(V) 
 
     [setQtor]
 		getQtor(setQtor(V, s)) = getQtor(V)
 		getQtor(setQtor(V, s)) = s
+		getVitesse(retrait(V, s)) = getVitesse(V) 

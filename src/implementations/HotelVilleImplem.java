@@ -10,8 +10,8 @@ public class HotelVilleImplem implements IHotelVilleService{
 	private int largeur;
 	private int	hauteur;
 	private int orRestant;
-	private boolean estAbandonnee;
-	private int abandonCompteur;
+	private boolean estAbandonnee = false;
+	private int abandonCompteur = 0;
 	private ERace appartenance;
 	
 	public HotelVilleImplem(){}
@@ -41,11 +41,16 @@ public class HotelVilleImplem implements IHotelVilleService{
 	}
 
 	@Override
-	public IHotelVilleService init(int largeur, int hauteur) {
+	public IHotelVilleService init(int largeur, int hauteur, ERace r) {
 		// TODO Auto-generated method stub
 		this.largeur = largeur;
 		this.hauteur = hauteur;
-		this.orRestant = 51;
+		this.appartenance = r;
+		this.orRestant = 16;
+		if(r == ERace.RIEN){
+			abandonCompteur = 51;
+			estAbandonnee = true;
+		}
 		return this;
 	}
 

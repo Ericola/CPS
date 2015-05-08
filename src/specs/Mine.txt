@@ -1,8 +1,8 @@
 Service : Mine
-Types: 
+Types: int, boolean, enum ERace{HUMAIN, ORC, RIEN}
 Observators :
-	getLargeur : [Mine] -> int
-	getHauteur : [Mine] -> int 
+	const getLargeur : [Mine] -> int
+	const getHauteur : [Mine] -> int 
 	orRestant : [Mine] -> int 
 	estAbandonnee : [Mine] -> boolean 
 	estLaminee : [Mine] -> boolean 
@@ -11,22 +11,25 @@ Observators :
 
 Constructors :
 	init : int * int -> [Mine]
-		pre init(largeur,hauteur) require largeur%2=1 âˆ§ hauteur%2=1 
+		pre init(largeur,hauteur) require largeur%2=1 ^ hauteur%2=1 
 Operators
 	retrait : [Mine] * int -> [Mine]
 		pre retrait(M,s) require ¬estLaminee(M) && s>0
-	accueil : [Mine] -> [Mine]
-		pre accueil(M) require ¬abandoned(M)
+	accueil : [Mine] * ERace-> [Mine]
+		pre accueil(M) require ¬estAbandonnee(M)
 	abandoned : [Mine] -> [Mine]
-		pre abandoned(M) require ¬accueil(M)
+		pre abandoned(M) require estAbandonee(M)
     setOrRestant : [Mine] * int -> [Mine] 
         pre setOrRestant(M, s) require s > 0
+    setAppartenance : [Mine] * ERace -> [Mine]
+    setAbandonCompteur : [Mine] * int -> [Mine] 
+        pre setAbandonCompteur(M s) require s > 0
 		
 Observations :
 	[invariants]
 		estLaminee(M) =(min) orRestant(M) <=  0			
-		estAbandonnee(M) = abandonCompteur = 51
-		0 â‰¤abandonCompteur(M)â‰¤ 51 
+		estAbandonnee(M) =(min) abandonCompteur = 51 && =(min) appartenance(M) = RIEN
+		0 <=abandonCompteur(M)<= 51 
 	[init]
 	  
         getLargeur(init(l, h)) = l
@@ -36,18 +39,28 @@ Observations :
         appartenance(init(l,h)) = RIEN
 	
 	[retrait]
+	    
+		appartenance(retrait(M, s)) = appartenance(M)
 		orRestant(retrait(M,s))=orRestant(M)-s 
 		abandonCompteur(retrait(M,s))=abandonCompteur(M)
 	[accueil] 
-		orRestant(accueil(M))=orRestant(M) 
-		abandonCompteur(accueil(M))=0
+		orRestant(accueil(M, r))=orRestant(M) 
+		abandonCompteur(accueil(M, r))=0
 		appartenance(accueil(M,r)) = r 
 		
 	[abandoned]
 		orRestant(abandoned(M))=orRestant(M) 
-		abandonCompteur(abandoned(M))=abandonCompteur()+1
 		appartenance(abandoned(M)) = RIEN
 		
 	[setOrRestant]
+		appartenance(setOrRestant(M, s)) = appartenance(M)
         orRestant(setOrRestant(M, s)) = orRestant(M)
         orRestant(setOrRestant(M, s)) = s
+        
+    [setAppartenance]
+		orRestant(setAppartenance(M, s)) = orRestant(M)
+		appartenance(setAppartenance(M, r)) = r 
+		
+	[setAbandonCompteur]
+	    orRestant(setAbandonCompteur(M, s)) = orRestant(M)
+	    abandonCompteur(setAbandonCompteur(M, s)) = abandonCompteur(M)

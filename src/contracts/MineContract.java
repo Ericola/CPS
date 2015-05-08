@@ -29,8 +29,8 @@ public class MineContract extends MineDecorator {
 		if(!(abandonCompteur() >= 0 && abandonCompteur() <= 51 )){
 			throw new InvariantError("0 <= abandonCompteur(M) <= 51 incorrecte");
 		}
-		
-		 /* estAbandonnee(M) <=> appartenance(M) = RIEN */
+
+		/* estAbandonnee(M) <=> appartenance(M) = RIEN */
 		if(! (estAbandonnee() && appartenance() == ERace.RIEN)){
 			throw new InvariantError("estAbandonnee(M) <=> appartenance(M) = RIEN incorrecte");
 		}
@@ -75,7 +75,7 @@ public class MineContract extends MineDecorator {
 
 		return super.abandonCompteur();
 	}
-	
+
 	public ERace appartenance() {
 		// TODO Auto-generated method stub
 		return super.appartenance();
@@ -138,6 +138,7 @@ public class MineContract extends MineDecorator {
 		// capture 
 		int oldOrRest = orRestant();
 		int oldabanComp = abandonCompteur();
+		ERace oldAppartenance = appartenance();
 
 		// run
 		super.retrait(s);
@@ -154,6 +155,11 @@ public class MineContract extends MineDecorator {
 		/* post abandonCompteur(retrait(M,s)) = abandonCompteur(M) */
 		if(!(abandonCompteur() == oldabanComp)){
 			throw new PostconditionError("abandonCompteur(retrait(M,s)) = abandonCompteur(M) incorrecte.");
+		}
+
+		/* appartenance(retrait(M, s)) = appartenance(M) */
+		if(!(appartenance() == oldAppartenance)){
+			throw new PostconditionError("appartenance(retrait(M, s)) = appartenace(M) incorrecte.");
 		}
 
 		return this;
@@ -221,11 +227,6 @@ public class MineContract extends MineDecorator {
 			throw new PostconditionError("orRestant(abandoned(M,s)) == orRestant(M) incorrecte");
 		}
 
-		/*post abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 */
-		if(!(abandonCompteur() == oldabanComp + 1)){
-			throw new PostconditionError("abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 incorrecte");
-		}
-		
 		/*post appartenance(accueil(M,r)) = RIEN */
 		if(!(appartenance() == ERace.RIEN)){
 			throw new PostconditionError("appartenance(accueil(M,r)) = RIEN incorrecte");
@@ -233,91 +234,102 @@ public class MineContract extends MineDecorator {
 
 		return this;
 	}
-	
+
 	@Override
 	public IMineService setOrRestant(int s) {
 		// pre setOrRestant(M, s) require s > 0
 		if (!(s > 0)) {
 			throw new PreconditionError("setOrRestant(M, s) require s > 0 incorrecte");
 		}
-		
+
 		// capture 
 		int oldOrRestant = orRestant();
-		
+		ERace oldAppartenance = appartenance();
+
 		// inv avant 
 		checkInvariants();
-		
+
 		// run
 		super.setOrRestant(s);
-		
+
 		// inv apres
 		checkInvariants();
-		
+
 		//post orRestant(setOrRestant(M, s)) = orRestant(M)
 		if (!(orRestant() == oldOrRestant)) {
 			throw new PostconditionError("orRestant(setOrRestant(M, s)) = orRestant(M) incorrecte");
 		}	
-		
+
 		//post orRestant(setOrRestant(M, s)) = s
 		if (!(orRestant() == s)) {
 			throw new PostconditionError("orRestant(setOrRestant(M, s)) = s incorrecte");
 		}	
-		
+		// post appartenance(setOrRestant(M, s)) = appartenance(M) */
+		if (!(appartenance() == oldAppartenance)) {
+			throw new PostconditionError("appartenance(setOrRestant(M, s)) = appartenance(M) incorrecte");
+		}
+
 		return this;
 	}
-	
+
 	public IMineService setAbandonCompteur(int s){
 		// pre setAbandonCompteur(M, s) require s > 0
 		if (!(s > 0)) {
 			throw new PreconditionError("setAbandonCompteur require s > 0 incorrecte");
 		}
-		
+
 		// capture 
-		int oldAbandonCompteur = abandonCompteur();
-		
+		int oldOrRestant = orRestant();
+
 		// inv avant 
 		checkInvariants();
-		
+
 		// run
 		super.setAbandonCompteur(s);
-		
+
 		// inv apres
 		checkInvariants();
-		
+
 		//post abandonCompteur(setabandonCompteur(M, s)) = abandonCompteur(M)
-		if (!(abandonCompteur() == oldAbandonCompteur)) {
+		if (!(orRestant() == oldOrRestant)) {
 			throw new PostconditionError("orRestant(setAbandonCompteur(M, s)) = abandonCompteur(M) incorrecte");
 		}	
-		
+
 		//post abandonCompteur(setAbandonCompteur(M, s)) = s
 		if (!(abandonCompteur() == s)) {
-		throw new PostconditionError("abandonCompteur(setAbandonCompteur(M, s)) = s incorrecte");
+			throw new PostconditionError("abandonCompteur(setAbandonCompteur(M, s)) = s incorrecte");
 		}	
-		
+
 		return this;
 	}
-	
+
 
 	@Override
 	public IMineService setAppartenance(ERace r) {
+
 		// capture 
-				ERace oldAppartenance = appartenance();
-				
-				// inv avant 
-				checkInvariants();
-				
-				// run
-				super.setAppartenance(r);
-				
-				// inv apres
-				checkInvariants();
-				
-				//post appartenance(setAppartenance(M, r)) = r
-				if (!(appartenance() == oldAppartenance)) {
-					throw new PostconditionError("appartenance(setAppartenance(M, r)) = r incorrecte");
-				}		
-				
-				return this;
+		int oldOrRestant = orRestant();
+
+		// inv avant 
+		checkInvariants();
+
+		// run
+		super.setAppartenance(r);
+
+		// inv apres
+		checkInvariants();
+
+		//post appartenance(setAppartenance(M, r)) = r
+		if (!(appartenance() == r)) {
+			throw new PostconditionError("appartenance(setAppartenance(M, r)) = r incorrecte");
+		}	
+
+		//post orRestant(setAppartenance(M, r)) = orRestant(M)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setAppartenance(M, r)) = orRestant(M) incorrecte");
+		}
+
+		return this;
 	}
 }
 

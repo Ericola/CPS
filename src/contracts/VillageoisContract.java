@@ -75,7 +75,7 @@ public class VillageoisContract extends VillageoisDecorator {
 		// run
 		return super.getQtor();
 	}
-	
+
 	public boolean estMort(){
 		// aucun pre 
 
@@ -154,34 +154,40 @@ public class VillageoisContract extends VillageoisDecorator {
 		if (!(s > 0 && !estMort())) {
 			throw new PostconditionError("getPdv(retrait(V, s)) require s > 0 AND !estMort(V) incorrecte");
 		}
-		
+
 		// inv avant 
 		checkInvariants();
 
 		// capture 
 		int oldPdv = getPdv();
 		int oldQtor = getQtor();
+		int oldVitesse = getVitesse();
 		
 		// run
 		super.retrait(s);
 
 		// inv apres
 		checkInvariants();
-		
-		
+
+
 		// post getPdv(retrait(V, s)) = getPdv(V)-s
 		if (!(getPdv() == oldPdv - s)) {
 			throw new PostconditionError("getPdv(retrait(V, s)) = getPdv(V)-s incorrecte");
 		}	
-	
+
 		// post getQtor(retrait(V, s)) = getQtor(V)
 		if (!(getQtor() == oldQtor)) {
 			throw new PostconditionError("getQtor(retrait(V, s)) = getQtor(V) incorrecte");
 		}	
-		
+
+		//post getVitesse(setQtor(V, s)) = getVitesse(V) 
+		if (!(getVitesse() == oldVitesse)) {
+			throw new PostconditionError("getVitesse(setQtor(V, s)) = getVitesse(V) incorrecte");
+		}
+
 		return this;
 	}
-	
+
 
 	@Override
 	public IVillageoisService setQtor(int s) {
@@ -189,29 +195,34 @@ public class VillageoisContract extends VillageoisDecorator {
 		if (!(s > 0)) {
 			throw new PreconditionError("setQtor(V, s) require s > 0 incorrecte");
 		}
-		
+
 		// capture 
 		int oldQtor = getQtor();
-		
+		int oldVitesse = getVitesse();
+
 		// inv avant 
 		checkInvariants();
-		
+
 		// run
 		super.setQtor(s);
-		
+
 		// inv apres
 		checkInvariants();
-		
+
 		//post getQtor(setQtor(V, s)) = getQtor(V)
 		if (!(getQtor() == oldQtor)) {
 			throw new PostconditionError("getQtor(setQtor(V, s)) = getQtor(V) incorrecte");
 		}	
-		
+
 		//post getQtor(setQtor(V, s)) = s
 		if (!(getQtor() == s)) {
 			throw new PostconditionError("getQtor(setQtor(V, s)) = s incorrecte");
 		}	
-		
+
+		//post getVitesse(setQtor(V, s)) = getVitesse(V) 
+		if (!(getVitesse() == oldVitesse)) {
+			throw new PostconditionError("getVitesse(setQtor(V, s)) = getVitesse(V) incorrecte");
+		}	
 		return this;
 	}
 }

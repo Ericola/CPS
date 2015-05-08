@@ -66,16 +66,16 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		return super.appartenance();
 	}
 	
-	public IHotelVilleService init(int largeur, int hauteur){
+	public IHotelVilleService init(int largeur, int hauteur, ERace r){
 
-		// pre init(l, h) require largeur %2 = 1
+		// pre init(l, h, r) require largeur %2 = 1
 		if(!( (largeur %2) == 1)){
-			throw new PreconditionError(" init(l, h) require largeur % 2 = 1.");
+			throw new PreconditionError(" init(l, h, r) require largeur % 2 = 1.");
 		}
 
-		// pre init(l, h) require largeur %2 = 1
+		// pre init(l, h, r) require largeur %2 = 1
 		if(!( (hauteur %2) == 1)){
-			throw new PreconditionError("init(l, h) require hauteur % 2 = 1.");
+			throw new PreconditionError("init(l, h, r) require hauteur % 2 = 1.");
 		}
 
 
@@ -83,26 +83,30 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		checkInvariants();
 
 		// run
-		super.init(largeur, hauteur);
+		super.init(largeur, hauteur, r);
 
 		// inv apres
 		checkInvariants();
 
-		/* post getLargeur(init(l, h)) = l */
+		/* post getLargeur(init(l, h, r)) = l */
 		if(!(getLargeur() == largeur)){
-			throw new PostconditionError("getLargeur(init(l, h)) = l incorrecte.");
+			throw new PostconditionError("getLargeur(init(l, h, r)) = l incorrecte.");
 		}
 
-		/* post getHauteur(init(l, h)) = h */
+		/* post getHauteur(init(l, h, r)) = h */
 		if(!(getHauteur() == hauteur)){
-			throw new PostconditionError("getHauteur(init(l, h)) = h incorrecte.");
+			throw new PostconditionError("getHauteur(init(l, h, r)) = h incorrecte.");
 		}
 
-		/* post orRestant(init(l, h)) = 51 */
-		if(!(orRestant() == 51)){
-			throw new PostconditionError("orRestant(init(l, h)) = 51 incorrecte.");
+		/* post orRestant(init(l, h, r)) = 16 */
+		if(!(orRestant() == 16)){
+			throw new PostconditionError("orRestant(init(l, h, r)) = 51 incorrecte.");
 		}
 
+		/* post appartenance(init(l, h, r)) = r */
+		if(!(appartenance() == r)){
+			throw new PostconditionError("appartenance(init(l, h, r)) = r incorrecte.");
+		}
 		return this;
 	}
 
@@ -209,7 +213,6 @@ public class HotelVilleContract extends HotelVilleDecorator{
 
 		// capture 
 		int oldOrRest = orRestant();
-		int oldabanComp = abandonCompteur();
 
 		// run
 		super.abandoned();
@@ -220,11 +223,6 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		/*post orRestant(abandoned(M,s)) == orRestant(M) */
 		if(!(orRestant() == oldOrRest)){
 			throw new PostconditionError("orRestant(abandoned(M,s)) == orRestant(M) incorrecte");
-		}
-
-		/*post abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 */
-		if(!(abandonCompteur() == oldabanComp + 1)){
-			throw new PostconditionError("abandonCompteur(abandoned(M,s)) = abandonCompteur(M) + 1 incorrecte");
 		}
 		
 		/*post appartenance(accueil(M,r)) = RIEN */

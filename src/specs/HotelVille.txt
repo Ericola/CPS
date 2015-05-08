@@ -9,8 +9,8 @@ Observators :
 	abandonCompteur : [HotelVille] -> int
 
 Constructors :
-	init : int * int * [HotelVille]
-		pre init(largeur,hauteur) require largeur%2=1 ˆ hauteur%2=1
+	init : int * int * ERace -> [HotelVille]
+		pre init(largeur,hauteur, r) require largeur%2=1 ˆ hauteur%2=1
 
 Operators
 	depot : [HotelVille] * int -> [HotelVille]
@@ -30,9 +30,18 @@ Observations :
 		0 <= abandonCompteur(H)<= 51 
 		
 	[init]
-		largeur(init(l,h))=l hauteur(init(l,h))=h 
-		orRestant(init(l,h))=51 
-		abandonCompteur(init(l,h))=51
+		largeur(init(l,h,r))=l hauteur(init(l,h,r))=h 
+		orRestant(init(l,h,r))=16
+		appartenance(init(l, h, r)) = r
+		
+	[accueil] 
+		orRestant(accueil(H, r))=orRestant(H) 
+		abandonCompteur(accueil(H, r))=0
+		appartenance(accueil(H,r)) = r 
+		
+	[abandoned]
+		orRestant(abandoned(H))=orRestant(H) 
+		appartenance(abandoned(H)) = RIEN
 	
 	[depot]
 		orRestant(depot(H,s))=orRestant(H)+s 
@@ -43,7 +52,7 @@ Observations :
 		orRestant(setOrRestant(H, s)) = s
 		
 	[setAppartenance]
-		appartenance(setAppartenance(M, r)) = r 
+		appartenance(setAppartenance(H, r)) = r 
 		
 	[setAbandonCompteur]
 	    orRestant(setAbandonCompteur(H, s)) = AbandonCompteur(H)

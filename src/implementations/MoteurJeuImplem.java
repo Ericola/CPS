@@ -246,10 +246,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		hotelDeVille = new HotelVilleImplem();
 		hotelDeVille2 = new HotelVilleImplem();
 
-		hotelDeVille.init(50, 50);
-		hotelDeVille2.init(50, 50);
-		hotelDeVille.setOrRestant(16);
-		hotelDeVille2.setOrRestant(16);
+		hotelDeVille.init(50, 50, ERace.HUMAIN);
+		hotelDeVille2.init(50, 50, ERace.ORC);
 
 		positions.put(hotelDeVille, new Point(l/2, 10));
 		positions.put(hotelDeVille2, new Point(l/2, h -60));
@@ -385,24 +383,24 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			break;
 
 		case ENTRERMINE : 
-		//ajouter un boolean au villageois actif/inactif
+			//ajouter un boolean au villageois actif/inactif
 
-		//tester si la mine si abandonnee -> non abandonnee
-		if(getMine(argument).estAbandonnee()){
-			getMine(argument).accueil(getVillageois(numVillageois).getRace());
-		}
-		villageoisAttente.add(numVillageois, pasJeuCourant() + 16);
-		break;
+			//tester si la mine si abandonnee -> non abandonnee
+			if(getMine(argument).estAbandonnee()){
+				getMine(argument).accueil(getVillageois(numVillageois).getRace());
+			}
+			villageoisAttente.add(numVillageois, pasJeuCourant() + 16);
+			break;
 
 
 		case ENTRERHOTELVILLE : 
-		// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
-		HotelDeVille(argument).setOrRestant(HotelDeVille(argument).orRestant() 
-				+ villageois.get(numVillageois).getQtor());
+			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
+			HotelDeVille(argument).setOrRestant(HotelDeVille(argument).orRestant() 
+					+ villageois.get(numVillageois).getQtor());
 
-		//villageois a plus de piece :)
-		//qtor(villageois)=0
-		villageois.get(numVillageois).setQtor(0);
+			//villageois a plus de piece :)
+			//qtor(villageois)=0
+			villageois.get(numVillageois).setQtor(0);
 
 		default:
 			break;
@@ -417,14 +415,14 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			break;
 
 		case ENTRERMINE : 
-		//ajouter un boolean au villageois actif/inactif
+			//ajouter un boolean au villageois actif/inactif
 
-		//tester si la mine si abandonnee -> non abandonnee
-		if(getMine(argument2).estAbandonnee()){
-			getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
-		}
-		villageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
-		break;
+			//tester si la mine si abandonnee -> non abandonnee
+			if(getMine(argument2).estAbandonnee()){
+				getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
+			}
+			villageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
+			break;
 
 		case ENTRERHOTELVILLE : 
 			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
@@ -450,11 +448,26 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 
 		// On modifie les abandons compteurs de la mine
 		for(int i = 0; i < numerosMine().size(); i++){
-			getMine(i).setAbandonCompteur(getMine(i).abandonCompteur() + 1);
-			if(getMine(i).abandonCompteur() >= 51){
-				getMine(i).setAppartenance(ERace.RIEN);
+			if(getMine(i).abandonCompteur() < 51){
+				getMine(i).setAbandonCompteur(getMine(i).abandonCompteur() + 1);
+			}
+			else if(getMine(i).abandonCompteur() == 51){
 				getMine(i).abandoned();
 			}
+		}
+
+		// On modifie les abandons compteurs des hotels de ville
+		if(HotelDeVille(1).abandonCompteur() < 51){
+			HotelDeVille(1).setAbandonCompteur(HotelDeVille(1).abandonCompteur() + 1);
+		}
+		else if(HotelDeVille(1).abandonCompteur() == 51){
+			HotelDeVille(1).abandoned();
+		}
+		if(HotelDeVille(2).abandonCompteur() < 51){
+			HotelDeVille(2).setAbandonCompteur(HotelDeVille(2).abandonCompteur() + 1);
+		}
+		else if(HotelDeVille(2).abandonCompteur() == 51){
+			HotelDeVille(2).abandoned();
 		}
 		
 		return this;
