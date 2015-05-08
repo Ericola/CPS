@@ -39,14 +39,13 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 		villageois.init(type, l,  h, f,v,pdv);
 
 		// oracle
-		assertPerso("init, La hauteur du villageois ne ce fait pas correctement", villageois.getHauteur() == h);
-		assertPerso("init, La largeur du villageois ne ce fait pas correctement",  villageois.getLargeur() == l);
-		assertPerso("init, La force du villageois ne ce fait pas correctement", villageois.getForce() == f);
-		assertPerso("init, Les point de vie du villageois ne ce fait pas correctement", villageois.getPdv() == pdv);
-		assertPerso("init, la vitesse du villageois n'est pas du bon type", villageois.getVitesse() == v);
-	/*	for (ETresor tresor : ETresor.values()) {
-			assertPerso("init, le nombre de trésor n'est pas initialisé correctement", champion.getNbTresor(tresor) == 0);
-		}*/
+		assertPerso("init, La Race du villageois ne s'est pas initialiser correctement", villageois.getRace() == type);
+		assertPerso("init, La hauteur du villageois ne s'est pas initialiser fait correctement", villageois.getHauteur() == h);
+		assertPerso("init, La largeur du villageois ne s'est pas initialiser fait correctement",  villageois.getLargeur() == l);
+		assertPerso("init, La force du villageois ne s'est pas initialiser fait correctement", villageois.getForce() == f);
+		assertPerso("init, Les point de vie du villageois ne s'est pas initialiser fait correctement", villageois.getPdv() == pdv);
+		assertPerso("init, la vitesse du villageois ne s'est pas initialiser fait correctement", villageois.getVitesse() == v);
+	
 	}
 
 	@Test
@@ -59,9 +58,9 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 				
 		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
-
-		// opération
 		villageois.init(type, l,  h, f,v,pdv);
+		// opération
+		
 		villageois.setQtor(2);
 		
 		// oracle
@@ -79,14 +78,14 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 				
 		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
-
-		// opération
 		villageois.init(type, l,  h, f,v,pdv);
 		villageois.setQtor(2);
+		// opération
+	
 		villageois.retrait(1);
 		
 		// oracle
-		assertPerso("retrait, retrait ne ce fait pas correctement", villageois.getQtor() == 1);
+		assertPerso("retrait, retrait ne s'est pas fait correctement", villageois.getQtor() == 1);
 		
 	}
 		

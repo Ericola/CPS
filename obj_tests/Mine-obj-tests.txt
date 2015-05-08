@@ -3,86 +3,105 @@ Cas de test 0.1 : Test de la création d'une mines (init) réussi
 Condition initiales : 
 		aucun
 	Opérations : 
-		L0 = init(2,2);
+		L0 = init(50,50);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		getHauteur(L0)==50
+		getLargeur(L0)==50
+		orRestant(L0) == 51
+		abandonCompteur() == 51
+		assertPerso("init, La largeur de la mines ne ce fait pas correctement",  mine.appartenance() == ERace.RIEN);
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		getHauteur(L0)!=50
+			=> init, La hauteur de la mines ne s'est pas initialisée correctement
+		getLargeur(L0) != 50
+			=> init, La Largeur de la mines ne s'est pas initialisée correctement
+		orRestant(L0) != 51
+		   => init, La Qtor de la mines ne s'est pas initialisée correctement
+		abandonCompteur(L0) != 51
+		   => init, L abandonCompteur de la mines ne s'est pas initialisé correctement
+		appartenance(L0) != ERace.RIEN
+		   => init, La Appartenance de la mines ne s'est pas initialisée correctement
+		
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 1.1 : Test de setAppartenance d'une mines  réussi
 
 Condition initiales : 
-		aucun
+		L0 = init( 50, 50);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = setAppartenance(L0,ERace.ORC);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		appartenance(L1) == ERace.ORC
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-
+		appartenance(L1) != ERace.ORC
+			=> setAppartenance, L'appartenance de la mine n'est pas la bonne
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 2.1 : Test de retrait d'une mines  réussi
 
 Condition initiales : 
-		aucun
+		L0 = init( 50, 50);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = retrait(L0,1);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		orRestant(L1) == 50
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-
+		orRestant(L1) != 50
+			=> retrait, Le retrait de la mine ne s'est pas fait correctement
+			
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 3.1 : Test de setAbandonnedCpt d'une mines  réussi
 
 Condition initiales : 
-		aucun
+		L0 = init( 50, 50);
+		L1 = setAppartenance(L0 ,ERace.ORC);
 	Opérations : 
-		L0 = init(2,2);
+		L2 = setAbandonCompteur(L1,1);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		 abandonCompteur(L2) == 1
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
+		abandonCompteur(L2) == 1
+			=> setAbandonCompteur, le setAbandonCompteur de la mine ne s'est pas fait correctement
 
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 4.1 : Test de estLaminée d'une mines  réussi
+Cas de test 4.1 : Test de estAbandonné d'une mines  réussi
 
 Condition initiales : 
-		aucun
+		
 	Opérations : 
-		L0 = init(2,2);
+		L0 = init( 50, 50);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		estAbandonnee(L0) == true
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
+		abandonCompteur(L0) == true
+			=> estAbandonne, estAbandonne de la mine n'est pas effectif alors qu'il le devrait
+-------------------------------------------------------------------------------------------------------------------------------
+
+Cas de test 5.1 : Test de estLaminée d'une mines  réussi
+
+Condition initiales : 
+		L0 = init( 50, 50);
+		L1 = setAppartenance(L0 ,ERace.ORC);
+	Opérations : 
+		L2 = retrait(L1,51);
+	Oracle : 
+		estLaminee(L0) == true
+		
+	Rapport :
+		estLaminee(L0) != true
+		=> estLaminé, La mine n'est pas Laminée alors qu'elle le devrait
+
 
 
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 5.1 : Test de estAbandonné d'une mines  réussi
-
+Cas de test 6.1 : Test de accueil d'une mine Positif
 Condition initiales : 
-		aucun
-	Opérations : 
-		L0 = init(2,2);
+		L0 = init(50,50);
+	Opérations : 		
+		L1=accueil(L0,ERace.HUMAIN);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		appartenance(L1) == ERace.HUMAIN
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-
+		appartenance(L1) != ERace.HUMAIN
+			=> accueil, Le accueil de la mine ne s'est pas fait correctement
 
 			
 			

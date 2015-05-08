@@ -3,12 +3,12 @@ Cas de test 0.1 : Test de la création d'une route (init) réussi
 Condition initiales : 
 		aucun
 	Opérations : 
-		L0 = init(2,2);
+		L0 = init(900,50);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		getHauteur(L0) == 900
+		getLargeur(L0) == 50
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		getHauteur(L0) != 900
+			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
+		getLargeur(L0) != 50
+			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
