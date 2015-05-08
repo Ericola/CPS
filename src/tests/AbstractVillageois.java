@@ -48,26 +48,47 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 			assertPerso("init, le nombre de trésor n'est pas initialisé correctement", champion.getNbTresor(tresor) == 0);
 		}*/
 	}
-	
+
 	@Test
-	public void testInitPositif2() {
-		/*int x = 2;
-		int y = 2;
-		ETypeChampion typeChamp = ETypeChampion.KIDNAPPEUR;
+	public void testSetQtorPositif() {
+		int l = 2;
+		int h = 2;
+		int f =3;
+		int v = 4;
+		int pdv =10;
+				
+		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
 
 		// opération
-		champion.init(typeChamp, x, y);
-
+		villageois.init(type, l,  h, f,v,pdv);
+		villageois.setQtor(2);
+		
 		// oracle
-		assertPerso("init, Le positionnement en X du héro ne ce fait pas correctement", champion.getX() == x);
-		assertPerso("init, Le positionnement en Y du héro ne ce fait pas correctement", champion.getY() == y);
-		assertPerso("init, La commande initial du héro est différente de COMMANDE.RIEN", champion.getTypeChampion() == typeChamp);
-		assertPerso("init, Le héro n'est pas SANTE.VIVANT", champion.getSante() == ESante.VIVANT);
-		assertPerso("init, le type du champion n'est pas du bon type", champion.getTypeChampion() == ETypeChampion.KIDNAPPEUR);
-		for (ETresor tresor : ETresor.values()) {
-			assertPerso("init, le nombre de trésor n'est pas initialisé correctement", champion.getNbTresor(tresor) == 0);
-		}*/
+		assertPerso("setQtor, setQtor ne ce fait pas correctement", villageois.getQtor() == 2);
+		
 	}
+	
+	@Test
+	public void testRetraitOrPositif() {
+		int l = 2;
+		int h = 2;
+		int f =3;
+		int v = 4;
+		int pdv =10;
+				
+		ERace type = ERace.HUMAIN;
+		// condition initiale : aucune
+
+		// opération
+		villageois.init(type, l,  h, f,v,pdv);
+		villageois.setQtor(2);
+		villageois.retrait(1);
+		
+		// oracle
+		assertPerso("retrait, retrait ne ce fait pas correctement", villageois.getQtor() == 1);
+		
+	}
+		
 
 }

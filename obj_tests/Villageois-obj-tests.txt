@@ -1,0 +1,46 @@
+Cas de test 0.1 : Test de la création d'un villageois (init) réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+		getTresor(L0) != TRESOR.BOMB_UP
+			=> init, Le bloc est crée avec un mauvais type de trésor
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 1.1 : Test de SetQtor d'un villageois réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+		getTresor(L0) != TRESOR.BOMB_UP
+			=> init, Le bloc est crée avec un mauvais type de trésor
+			
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 2.1 : Test de retrait d'un villageois  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+		getTresor(L0) != TRESOR.BOMB_UP
+			=> init, Le bloc est crée avec un mauvais type de trésor
+

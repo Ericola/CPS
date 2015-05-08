@@ -1,0 +1,14 @@
+Cas de test 0.1 : Test de la création d'une route (init) réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+		getTresor(L0) != TRESOR.BOMB_UP
+			=> init, Le bloc est crée avec un mauvais type de trésor

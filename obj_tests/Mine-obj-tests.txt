@@ -1,0 +1,88 @@
+Cas de test 0.1 : Test de la création d'une mines (init) réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+		getTresor(L0) != TRESOR.BOMB_UP
+			=> init, Le bloc est crée avec un mauvais type de trésor
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 1.1 : Test de setAppartenance d'une mines  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 2.1 : Test de retrait d'une mines  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 3.1 : Test de setAbandonnedCpt d'une mines  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 4.1 : Test de estLaminée d'une mines  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+Cas de test 5.1 : Test de estAbandonné d'une mines  réussi
+
+Condition initiales : 
+		aucun
+	Opérations : 
+		L0 = init(2,2);
+	Oracle : 
+		getRace(L0) == ERace.HUMAIN
+		getLarge(L0) == TRESOR.BOMB_UP
+	Rapport :
+		getType(L0) != TYPE.VIDE
+			=> init, Le bloc est crée avec un mauvais type de bloc
+
+
+			
+			
