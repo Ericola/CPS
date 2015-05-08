@@ -3,7 +3,7 @@ Cas de test 0.1 : Test de la création d'une mines (init) réussi
 Condition initiales : 
 		aucun
 	Opérations : 
-		L0 = init(50,50);
+		L0 = init(50,50,ERACE.ORC);
 	Oracle : 
 		getHauteur(L0)==50
 		getLargeur(L0)==50

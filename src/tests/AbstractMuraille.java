@@ -31,9 +31,9 @@ protected IMurailleService muraille;
 		// opération
 		muraille.init( l,  h, pdv);
 		
-		assertPerso("init, La hauteur de la muraille ne ce fait pas correctement", muraille.getHauteur() == h);
-		assertPerso("init, La largeur de la muraille ne ce fait pas correctement",  muraille.getLargeur() == l);
-		assertPerso("init, La largeur de la muraille ne ce fait pas correctement",  muraille.getLargeur() == pdv);
+		assertPerso("init, La hauteur de la muraille ne s'est pas initialiser correctement", muraille.getHauteur() == h);
+		assertPerso("init, La largeur de la muraille ne s'est pas initialiser correctement",  muraille.getLargeur() == l);
+		assertPerso("init, Les points de vie de la muraille ne s'est pas initialiser correctement",  muraille.getPdv() == pdv);
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ protected IMurailleService muraille;
 		muraille.retrait(5);
 		
 		
-		assertPerso("retrait, Le retrait de vie de la muraille ne ce fait pas correctement",  muraille.getPdv() == 45);
+		assertPerso("retrait, Le retrait de vie de la muraille n'a pas fonctionner correctement",  muraille.getPdv() == 45);
 	}
 	
 	@Test
@@ -67,6 +67,6 @@ protected IMurailleService muraille;
 		muraille.retrait(50);
 		
 		
-		assertPerso("estMort, Le retrait de vie doit detruire la muraille mais ne ce fait pas correctement",  muraille.estMort() == true);
+		assertPerso("estMort, Le retrait de vie qui doit detruire la muraille n'a pas fonctionner correctement",  muraille.estMort() == true);
 	}
 }

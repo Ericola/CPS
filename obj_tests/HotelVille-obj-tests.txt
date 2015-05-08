@@ -3,99 +3,99 @@ Cas de test 0.1 : Test de la création d'un HotelDeVille (init) réussi
 Condition initiales : 
 		aucun
 	Opérations : 
-		L0 = init(2,2);
+		L0 = init(50,50,ERace.HOMME);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		getHauteur(L0)==50
+		getLargeur(L0)==50
+		orRestant(L0) == 16
+		abandonCompteur(L0) == 0
+		appartenance(L0) == ERace.HOMME
+	
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		getHauteur(L0)!=50
+			=> init, La hauteur de l'hotel de ville ne s'est pas initialisée correctement
+		getLargeur(L0) != 50
+			=> init, La Largeur de l'hotel de ville ne s'est pas initialisée correctement
+		orRestant(L0) != 16
+		   => init, La Qtor de l'hotel de ville ne s'est pas initialisée correctement
+		abandonCompteur(L0) != 0
+		   => init, L'abandonCompteur de l'hotel de ville ne s'est pas initialisé correctement
+		appartenance(L0) != ERace.HOMME
+		   => init, L'Appartenance de l'hotel de ville ne s'est pas initialisée correctement
+		
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 1.1 : Test de depot dans un HotelDeVille  réussi
+Cas de test 1.1 : Test de depot dans un HotelDeVille réussi
 
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.HUMAIN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = depot(4)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		orRestant(L1)==55 
+		
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		orRestant(L1)!=55 
+			=>depot, Le depot de l'hdv n'a pas bien fonctionné
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 2.1 : Test d'abandoned dans un HotelDeVille positif
 
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.HUMAIN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = abandoned(L0)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		appartenance(L1)==ERace.RIEN
+		
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		appartenance(L1)!=ERace.RIEN
+			=>abandoned, Le abandoned de hdv ne s'est pas fait pas correctement
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 3.1 : Test d'accueil dans un HotelDeVille réussi
 
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.HUMAIN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = abandoned(L0)
+		L2 = accueil(L1,ERACE.ORC)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		appartenance(L2) == ERace.ORC
+		
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		appartenance(L2) != ERace.ORC
+			=> orRestant, accueil de la hdv n'a pas fonctionné
 ---------------------------------------------------------------------------------------------------------------------------
 Cas de test 4.1 : Test de setOr dans un HotelDeVille réussi
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.HUMAIN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = abandoned(L0)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		setOrRestant(L1) == 40
+		
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		setOrRestant(L1) != 40
+			=>orRestant, orRestant de la hdv ne s'est pas fait correctement
 ---------------------------------------------------------------------------------------------------------------------------
 Cas de test 5.1 : Test de setAppartenance dans un HotelDeVille réussi
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.RIEN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = setAppartenance(L0,ERACE.ORC)
+		
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		appartenance(L1) == ERace.ORC
+		
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		appartenance(L1) != ERace.ORC
+			=>setappartenance, SetAppartenance de la hdv ne s'est pas fait correctement
 ---------------------------------------------------------------------------------------------------------------------------
 Cas de test 6.1 : Test de SetAbandonCompteur dans un HotelDeVille réussi
 Condition initiales : 
-		aucun
+		L0 = init(50,50,ERACE.HUMAIN);
 	Opérations : 
-		L0 = init(2,2);
+		L1 = setAbandonCompteur(L0,30)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		abandonCompteur(L1) == 30
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		abandonCompteur(L1) != 30
+		   =>setAbandonCompteur, SetAbandonCompteur de la hdv ne s'est pas fait correctement

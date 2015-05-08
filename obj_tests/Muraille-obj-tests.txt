@@ -3,46 +3,44 @@ Cas de test 0.1 : Test de la création d'une muraille (init) réussi
 Condition initiales : 
 		aucun
 	Opérations : 
-		L0 = init(2,2,50);
-	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		L0 = init( 50, 50, 50)
+	Oracle :
+		getHauteur(L0) == 50 
+		getLargeur(L0) == 50
+		getPdv(L0) == 50
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
-			
+		getHauteur(L0) != 50 
+			=> init, La hauteur de la muraille ne s'est pas initialiser correctement
+		getLargeur(L0) != 50
+			=> init, La largeur de la muraille ne s'est pas initialiser correctement
+		getPdv(L0) != 50
+			=> init, Les point de vie de la muraille ne s'est pas initialiser correctement
+		
 -------------------------------------------------------------------------------------------------------------------------------
 
 Cas de test 1.1 : Test de retrait d'une muraille réussi
 
 Condition initiales : 
-		aucun
-	Opérations : 
 		L0 = init(50,50,50);
+	Opérations : 
+		L1 = retrait(L0,5);
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		getPdv(L1) == 45
 	Rapport :
-		getType(L0) != TYPE.VIDE
+		getPdv(L1) != 45
 			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		
 			
 -------------------------------------------------------------------------------------------------------------------------------
 
 Cas de test 2.1 : Test de la "mort" d'une muraille  réussi
 
 Condition initiales : 
-		aucun
-	Opérations : 
 		L0 = init(50,50,50);
+	Opérations : 
+		L1 = retrait(L0,50)
 	Oracle : 
-		getRace(L0) == ERace.HUMAIN
-		getLarge(L0) == TRESOR.BOMB_UP
+		estMort(L1) == true
 	Rapport :
-		getType(L0) != TYPE.VIDE
-			=> init, Le bloc est crée avec un mauvais type de bloc
-		getTresor(L0) != TRESOR.BOMB_UP
-			=> init, Le bloc est crée avec un mauvais type de trésor
+		estMort(L1) != true
+			=> estMort, Le retrait de vie qui doit detruire la muraille n'a pas fonctionner correctement
