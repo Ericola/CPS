@@ -113,44 +113,44 @@ Observations :
 		   Villageois::getHauteur(getVillageois(init(p,l,h), n)) = 10
 		
 		Pour tout Villageois V ayant ERace = HUMAIN && in numerosVillageois(init(p,l,h))
-		Villageois::getForce(V) = 3
-		Villageois::getVitesseinit(V) = 4
-		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
+		   Villageois::getForce(V) = 3
+	   	   Villageois::getVitesseinit(V) = 4
+		   distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
 		
 		
 		Pour tout Villageois V ayant ERace = ORC && in numerosVillageois(init(p,l,h))
-		Villageois::getForce(V) = 4
-		Villageois::getVitesse(V) = 3
-		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+		   Villageois::getForce(V) = 4
+		   Villageois::getVitesse(V) = 3
+		   distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
 		
 		Pour toute mine m in numerosMine(init(p,l,h))
-		Mine::getLargeur(m) = 50
-		Mine::getHauteur(m) = 50
+		   Mine::getLargeur(m) = 50
+		   Mine::getHauteur(m) = 50
 		
 		Pour tout HotelVille hv in HotelVille(init(p,l,h), 1) V HotelVille(init(p,l,h), 2)
-		HotelVille::getLargeur(hv) = 50
-		HotelVille::getHauteur(hv) = 50
-		HotelVille(1)::appartenance(hv) = HUMAIN
-		HotelVille(2)::appartenance(hv) = ORC
+		   HotelVille::getLargeur(hv) = 50
+		   HotelVille::getHauteur(hv) = 50
+		   HotelVille(1)::appartenance(hv) = HUMAIN
+		   HotelVille(2)::appartenance(hv) = ORC
 		
 		MineMinee(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
-		VillageoisAttente(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
+		   VillageoisAttente(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
 		
 		Pour tout x in [0, MineMinee(init(p,l,h)).size()[
-		MineMinee(init(p,l,h)).get(x) = -1
+		   MineMinee(init(p,l,h)).get(x) = -1
 		
 		Pour tout x in [0, VillageoisAttente(init(p,l,h)).size()[
-		VillageoisAttente(init(p,l,h)).get(x) = -1
+		   VillageoisAttente(init(p,l,h)).get(x) = -1
 		
 		pasJeuCourant(pasJeu(M ,c, c2, n, n2, a, a2)) = pasJeuCourant(M) + 1
 	[pasJeu] : 
 		let deplacer(M, n, a) =
 			 1. On recupere la vitesse du villageois
-			 soit vitesse = Villageois::getVitesse(getVillageois(n))
+			 soit vitesse = Villageois::getVitesse(getVillageois(M, n))
 			 soit p un point vide
 
 			 2. On verifie si le villageois est sur une route. Si oui, on double la vitesse.
-			 if(estSurRoute(M, n) then
+			 if(estSurRoute(M, n)) then
 		  	 vitesse = 2*vitesse
 		  	 
 		     3. On determine sur quel case on va aller a l'aide de l'argument a et de la vitesse.
@@ -225,7 +225,7 @@ Observations :
 	    3. Villageois ayant fini la corvee
 		Pour tout x in [0, numerosVillageois(M).size()[ ^ VillageoisAttente(M).get(x) == pasJeuCourant(M)
 		       Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), x) =  Villageois::getQtor(M, x) + 1
-		       VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n2) = 0
+		       VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n2) = -1
 		       Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), MineMinee(M).get(x)) = orRestant(getMine(M, MineMinee(M).get(x)) - 1
 		       MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(x) = -1
 		      
