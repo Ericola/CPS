@@ -41,7 +41,8 @@ Observators :
 	 peutEntrerHotelVille : [MoteurJeu] x int x int -> boolean	    
 	 		pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
 		    numVillageois in [0, numerosVillageois(M).size()[ 
-		    numHotelDeVille in [1,2]
+		 ^  numHotelDeVille in [1,2]
+		 ^  Villageois::getQtor(getVillageois(M, numVillageois)) > 0
 		    
 	 numerosRoute : [MoteurJeu] -> List<IRouteService>
 	 getRoute: [MoteurJeu] x int -> IRouteService
@@ -58,9 +59,9 @@ Observators :
 	 getMuraille: [MoteurJeu] x int -> IMurailleService
 	 pre getMuraille(M, n) require  n in [0, numerosMuraille(M).size()[
 	 positionMurailleX : [MoteurJeu] x Muraille -> int
-	 pre : positionMurailleX(M, m) require m in [0, numerosMuraille(M).size()[
+	 pre : positionMurailleX(M, m) require m in numerosMuraille(M)
 	 positionMurailleY : [MoteurJeu] x Muraille -> int
-	 pre : positionMurailleY(M, m) require n in [0, numerosMuraille(M).size()[	 
+	 pre : positionMurailleY(M, m) require m in numerosMuraille(M) 
 	 estSurMuraille : [MoteurJeu] x Point -> boolean
 	  
 	estFini : [MoteurJeu] -> boolean
@@ -91,26 +92,35 @@ Operators :
 Observations :
 	[invariants]
 		0 <= getPasJeuCourant(M) <= getMaxPasJeu(M)
-		estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M,1)) >= 1664 && HotelVille::orRestant(hotelDeVille(M,2)) >= 1664|| pasJeuCourant(M) = maxPasJeu(M))
-		resultatFinal(M) = EResultat.HUMAINGAGNE =(min) HotelVille:orRestant(hotelDeville(M, 1)) >= 1664
-		resultatFinal(M) = EResultat.ORCGAGNE =(min) HotelVille:orRestant(hotelDeville(M, 2)) >= 1664
+		estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M,1)) >= 1664 || HotelVille::orRestant(hotelDeVille(M,2)) >= 1664|| pasJeuCourant(M) = maxPasJeu(M))
+		
+		resultatFinal(M) = EResultat.HUMAINGAGNE =(min) HotelVille:orRestant(hotelDeville(M, 1)) >= 1664 ||(HotelVille:appartenance(M,1) = ERace.HUMAIN && HotelVille::appartenance(M,2) = ERace.HUMAIN)
+		resultatFinal(M) = EResultat.ORCGAGNE =(min) HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 ||(HotelVille:appartenance(M,1) = ERace.ORC && HotelVille::appartenance(M,2) = ERace.ORC)
 		resultatFinal(M) = EResultat.DRAW =(min) PasJeuCourant(M)=MaxPasJeu(M) 
-		peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51
-		peutEntrerHotelVille(M, numVillageois) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
-        estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) avec n in [0, numeroRoutes(M).size() - 1]
-        estSurMuraille(M, numVillageois) = (min) Rectangle(positionMurailleX(M, n), positionMurailleY(M, n), Muraille::getLargeur(Mu), Muraille::getHauteur(Mu)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) avec m in [0, numeroMuraille(M).size() - 1]
+		
+		peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51 
+		&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))
+		&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0
+		
+		peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
+		&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN)
+     
+        estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un n in [0, numeroRoutes(M).size() - 1]
+      
+        estSurMuraille(M, Point p) = (min) Rectangle(positionMurailleX(M, m), positionMurailleY(M, m), Muraille::getLargeur(getMuraille(M, m)), Muraille::getHauteur((getMuraille(M, m))).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un m in [0, numeroMuraille(M).size() - 1]
+	 
 	    Soit Rectangle r = Rectangle(0,0, l, h)
-			Pour chaque Villageois V in numerosVillageois(init(p,l,h))
-		   		Soit px = positionsVillageois(init(p,l,h)).get(V).x
-		   		Soit py = positionsVillageois(init(p,l,h)).get(V).y
+			Pour chaque Villageois V in numerosVillageois(M)
+		   		Soit px = positionsVillageois(M).get(V).x
+		   		Soit py = positionsVillageois(M).get(V).y
 		   		r.contains(Point(px,py)) = true
 		   		r.contains(Point(px + 10,py)) = true
 		   		r.contains(Point(px + 10,py + 10)) = true
 		   		r.contains(Point(px,py + 10)) = true  
 	    
 	[init]
-		getMaxPasJeu(init(p,l,h)) = p
-		getPasJeuCourant(init(p,l,h)) = 0
+		MaxPasJeu(init(p,l,h)) = p
+		pasJeuCourant(init(p,l,h)) = 0
 		LargeurTerrain(init(p,l,h)) = l
 		HauteurTerrain(init(p,l,h)) = h
 		

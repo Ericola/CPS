@@ -2,6 +2,7 @@ package contracts;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.HashMap;
 import java.util.List;
 
 import services.IHotelVilleService;
@@ -12,8 +13,10 @@ import services.IRouteService;
 import services.IVillageoisService;
 import decorators.MoteurJeuDecorator;
 import enums.ECommande;
+import enums.ERace;
 import enums.EResultat;
 import exceptions.InvariantError;
+import exceptions.PreconditionError;
 
 public class MoteurJeuContract extends MoteurJeuDecorator{
 
@@ -34,237 +37,467 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 			throw new InvariantError("estFini(M) =(min) HotelVille::orRestant(hotelDeVille(M,1)) >= 1664 && HotelVille::orRestant(hotelDeVille(M,2)) >= 1664|| pasJeuCourant(M) = maxPasJeu(M)) incorrect");
 		}
 
-		/* 	resultatFinal(M) = HUMAINGAGNE <=> HotelVille:orRestant(HotelDeville(M, 1)) >= 1664 => */
-		if(!(resultatFinal() == EResultat.HUMAINGAGNE && HotelDeVille(1).orRestant() >= 1664)){
-			throw new InvariantError("resultatFinal(M) = HUMAINGAGNE <=> HotelVille:orRestant(HotelDeville(M, 1)) >= 1664 incorrecte");
+		/* 	resultatFinal(M) = EResultat.HUMAINGAGNE =(min) (HotelVille:orRestant(hotelDeville(M, 1)) >= 1664 && HotelVille::appartenance(M,1) = ERace.HUMAIN)||(HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 && HotelVille::appartenance(M,2)) = ERace.HUMAIN) ||(HotelVille:appartenance(M,1) = ERace.HUMAIN && HotelVille::appartenance(M,2) = ERace.HUMAIN) */
+		if(!(resultatFinal() == EResultat.HUMAINGAGNE && (HotelDeVille(1).orRestant() >= 1664 && HotelDeVille(1).appartenance() == ERace.HUMAIN)||(HotelDeVille(2).orRestant() >= 1664 && HotelDeVille(2).appartenance() == ERace.HUMAIN) ||(HotelDeVille(1).appartenance() == ERace.HUMAIN && HotelDeVille(2).appartenance() == ERace.HUMAIN) )){
+			throw new InvariantError("resultatFinal(M) = EResultat.HUMAINGAGNE =(min) (HotelVille:orRestant(hotelDeville(M, 1)) >= 1664 && HotelVille::appartenance(M,1) = ERace.HUMAIN)||(HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 && HotelVille::appartenance(M,2)) = ERace.HUMAIN) ||(HotelVille:appartenance(M,1) = ERace.HUMAIN && HotelVille::appartenance(M,2) = ERace.HUMAIN incorrecte");
 		}
 
-		/* 	resultatFinal(M) = ORCGAGNE <=> HotelVille:orRestant(HotelDeville(M, 2)) >= 1664 */
-		if(!(resultatFinal() == EResultat.ORCGAGNE && HotelDeVille(1).orRestant() >= 1664)){
-			throw new InvariantError("resultatFinal(M) = HUMAINGAGNE <=> HotelVille:orRestant(HotelDeville(M, 2)) >= 1664 incorrecte");
+		/* 	resultatFinal(M) = EResultat.ORCGAGNE =(min) (HotelVille:orRestant(hotelDeville(M, 1)) >= 1664 && HotelVille::appartenance(M,1) = ERace.ORC)||(HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 && HotelVille::appartenance(M,2)) = ERace.ORC) ||(HotelVille:appartenance(M,1) = ERace.ORC && HotelVille::appartenance(M,2) = ERace.ORC) */
+		if(!(resultatFinal() == EResultat.ORCGAGNE && (HotelDeVille(1).orRestant() >= 1664 && HotelDeVille(1).appartenance() == ERace.ORC)||(HotelDeVille(2).orRestant() >= 1664 && HotelDeVille(2).appartenance() == ERace.ORC) ||(HotelDeVille(1).appartenance() == ERace.ORC && HotelDeVille(2).appartenance() == ERace.ORC))){
+			throw new InvariantError("resultatFinal(M) = EResultat.ORCGAGNE =(min) (HotelVille:orRestant(hotelDeville(M, 1)) >= 1664 && HotelVille::appartenance(M,1) = ERace.ORC)||(HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 && HotelVille::appartenance(M,2)) = ERace.ORC) ||(HotelVille:appartenance(M,1) = ERace.ORC && HotelVille::appartenance(M,2) = ERace.ORC) incorrecte");
 		}
 
-		/*	peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51*/
+		/* resultatFinal(M) = EResultat.DRAW =(min) pasJeuCourant(M)=MaxPasJeu(M) */
+		if(!(resultatFinal() == EResultat.DRAW && pasJeuCourant() ==  MaxPasJeu())){
+			throw new InvariantError("resultatFinal(M) = EResultat.DRAW =(min) pasJeuCourant(M)=MaxPasJeu(M) incorrecte");
+		}
+
+		/* peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51 
+		&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))
+		&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0*/
 		for(int i = 0; i < numerosVillageois().size(); i++){
 			for(int j = 0; j < numerosMine().size(); j++){
-				if(!(peutEntrer(i, j) && Point.distance(positionVillageoisX(i), positionVillageoisY(i), positionMineX(j), positionMineY(j)) <= 51)){
-					throw new InvariantError("peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51 incorrecte");	
+				if(!(peutEntrer(i, j) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionMineX(getMine(j)), positionMineY(getMine(j))) <= 51 && getMine(j).appartenance() == ERace.RIEN || getMine(j).appartenance() == getVillageois(i).getRace())){
+					throw new InvariantError("peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51" +  
+							"&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))"
+							+ "&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0 incorrecte");	
+				}
+				else{
+					int nbVillageoisDansMine = 0;
+					for(int v = 0; v < MineMinee().size(); v++){
+						if(MineMinee().get(v) == j){
+							nbVillageoisDansMine++;
+						}
+					}
+					if(!(peutEntrer(i,j) && getMine(j).orRestant() - nbVillageoisDansMine > 0)){
+						throw new InvariantError("peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51" +  
+								"&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))"
+								+ "&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0 incorrecte");		
+					}
 				}
 			}	
 		}
 
-		/* peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M, numHotelVille), positionHotelVilleY(M, numHotelVille)) <= 51 */
+		/* peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
+		&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) */
 		for(int i = 0; i < numerosVillageois().size(); i++){
-			if(!(peutEntrerHotelVille(i, 1) && Point.distance(positionVillageoisX(i), positionVillageoisY(i), positionHotelVilleX(1), positionHotelVilleY(1)) <= 51)){
-				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, 1) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51 incorrecte");	
+			if(!(peutEntrerHotelVille(i, 1) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionHotelVilleX(1), positionHotelVilleY(1)) <= 51
+					&& (getVillageois(i).getRace() == HotelDeVille(1).appartenance() || HotelDeVille(1).appartenance() == ERace.RIEN))){
+				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51"
+						+"&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) incorrecte");	
 			}	
-			
-			if(!(peutEntrerHotelVille(i, 2) && Point.distance(positionVillageoisX(i), positionVillageoisY(i), positionHotelVilleX(2), positionHotelVilleY(2)) <= 51)){
-				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, 2) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51 incorrecte");	
+
+			if(!(peutEntrerHotelVille(i, 2) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionHotelVilleX(2), positionHotelVilleY(2)) <= 51
+					&& (getVillageois(i).getRace() == HotelDeVille(2).appartenance() || HotelDeVille(2).appartenance() == ERace.RIEN))){
+				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51"
+						+"&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) incorrecte");	
 			}	
 		}
-		
-		//Ajouter invariants
-	}
-	
-	
-	public int LargeurTerrain() {
-		// TODO Auto-generated method stub
 
+		//estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un n in [0, numeroRoutes(M).size() - 1]
+		for(int i = 0; i < numerosVillageois().size(); i++){
+			boolean test = false;
+			for(int numRoute = 0; numRoute < numerosRoute().size(); numRoute++){
+				Rectangle rect = new Rectangle(positionRouteX(getRoute(numRoute)), positionRouteY(getRoute(numRoute)),
+						getRoute(numRoute).getLargeur(), getRoute(numRoute).getHauteur());
+				if(rect.contains(positionsVillageois().get(getVillageois(i)))){
+					test = true;
+					break;
+				}
+			}
+			if(!(estSurRoute(i) && test)){
+				throw new InvariantError("estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un n in [0, numeroRoutes(M).size() - 1] incorrecte");
+			}
+		}
+
+		//    estSurMuraille(M, Point p) = (min) Rectangle(positionMurailleX(M, m), positionMurailleY(M, m), Muraille::getLargeur(getMuraille(M, m)), Muraille::getHauteur((getMuraille(M, m))).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un m in [0, numeroMuraille(M).size() - 1]
+		for(int i = 0; i < numerosVillageois().size(); i++){
+			boolean test = false;
+			for(int numMuraille = 0; numMuraille < numerosMuraille().size(); numMuraille++){
+				//Ajouter invariants
+				Rectangle rect = new Rectangle(positionMurailleX(getMuraille(numMuraille)), positionMurailleY(getMuraille(numMuraille)),
+						getMuraille(numMuraille).getLargeur(), 	getMuraille(numMuraille).getHauteur());
+				if(rect.contains(positionsVillageois().get(getVillageois(i)))){
+					test = true;
+					break;
+				}
+			}
+			if(!(estSurMuraille(positionsVillageois().get(getVillageois(i))) && test)){
+				throw new InvariantError("estSurMuraille(M, Point p) = (min) Rectangle(positionMurailleX(M, m), positionMurailleY(M, m), Muraille::getLargeur(getMuraille(M, m)), Muraille::getHauteur((getMuraille(M, m))).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un m in [0, numeroMuraille(M).size() - 1] incorrecte");
+			}
+		}
+
+		/*  Soit Rectangle r = Rectangle(0,0, l, h)
+			Pour chaque Villageois V in numerosVillageois(M)
+		   		Soit px = positionsVillageois(M).get(V).x
+		   		Soit py = positionsVillageois(M).get(V).y
+		   		r.contains(Point(px,py)) = true
+		   		r.contains(Point(px + 10,py)) = true
+		   		r.contains(Point(px + 10,py + 10)) = true
+		   		r.contains(Point(px,py + 10)) = true  */
+		Rectangle rect = new Rectangle(0, 0, LargeurTerrain(), HauteurTerrain());
+		for(int i = 0; i < numerosVillageois().size(); i++){
+			int px = positionsVillageois().get(getVillageois(i)).x;
+			int py = positionsVillageois().get(getVillageois(i)).y;
+			if(!(rect.contains(new Point(px, py)) && rect.contains(new Point(px + 10, py))) && rect.contains(new Point(px + 10, py + 10)) && rect.contains(new Point(px, py + 10))){
+				throw new InvariantError("Tout les villageois sont sur le terrain incorrecte");
+			}
+		}
+	}
+
+	public int LargeurTerrain() {
+		// aucun pre 
+
+		// run
 		return super.LargeurTerrain();
 	}
 
 	@Override
 	public int HauteurTerrain() {
-		// TODO Auto-generated method stub
+		// aucun pre 
+
+		// run
 		return super.HauteurTerrain();
 	}
 
 	@Override
 	public int MaxPasJeu() {
-		// TODO Auto-generated method stub
+		// aucun pre 
+
+		// run
 		return super.MaxPasJeu();
 	}
 
 	@Override
 	public int pasJeuCourant() {
-		// TODO Auto-generated method stub
+		// aucun pre 
+
+		// run
 		return super.pasJeuCourant();
 	}
 
-	@Override
-	public boolean estFini() {
-		// TODO Auto-generated method stub
-		return super.estFini();
-	}
 
-	@Override
-	public EResultat resultatFinal() {
-		// TODO Auto-generated method stub
-		return super.resultatFinal();
-	}
 
 	@Override
 	public List<IVillageoisService> numerosVillageois() {
-		// TODO Auto-generated method stub
+		// aucun pre
+
+		// run
 		return super.numerosVillageois();
 
 	}
 
 	@Override
 	public IVillageoisService getVillageois(int n) {
-		// TODO Auto-generated method stub
+		//pre getVillageois(M, n) require n in [0, numerosVillageois(M).size()]
+		if(!(n <= 0 && n < numerosVillageois().size())){
+			throw new PreconditionError("getVillageois(M, n) require n in [0, numerosVillageois(M).size()] incorrecte");
+		}
 		return super.getVillageois(n);
 	}
 
 	@Override
-	public int positionVillageoisX(int n) {
-		// TODO Auto-generated method stub
-		return super.positionVillageoisX(n);
+	public int positionVillageoisX(IVillageoisService v) {
+		//pre positionVillageoisX(M, v) require v in numerosVillageois(M)
+		if(!(numerosVillageois().contains(v))){
+			throw new PreconditionError("positionVillageoisX(M, v) require v in numerosVillageois(M) incorrecte");
+		}
+		return super.positionVillageoisX(v);
 	}
 
 	@Override
-	public int positionVillageoisY(int n) {
-		// TODO Auto-generated method stub
-		return super.positionVillageoisY(n);
+	public int positionVillageoisY(IVillageoisService v) {
+		//pre positionVillageoisY(M, v) require v in numerosVillageois(M)
+		if(!(numerosVillageois().contains(v))){
+			throw new PreconditionError("positionVillageoisY(M, v) require v in numerosVillageois(M) incorrecte");
+		}
+		return super.positionVillageoisY(v);
 	}
 
 	@Override
 	public List<IMineService> numerosMine() {
-		// TODO Auto-generated method stub
+		// aucun pre
+
+		// run
 		return super.numerosMine();
 	}
 
 	@Override
 	public IMineService getMine(int n) {
-		// TODO Auto-generated method stub
+		//pre getMine(M, n) require n in [0, numerosMine(M).size()[
+		if(!(n <= 0 && n < numerosMine().size())){
+			throw new PreconditionError("getMine(M, n) require n in [0, numerosMine(M).size()[ incorrecte");
+		}
 		return super.getMine(n);
 	}
 
 	@Override
-	public int positionMineX(int n) {
-		// TODO Auto-generated method stub
-		return super.positionHotelVilleY(n);
+	public int positionMineX(IMineService m) {
+		//pre positionMineX(M, m) require m in numerosMine(M)
+		if(!(numerosMine().contains(m))){
+			throw new PreconditionError("positionMineX(M, m) require m in numerosMine(M) incorrecte");
+		}
+		return super.positionMineX(m);
 	}
 
 	@Override
-	public int positionMineY(int n) {
-		// TODO Auto-generated method stub
-		return super.positionMineY(n);
+	public int positionMineY(IMineService m) {
+		//pre positionMineY(M, m) require m in numerosMine(M)
+		if(!(numerosMine().contains(m))){
+			throw new PreconditionError("positionMineY(M, m) require m in numerosMine(M) incorrecte");
+		}
+		return super.positionMineY(m);
 	}
 
 	@Override
 	public boolean peutEntrer(int numVillageois, int numMine) {
-		// TODO Auto-generated method stub
-		//double distance=positions.get(mines.get(numMine)).distance(positions.get(villageois.get(numVillageois)));
+		/*pre peutEntrer(M, numVillageois, numMine) require numVillageois in [0, numerosVillageois(M).size()[*/
+		if(!(numVillageois <= 0 && numVillageois < numerosVillageois().size())){
+			throw new PreconditionError("peutEntrer(M, numVillageois, numMine) require numVillageois in [0, numerosVillageois(M).size()[ incorrecte");
+		}
+
+		/*pre peutEntrer(M, numVillageois, numMine) require numMine in [0, numerosMine(M).size()[*/
+		if(!(numMine <= 0 && numMine < numerosMine().size())){
+			throw new PreconditionError("peutEntrer(M, numVillageois, numMine) require numVillageois in [0, numerosVillageois(M).size()[ incorrecte");
+		}
 		return super.peutEntrer(numVillageois, numMine);
 	}
 
 	@Override
 	public IHotelVilleService HotelDeVille(int n) {
-		// TODO Auto-generated method stub
+		// pre HotelVille(M, n) require  n in [1,2]
+		if(!(n== 1 || n == 2)){
+			throw new PreconditionError("HotelVille(M, n) require  n in [1,2] incorrecte");
+		}
 		return super.HotelDeVille(n);
 	}
 
 	@Override
 	public int positionHotelVilleX(int n) {
-		// TODO Auto-generated method stub
+		// pre positionHotelVilleX(M, n) require  n in [1,2]
+		if(!(n== 1 || n == 2)){
+			throw new PreconditionError("positionHotelVilleX(M, n) require n in [1,2] incorrecte");
+		}
 		return super.positionHotelVilleX(n);
 	}
 
 	@Override
 	public int positionHotelVilleY(int n) {
-		// TODO Auto-generated method stub
-		
+		// pre positionHotelVilleY(M, n) require  n in [1,2]
+		if(!(n== 1 || n == 2)){
+			throw new PreconditionError("positionHotelVilleY(M, n) require n in [1,2] incorrecte");
+		}
 		return super.positionHotelVilleY(n);
 	}
 
 	@Override
-	public boolean peutEntrerHotelVille(int numVillageois, int hv) {
-		// TODO Auto-generated method stub
-		/*double distance = 0.0;
-		if(hv == 1)
-			distance=positions.get(hotelDeVille).distance(positions.get(hotelDeVille));
-		else{
-			distance=positions.get(hotelDeVille2).distance(positions.get(hotelDeVille));
-		}*/
-		return super.peutEntrerHotelVille(numVillageois, hv);
+	public boolean peutEntrerHotelVille(int numVillageois, int numHotelDeVille) {
+		// pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
+		//numVillageois in [0, numerosVillageois(M).size()[ 
+		if(!(numVillageois <= 0 && numVillageois < numerosVillageois().size())){
+			throw new PreconditionError("peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require numVillageois in [0, numerosVillageois(M).size()[ incorrecte");
+		}
+
+		/* pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
+		     numHotelDeVille in [1,2]*/
+		if(!(numHotelDeVille== 1 || numHotelDeVille == 2)){
+			throw new PreconditionError("peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require numHotelDeVille in [1,2] incorrecte");
+		}
+
+		/* pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
+		       Villageois::getQtor(getVillageois(M, numVillageois)) > 0 */
+		if(!(getVillageois(numVillageois).getQtor() > 0)){
+			throw new PreconditionError("peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require numHotelDeVille in [1,2] incorrecte");
+		}
+
+		return super.peutEntrerHotelVille(numVillageois, numHotelDeVille);
 	}
 
 	@Override
 	public List<IRouteService> numerosRoute() {
-		// TODO Auto-generated method stub
+		// aucun pre
+
+		// run
 		return super.numerosRoute();
 	}
 
 	@Override
-	public IRouteService getRoute(int n) {
-		// TODO Auto-generated method stub
-		return super.getRoute(n);
+	public IRouteService getRoute(int r) {
+		//pre getRoute(M, r) require  r in [0, numerosRoute(M).size()[
+		if(!(0 <= r && r < numerosRoute().size())){
+			throw new PreconditionError("getRoute(M, r) require  r in [0, numerosRoute(M).size()[ incorrecte");
+		}
+		return super.getRoute(r);
 	}
 
 	@Override
-	public int positionRouteX(int n) {
-		// TODO Auto-generated method stub
-		return super.positionRouteX(n);
+	public int positionRouteX(IRouteService r) {
+		//pre positionRouteX(M, r) require r in numerosRoute(M)
+		if(!(numerosRoute().contains(r))){
+			throw new PreconditionError("positionRouteX(M, r) require r in numerosRoute(M) incorrecte");
+		}
+		return super.positionRouteX(r);
 	}
 
 	@Override
-	public int positionRouteY(int n) {
-		// TODO Auto-generated method stub
-		return super.positionRouteY(n);
+	public int positionRouteY(IRouteService r) {
+		//pre positionRouteY(M, r) require r in numerosRoute(M)
+		if(!(numerosRoute().contains(r))){
+			throw new PreconditionError("positionRouteY(M, r) require r in numerosRoute(M) incorrecte");
+		}
+		return super.positionRouteY(r);
 	}
 
 	@Override
 	public boolean estSurRoute(int numVillageois) {
-		// TODO Auto-generated method stub
-		/*for(int numRoute = 0; numRoute < routes.size(); numRoute++){
-			Rectangle rect = new Rectangle(positionRouteX(numRoute), positionRouteY(numRoute), routes.get(numRoute).getLargeur(), routes.get(numRoute).getHauteur());
-			if(rect.contains(positions.get(getVillageois(numVillageois))))
-				return true;
-		}*/
+		//pre estSurRoute(M, numVillageois) require numVillageois in [0, numerosVillageois.size()[ 
+		if(!(numVillageois <= 0 && numVillageois < numerosVillageois().size())){
+			throw new PreconditionError("estSurRoute(M, numVillageois) require numVillageois in [0, numerosVillageois(M).size()[ incorrecte");
+		}
 		return super.estSurRoute(numVillageois);
 	}
 
-	public boolean estSurMuraille(Point p) {
-		// TODO Auto-generated method stub
-	/*	for(int i = 0; i < murailles.size(); i++){
-			Rectangle rect = new Rectangle(positionMurailleX(i) 
-					,positionMurailleY(i)
-					,routes.get(i).getLargeur()
-					,routes.get(i).getHauteur());
-			if(rect.contains(p))
-				return false;
-		}*/
-		return super.estSurMuraille(p);
-	}
+
 	@Override
 	public List<IMurailleService> numerosMuraille() {
-		// TODO Auto-generated method stub
+		// aucun pre
+
+		// run
 		return super.numerosMuraille();
 	}
 
 	@Override
 	public IMurailleService getMuraille(int n) {
-		// TODO Auto-generated method stub
+		//pre getMuraille(M, n) require  n in [0, numerosMuraille(M).size()[
+		if(!(0 <= n && n < numerosMuraille().size())){
+			throw new PreconditionError("getMuraille(M, n) require  n in [0, numerosMuraille(M).size()[ incorrecte");
+		}
 		return super.getMuraille(n);
 	}
 
 	@Override
-	public int positionMurailleX(int n) {
-		// TODO Auto-generated method stub
-		return  super.positionMurailleX(n);
+	public int positionMurailleX(IMurailleService m) {
+		//pre positionMurailleX(M, m) require m in numerosMuraille(M)
+		if(!(numerosMuraille().contains(m))){
+			throw new PreconditionError("positionMurailleX(M, m) require m in numerosMuraille(M) incorrecte");
+		}
+		return  super.positionMurailleX(m);
 	}
 
 	@Override
-	public int positionMurailleY(int n) {
-		// TODO Auto-generated method stub
-		return super.positionMineY(n);
+	public int positionMurailleY(IMurailleService m) {
+		//pre positionMurailleY(M, m) require m in numerosMuraille(M)
+		if(!(numerosMuraille().contains(m))){
+			throw new PreconditionError("positionMurailleY(M, m) require m in numerosMuraille(M) incorrecte");
+		}
+		return super.positionMurailleY(m);
+	}
+
+	public boolean estSurMuraille(Point p) {
+		// aucun pre
+
+		// run
+		return super.estSurMuraille(p);
+	}
+
+	@Override
+	public boolean estFini() {
+		// aucun pre
+
+		// run
+		return super.estFini();
+	}
+
+	@Override
+	public EResultat resultatFinal() {
+		// aucun pre
+
+		// run
+		return super.resultatFinal();
+	}
+
+	@Override
+	public List<Integer> VillageoisAttente() {
+		// aucun pre
+
+		// run
+		return super.VillageoisAttente();
+	}
+
+	@Override
+	public List<Integer> MineMinee() {
+		// aucun pre
+
+		// run
+		return super.MineMinee();
+	}
+
+	@Override
+	public HashMap<IVillageoisService, Point> positionsVillageois() {
+		// aucun pre
+
+		// run
+		return super.positionsVillageois();
+	}
+
+	@Override
+	public HashMap<Object, Point> positions() {
+		// aucun pre
+
+		// run
+		return super.positions();
+	}
+
+	@Override
+	public IMoteurJeuService init(int maxPasJeu, int l, int h) {
+		//pre init(MaxPasJeu) require maxPasJeu >= 0 
+		if(!(maxPasJeu >= 0)){
+			throw new PreconditionError("init(MaxPasJeu) require maxPasJeu >= 0  incorrecte");
+		}
+
+		//pre init(MaxPasJeu) require l>=600
+		if(!(l >= 600)){
+			throw new PreconditionError("init(MaxPasJeu) require l>=600 incorrecte");
+		}
+
+		//pre init(MaxPasJeu) require h>=400
+		if(!(h >= 400)){
+			throw new PreconditionError("init(MaxPasJeu) require h>=400 incorrecte");
+		}
+		
+		//inv avant
+		checkInvariants();
+		
+		//run
+		super.init(maxPasJeu, l, h);
+		
+		//inv apres
+		checkInvariants();
+		
+		//post MaxPasJeu(init(p,l,h)) = p
+		if(!(MaxPasJeu() == maxPasJeu)){
+			throw new PreconditionError("MaxPasJeu(init(p,l,h)) = p incorrecte");
+		}
+		
+		//post pasJeuCourant(init(p,l,h)) = 0
+		if(!(pasJeuCourant() == 0)){
+			throw new PreconditionError("pasJeuCourant(init(p,l,h)) = 0 incorrecte");
+		}
+		//post LargeurTerrain(init(p,l,h)) = l
+		if(!(LargeurTerrain() == l)){
+			throw new PreconditionError("LargeurTerrain(init(p,l,h)) = l incorrecte");
+		}
+		//post HauteurTerrain(init(p,l,h)) = h
+		if(!(HauteurTerrain() == h)){
+			throw new PreconditionError("HauteurTerrain(init(p,l,h)) = h incorrecte");
+		}
+		
+		return this;
 	}
 
 	public IMoteurJeuService pasJeu(ECommande Commande, ECommande Commande2, int numVillageois, int numVillageois2, int argument, int argument2) {
 		return super.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
 	}
-	
+
 
 }

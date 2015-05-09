@@ -4,10 +4,15 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.List;
 
+import require.IRequireHotelVille;
+import require.IRequireMine;
+import require.IRequireMuraille;
+import require.IRequireRoute;
+import require.IRequireVillageois;
 import enums.ECommande;
 import enums.EResultat;
 
-public interface IMoteurJeuService {
+public interface IMoteurJeuService extends IRequireHotelVille, IRequireMine, IRequireRoute, IRequireVillageois, IRequireMuraille {
 	/**
 	 * Observators
 	 */

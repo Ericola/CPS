@@ -232,4 +232,33 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 		return delegate.positions();
 	}
 
+	@Override
+	public void bindHotelVille(Point positionHotelVille1,
+			Point positionHotelVille2) {
+		delegate.bindHotelVille(positionHotelVille1, positionHotelVille2);
+	}
+
+	@Override
+	public void bindMine(List<IMineService> mines, List<Point> positionsMines) {
+		delegate.bindMine(mines, positionsMines);	
+	}
+
+	@Override
+	public void bindRoute(List<IRouteService> routes,
+			List<Point> positionsRoutes) {
+		delegate.bindRoute(routes, positionsRoutes);
+	}
+
+	@Override
+	public void bindVillageois(List<IVillageoisService> villageois,
+			List<Point> positionsVillageois) {
+		delegate.bindVillageois(villageois, positionsVillageois);
+	}
+
+	@Override
+	public void bindMuraille(List<IMurailleService> murailles,
+			List<Point> positionsMurailles) {
+		delegate.bindMuraille(murailles, positionsMurailles);
+	}
+
 }
