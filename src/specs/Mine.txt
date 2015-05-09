@@ -24,7 +24,8 @@ Operators
     setAppartenance : [Mine] * ERace -> [Mine]
     setAbandonCompteur : [Mine] * int -> [Mine] 
         pre setAbandonCompteur(M s) require s > 0
-		
+    setLaminee : [Mine] -> [Mine]
+    
 Observations :
 	[invariants]
 		estLaminee(M) =(min) orRestant(M) <=  0			
@@ -64,3 +65,8 @@ Observations :
 	[setAbandonCompteur]
 	    orRestant(setAbandonCompteur(M, s)) = orRestant(M)
 	    abandonCompteur(setAbandonCompteur(M, s)) = abandonCompteur(M)
+	    
+	[setLaminee]
+	    orRestant(setLaminee(M)) = orRestant(M)
+	    abandonCompteur(setLaminee(M)) = abandonCompteur(M)
+	    appartenance(setLaminee(M)) = appartenance(M)

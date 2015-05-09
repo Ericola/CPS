@@ -1,6 +1,7 @@
 package decorators;
 
 import java.awt.Point;
+import java.util.HashMap;
 import java.util.List;
 
 import enums.ECommande;
@@ -71,15 +72,15 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionVillageoisX(int n) {
+	public int positionVillageoisX(IVillageoisService v) {
 		// TODO Auto-generated method stub
-		return delegate.positionVillageoisX(n);
+		return delegate.positionVillageoisX(v);
 	}
 
 	@Override
-	public int positionVillageoisY(int n) {
+	public int positionVillageoisY(IVillageoisService v) {
 		// TODO Auto-generated method stub
-		return delegate.positionVillageoisY(n);
+		return delegate.positionVillageoisY(v);
 	}
 
 	@Override
@@ -95,15 +96,15 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionMineX(int n) {
+	public int positionMineX(IMineService m) {
 		// TODO Auto-generated method stub
-		return delegate.positionMineX(n);
+		return delegate.positionMineX(m);
 	}
 
 	@Override
-	public int positionMineY(int n) {
+	public int positionMineY(IMineService m) {
 		// TODO Auto-generated method stub
-		return delegate.positionMineY(n);
+		return delegate.positionMineY(m);
 	}
 
 	@Override
@@ -149,15 +150,15 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionRouteX(int n) {
+	public int positionRouteX(IRouteService r) {
 		// TODO Auto-generated method stub
-		return delegate.positionRouteX(n);
+		return delegate.positionRouteX(r);
 	}
 
 	@Override
-	public int positionRouteY(int n) {
+	public int positionRouteY(IRouteService r) {
 		// TODO Auto-generated method stub
-		return delegate.positionRouteY(n);
+		return delegate.positionRouteY(r);
 	}
 
 	@Override
@@ -179,15 +180,15 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionMurailleX(int n) {
+	public int positionMurailleX(IMurailleService m) {
 		// TODO Auto-generated method stub
-		return delegate.positionMurailleX(n);
+		return delegate.positionMurailleX(m);
 	}
 
 	@Override
-	public int positionMurailleY(int n) {
+	public int positionMurailleY(IMurailleService m) {
 		// TODO Auto-generated method stub
-		return delegate.positionMurailleY(n);
+		return delegate.positionMurailleY(m);
 	}
 	
 	 public boolean estSurMuraille(Point p){
@@ -205,6 +206,30 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 			 int numVillageois2, int argument, int argument2) {
 		// TODO Auto-generated method stub
 		return delegate.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
+	}
+
+	@Override
+	public List<Integer> VillageoisAttente() {
+		// TODO Auto-generated method stub
+		return delegate.VillageoisAttente();
+	}
+
+	@Override
+	public List<Integer> MineMinee() {
+		// TODO Auto-generated method stub
+		return delegate.MineMinee();
+	}
+
+	@Override
+	public HashMap<IVillageoisService, Point> positionsVillageois() {
+		// TODO Auto-generated method stub
+		return delegate.positionsVillageois();
+	}
+
+	@Override
+	public HashMap<Object, Point> positions() {
+		// TODO Auto-generated method stub
+		return delegate.positions();
 	}
 
 }

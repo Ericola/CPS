@@ -106,5 +106,11 @@ public class MineImplem implements IMineService{
 		this.appartenance = r;
 		return this;
 	}
+
+	@Override
+	public IMineService setLaminee() {
+		this.estLaminee = true;
+		return this;
+	}
 	
 }

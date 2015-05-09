@@ -109,7 +109,7 @@ public abstract class AbstractMine extends AbstractAssertion {
 	}
 	
 	@Test
-	public void testEstLaminéePositif(){
+	public void testEstLamineePositif(){
 		int l = 50;
 		int h = 50;
 		

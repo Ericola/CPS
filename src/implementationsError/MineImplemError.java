@@ -104,4 +104,10 @@ public class MineImplemError implements IMineService{
 		this.appartenance = r;
 		return this;
 	}
+	
+	@Override
+	public IMineService setLaminee() {
+		this.estLaminee = true;
+		return this;
+	}
 }

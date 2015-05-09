@@ -84,6 +84,15 @@ public interface IMineService {
 					
 			 */
 	 IMineService setAppartenance(ERace r);
+	 
+	 
+	/* post
+				 orRestant(setLaminee(M)) = orRestant(M)
+	    		 abandonCompteur(setLaminee(M)) = abandonCompteur(M)
+	    		 appartenance(setLaminee(M)) = appartenance(M)
+					
+			 */
+	 IMineService setLaminee();
      /**
 	     * Invariants
 	     */

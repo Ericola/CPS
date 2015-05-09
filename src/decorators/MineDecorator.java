@@ -94,4 +94,9 @@ public class MineDecorator implements IMineService {
 		return delegate.setAppartenance(r);
 	}
 
+	@Override
+	public IMineService setLaminee() {
+		return delegate.setLaminee();
+	}
+
 }

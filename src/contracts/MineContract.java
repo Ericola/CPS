@@ -172,7 +172,7 @@ public class MineContract extends MineDecorator {
 		if((!(estAbandonnee()))){
 			throw new PreconditionError("accueil(M) require !estAbandonnee(M) incorrecte");
 		}
-		
+
 		/* pre accueil(M, r) require r != RIEN */
 		if((!(r == ERace.RIEN))){
 			throw new PreconditionError("accueil(M, r) require r != RIEN incorrecte");
@@ -327,6 +327,41 @@ public class MineContract extends MineDecorator {
 		//post orRestant(setAppartenance(M, r)) = orRestant(M)
 		if (!(orRestant() == oldOrRestant)) {
 			throw new PostconditionError("orRestant(setAppartenance(M, r)) = orRestant(M) incorrecte");
+		}
+
+		return this;
+	}
+
+	@Override
+	public IMineService setLaminee() {
+
+		// capture 
+		int oldOrRestant = orRestant();
+		ERace oldAppartenance = appartenance();
+		int oldabanComp = abandonCompteur();
+
+		// inv avant 
+		checkInvariants();
+
+		// run
+		super.setLaminee();
+
+		// inv apres
+		checkInvariants();
+
+		//post appartenance(setLaminee(M)) = oldAppartenance
+		if (!(appartenance() == oldAppartenance)) {
+			throw new PostconditionError("appartenance(setLaminee(M)) = oldAppartenance incorrecte");
+		}	
+
+		//post orRestant(setLaminee(M)) = orRestant(M)
+		if (!(orRestant() == oldOrRestant)) {
+			throw new PostconditionError("orRestant(setLaminee(M)) = orRestant(M) incorrecte");
+		}
+
+		//post abandonCompteur(setLaminee(M)) = abandonCompteur(M)
+		if (!(abandonCompteur() == oldabanComp)) {
+			throw new PostconditionError("abandonCompteur(setLaminee(M)) = abandonCompteur(M) incorrecte");
 		}
 
 		return this;
