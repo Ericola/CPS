@@ -22,7 +22,7 @@ public interface IMoteurJeuService {
 	/*  pre  
 	 *		 getVillageois(M, n) require n in [0, numerosVillageois(M).size()]	 
 	 */
-	IVillageoisService getVillageois(IVillageoisService v);
+	IVillageoisService getVillageois(int n);
 	/*  pre  
 	 *		 positionVillageoisX(M, v) require v in numerosVillageois(M)
 	 */
@@ -30,7 +30,7 @@ public interface IMoteurJeuService {
 	/*  pre  
 	 *		 positionVillageoisY(M, v) require v in numerosVillageois(M)
 	 */
-	int positionVillageoisY(int n);
+	int positionVillageoisY(IVillageoisService v);
 
 	List<IMineService> numerosMine();
 	/*  pre  

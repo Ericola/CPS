@@ -33,9 +33,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	private List<IRouteService> routes;
 	private List<IMurailleService> murailles;
 
-	private List<Integer> villageoisAttente;
+	private List<Integer> VillageoisAttente;
 	private List<Integer> MineMinee;
 	private HashMap<Object, Point> positions;
+	private HashMap<IVillageoisService, Point> positionsVillageois;
 	@Override
 	public int LargeurTerrain() {
 		// TODO Auto-generated method stub
@@ -87,15 +88,15 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionVillageoisX(int n) {
+	public int positionVillageoisX(IVillageoisService v) {
 		// TODO Auto-generated method stub
-		return positions.get(villageois.get(n)).x;
+		return positionsVillageois.get(v).x;
 	}
 
 	@Override
-	public int positionVillageoisY(int n) {
+	public int positionVillageoisY(IVillageoisService v) {
 		// TODO Auto-generated method stub
-		return  positions.get(villageois.get(n)).y;
+		return  positionsVillageois.get(v).y;
 	}
 
 	@Override
@@ -111,21 +112,34 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	}
 
 	@Override
-	public int positionMineX(int n) {
+	public int positionMineX(IMineService m) {
 		// TODO Auto-generated method stub
-		return positions.get(mines.get(n)).x;
+		return positions.get(m).x;
 	}
 
 	@Override
-	public int positionMineY(int n) {
+	public int positionMineY(IMineService m) {
 		// TODO Auto-generated method stub
-		return positions.get(mines.get(n)).y;
+		return positions.get(m).y;
 	}
 
 	@Override
 	public boolean peutEntrer(int numVillageois, int numMine) {
 		// TODO Auto-generated method stub
 		double distance=positions.get(mines.get(numMine)).distance(positions.get(villageois.get(numVillageois)));
+		if(getMine(numMine).estAbandonnee()){
+			return distance < 51;
+		}
+		int nbVillageoisDansMine = 0;
+		for(int i = 0; i < MineMinee.size(); i++){
+			if(MineMinee.get(i) == numMine){
+				if(getVillageois(i).getRace() != getVillageois(numVillageois).getRace())
+					return false;
+				nbVillageoisDansMine++;
+			}
+		}
+		
+		return getMine(numMine).orRestant() - nbVillageoisDansMine > 0 && distance < 51;
 		
 	}
 
