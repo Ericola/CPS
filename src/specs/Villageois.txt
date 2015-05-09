@@ -5,7 +5,7 @@ Observators :
 	const getLargeur : [Villageois] -> int
 	const getHauteur : [Villageois] -> int
 	const getForce: [villageois] -> int
-	getVitesse : [villageois] ->int
+	const getVitesse : [villageois] ->int
 	getPdv : [villageois] -> int
 	getQtor : [villageois] -> int
 	estMort : [villageois] -> boolean

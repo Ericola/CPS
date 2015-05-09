@@ -180,11 +180,6 @@ public class VillageoisContract extends VillageoisDecorator {
 			throw new PostconditionError("getQtor(retrait(V, s)) = getQtor(V) incorrecte");
 		}	
 
-		//post getVitesse(setQtor(V, s)) = getVitesse(V) 
-		if (!(getVitesse() == oldVitesse)) {
-			throw new PostconditionError("getVitesse(setQtor(V, s)) = getVitesse(V) incorrecte");
-		}
-
 		return this;
 	}
 
@@ -219,10 +214,6 @@ public class VillageoisContract extends VillageoisDecorator {
 			throw new PostconditionError("getQtor(setQtor(V, s)) = s incorrecte");
 		}	
 
-		//post getVitesse(setQtor(V, s)) = getVitesse(V) 
-		if (!(getVitesse() == oldVitesse)) {
-			throw new PostconditionError("getVitesse(setQtor(V, s)) = getVitesse(V) incorrecte");
-		}	
 		return this;
 	}
 }

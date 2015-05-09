@@ -331,7 +331,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 
 
 
-	public Point deplacer(int argument,Point point,int numVillageois){
+	private Point deplacer(int argument,Point point,int numVillageois){
 		int vitesse = villageois.get(numVillageois).getVitesse();
 
 		if(estSurRoute(numVillageois)){

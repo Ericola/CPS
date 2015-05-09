@@ -43,7 +43,6 @@ public interface IVillageoisService {
 		 * post 
 				getpdv(retrait(V, s)) =getpdv(V)-s
 				getQtor(retrait(V)) = getQtor(V)
-				getVitesse(retrait(V, s)) = getVitesse(V) 
 				
 		 */
 	 IVillageoisService retrait(int s);
@@ -52,8 +51,7 @@ public interface IVillageoisService {
 	  * setQtor(V, s) require s > 0
 	  *	post
 			getQtor(setQtor(V, s)) = getQtor(V)
-			getQtor(setQtor(V, s)) = s
-			getVitesse(setQtor(V, s)) = getVitesse(V) 
+			getQtor(setQtor(V, s)) = s 
 			
 				
 		 */
