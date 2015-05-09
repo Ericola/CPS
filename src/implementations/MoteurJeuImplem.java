@@ -34,7 +34,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	private List<IMurailleService> murailles;
 
 	private List<Integer> villageoisAttente;
-
+	private List<Integer> MineMinee;
 	private HashMap<Object, Point> positions;
 	@Override
 	public int LargeurTerrain() {
@@ -126,7 +126,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public boolean peutEntrer(int numVillageois, int numMine) {
 		// TODO Auto-generated method stub
 		double distance=positions.get(mines.get(numMine)).distance(positions.get(villageois.get(numVillageois)));
-		return distance<=51;
+		
 	}
 
 	@Override

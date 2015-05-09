@@ -12,25 +12,25 @@ Observators :
 	 
 	 numerosVillageois : [MoteurJeu] -> List<IVillageoisService>
 	 getVillageois: [MoteurJeu] x int -> IVillageoisService
-	 pre : getVillageois(M, n) require n in [0, numerosVillageois.size()]	 
+	 pre : getVillageois(M, n) require n in [0, numerosVillageois(M).size()]	 
 	 positionVillageoisX : [MoteurJeu] x Villageois -> int
 	 pre : positionVillageoisX(M, v) require v in numerosVillageois(M)
-	 positionVillageoisY : [MoteurJeu] x int -> int
+	 positionVillageoisY : [MoteurJeu] x Villageois -> int
 	 pre : positionVillageoisY(M, v) require v in numerosVillageois(M)
 	 estSurRoute : [MoteurJeu] x int -> boolean
-	  pre : estSurRoute(M, v) require v in [0, numerosVillageois.size()[
+	  pre : estSurRoute(M, v) require v in [0, numerosVillageois(M).size()[
 	
 	 numerosMine : [MoteurJeu] -> List<IMineService>
 	 getMine: [MoteurJeu] x int -> IMinesService
-	 pre : getMine(M, ) require n in [0, numerosMine.size()[
+	 pre : getMine(M, n) require n in [0, numerosMine(M).size()[
 	 positionMineX : [MoteurJeu] x Mine -> int
 	 pre : positionMineX(M, m) require m in numerosMine(M)
-	 positionMineY : [MoteurJeu] x int -> int
+	 positionMineY : [MoteurJeu] x Mine -> int
 	 pre : positionMineY(M, m) require m in numerosMine(M)
 	 peutEntrer: [MoteurJeu] x int x int -> boolean 
 	 pre peutEntrer(M, numVillageois, numMine) require 
-		 numVillageois in [0, numerosVillageois.size()[
-	   ^ numMine in numerosMine[0, numerosMine[	
+		 numVillageois in [0, numerosVillageois(M).size()[
+	   ^ numMine in [0, numerosMine(M).size()[	
 	
 	 HotelDeVille :[MoteurJeu] x int -> IHotelVilleService
 	 pre HotelVille(M, n) require  n in [1,2]
@@ -40,12 +40,12 @@ Observators :
 	 pre : positionHotelVilleY(M, n) require n in [1, 2]
 	 peutEntrerHotelVille : [MoteurJeu] x int x int -> boolean	    
 	 		pre peutEntrerHotelVille(M, numVillageois, numHotelDeVille) require 
-		    numVillageois in [0, numerosVillageois.size()[ 
+		    numVillageois in [0, numerosVillageois(M).size()[ 
 		    numHotelDeVille in [1,2]
 		    
 	 numerosRoute : [MoteurJeu] -> List<IRouteService>
 	 getRoute: [MoteurJeu] x int -> IRouteService
-	 pre getRoute(M, r) require  r in [0, numerosRoute.size()[
+	 pre getRoute(M, r) require  r in [0, numerosRoute(M).size()[
 	 positionRouteX : [MoteurJeu] x Route -> int
 	 pre : positionRouteX(M, r) require r in numerosRoute(M)
 	 positionRouteY : [MoteurJeu] x Route -> int
@@ -56,11 +56,11 @@ Observators :
 		  
 	 numerosMuraille : [MoteurJeu] -> List<IMurailleService>
 	 getMuraille: [MoteurJeu] x int -> IMurailleService
-	 pre getMuraille(M, n) require  m in [0, numerosMuraille.size()[
+	 pre getMuraille(M, n) require  n in [0, numerosMuraille(M).size()[
 	 positionMurailleX : [MoteurJeu] x Muraille -> int
-	 pre : positionMurailleX(M, m) require m in [0, numerosMuraille.size()[
+	 pre : positionMurailleX(M, m) require m in [0, numerosMuraille(M).size()[
 	 positionMurailleY : [MoteurJeu] x Muraille -> int
-	 pre : positionMurailleY(M, m) require n in [0, numerosMuraille.size()[	 
+	 pre : positionMurailleY(M, m) require n in [0, numerosMuraille(M).size()[	 
 	 estSurMuraille : [MoteurJeu] x Point -> boolean
 	  
 	estFini : [MoteurJeu] -> boolean
@@ -108,37 +108,41 @@ Observations :
 		HauteurTerrain(init(p,l,h)) = h
 		
 		
-		pour tout Villageois in numerosVillageois(M) : 
-		Villageois::getLargeur(init(p,l,h)) = 10
-		Villageois::getHauteur(init(p,l,h)) = 10
+		Pour tout n in [0, numerosVillageois(init(p,l,h)).size()[   
+		   Villageois::getLargeur(getVillageois(init(p,l,h), n)) = 10
+		   Villageois::getHauteur(getVillageois(init(p,l,h), n)) = 10
 		
-		pour tout Villageois V ayant ERace = HUMAIN && in numerosVillageois(M)
-		Villageois::getForce(init(p,l,h)) = 3
-		Villageois::getVitesseinit(p,l,h)) = 4
+		Pour tout Villageois V ayant ERace = HUMAIN && in numerosVillageois(init(p,l,h))
+		Villageois::getForce(V) = 3
+		Villageois::getVitesseinit(V) = 4
 		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
 		
 		
-		pour tout Villageois V ayant ERace = ORC && in numerosVillageois(M)
-		Villageois::getForce(init(p,l,h)) = 4
-		Villageois::getVitesseinit(p,l,h)) = 3
+		Pour tout Villageois V ayant ERace = ORC && in numerosVillageois(init(p,l,h))
+		Villageois::getForce(V) = 4
+		Villageois::getVitesse(V) = 3
 		distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
 		
-		pour toute mine in numerosMine(M)
-		Mine::getLargeur(init(p,l,h)) = 50
-		Mine::getHauteur(init(p,l,h)) = 50
+		Pour toute mine m in numerosMine(init(p,l,h))
+		Mine::getLargeur(m) = 50
+		Mine::getHauteur(m) = 50
 		
-		pour tout HotelVille in HotelVille(1) V HotelVille(2)
-		HotelVille::getLargeur(init(p,l,h)) = 50
-		HotelVille::getHauteur(init(p,l,h)) = 50
-		HotelVille(1)::appartenance() = HUMAIN
-		HotelVille(2)::appartenance() = ORC
+		Pour tout HotelVille hv in HotelVille(init(p,l,h), 1) V HotelVille(init(p,l,h), 2)
+		HotelVille::getLargeur(hv) = 50
+		HotelVille::getHauteur(hv) = 50
+		HotelVille(1)::appartenance(hv) = HUMAIN
+		HotelVille(2)::appartenance(hv) = ORC
+		
+		MineMinee(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
+		VillageoisAttente(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
+		
+		Pour tout x in [0, MineMinee(init(p,l,h)).size()[
+		MineMinee(init(p,l,h)).get(x) = -1
+		
+		Pour tout x in [0, VillageoisAttente(init(p,l,h)).size()[
+		VillageoisAttente(init(p,l,h)).get(x) = -1
 		
 		pasJeuCourant(pasJeu(M ,c, c2, n, n2, a, a2)) = pasJeuCourant(M) + 1
-		let c = ECommande.DEPLACER
-		getMine(pasJeu(M ,c, c2, n, n2, a, a2) , numMine) = Mine::abandoned(getMine(M,numMine)) si 
-				c != ENTRERMINE || arg != numMine
-			    ^
-			    Mine::accueil(getMine(M, numMine))
 	[pasJeu] : 
 		let deplacer(M, n, a) =
 			 1. On recupere la vitesse du villageois
@@ -182,15 +186,11 @@ Observations :
 		
 		let entrerMine(M, n, a) =  
 		    //POSTCONDITIONS     
-		    Mine::appartenance(getMine(pasJeu(M ,c, c2, n, n2, a, a2), a)) = Villageois::getRace(getVillageois(M, n))
-		    Mine::abandonCompteur(getMine(pasJeu(M ,c, c2, n, n2, a, a2), 1)) = 0
 		    VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = PasJeuCourant(M) + 16
 		    MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = a
 		    Mine::accueil(getMine(pasJeu(M ,c, c2, n, n2, a, a2)), a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2), a)
 		    
 		let entrerHotelVille(M, n, a) =
-			HotelVille::appartenance(getHotelVille(pasJeu(M ,c, c2, n, n2, a, a2), 2)) = Villageois::getRace(getVillageois(M, n2))
-		    HotelVille::abandonCompteur(getHotelVille(pasJeu(M ,c, c2, n, n2, a, a2), 2)) = 0
 		    HotelVille::orRestant(getHotelVille(pasJeu(M ,c, c2, n, n2, a, a2)), 2) = HotelVille::orRestant(getHotelVille(M, 2) + Villageois::getQtor(getVillageois(M, n2)
 		   	Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n2) = 0	   
 			HotelVille::accueil(getMine(pasJeu(M ,c, c2, n, n2, a, a2)), a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), a)
@@ -222,7 +222,6 @@ Observations :
 		   positionVillageoisX(pasJeu(M ,c, c2, n, n2, a, a2), V) = positionVillageoisX(M, V)
 		   positionVillageoisY(pasJeu(M, c, c2, n, n2, a, a2), V) = positionVillageoisY(M, V)
 		   
-		   
 	    3. Villageois ayant fini la corvee
 		Pour tout x in [0, numerosVillageois(M).size()[ ^ VillageoisAttente(M).get(x) == pasJeuCourant(M)
 		       Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), x) =  Villageois::getQtor(M, x) + 1
@@ -238,7 +237,7 @@ Observations :
 		  	 Si Mine::abandonCompteur(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) == 51
 		  		Mine::abandoned(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2))
 		  	 Sinon
-		  	    Mine::appartenance(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = Mine::appartenance(getMine(M, m)) + 1
+		  	    Mine::appartenance(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = Mine::appartenance(getMine(M, m)) 
 
 		  Pour tout h in [1,2] ^ si c = ENTRERHOTELVILLE, h != a ^ si c2 = ENTRERHOTELVILLE, h!= a2 ^ HotelVille::abandonCompteur(HotelDeVille(M, h)) != 51
 		     HotelVille::abandonCompteur(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), h)) =  HotelVille::abandonCompteur(HotelDeVille(M, h)) + 1
