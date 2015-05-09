@@ -52,6 +52,7 @@ Cas de test 3.1 : Test de setAbandonnedCpt d'une mines  réussi
 
 Condition initiales : 
 		L0 = init( 50, 50);
+		
 		L1 = setAppartenance(L0 ,ERace.ORC);
 	Opérations : 
 		L2 = setAbandonCompteur(L1,1);

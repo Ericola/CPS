@@ -1,4 +1,3 @@
-Cas de test 0.1 : Test de moteurJeu à la création (init)
 Condition initiales : aucune
 	Opérations : L0 = init(1664,1000,1000); //MaxPasJeu
 	
@@ -51,6 +50,7 @@ Condition initiales : aucune
 		
 		
 		rapport:
+		
 			getMaxPasJeu(L0) != 1664
 				=>MJ init,Le nombre de pas de jeu n'est pas égale à 1664
 			getPasJeuCourant(L0) != 0
@@ -115,4 +115,89 @@ Condition initiales : aucune
 			pasJeuCourant(L1) != pasJeuCourant(L0) + 1
 				=>in moteurJeu init: pasJeu s'est mal effectué
 		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 1.1 : entrer dans une mine
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	//bouger le villageois 1 qui est humain a côte de la mine 0
+	L1 = positionsVillageois(L0).put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMineX(moteurJeu.getMine(0)),moteurJeu.positionMineY(moteurJeu.getMine(0))));
+		
+	
+Opérations :
+	L2 = pasJeu(L1,ECommande.ENTRERMINE, ECommande.RIEN, 1, 3, 0, 5);
+	
+
+Oracle :
+	//Le pas jeu implique que la mine 0 du est miné par le villageois 1
+	(L2).get(1) == 0
+
+rapport : 
+	(L2).get(1) != 0
+	 => estEntrerMine a raté
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 2.1 : entrer dans une mine
+
+Condition initiales :
+L0 = init(1664,1000,1000);
+//on donne une piece d'or au villageois 1, C'est le plus riche des villageois. 
+//Mais le devoir l'appelle
+//Il doit payer la taxe
+
+//on sait qu'après l'initialisation l'hotel de ville des homme est a 16
+V1 = OrHotelVilleBefore = 16; 
+L1 = getVillageois(L0,1).setQtor(1);
+
+
+//LE DEVOIR L APPELLE , IL VA PAYER SES IMPÔT A L'HOTEL DE VILLE (il est tout de même toujours endetté d'un bourse de 1000 PO)
+
+L2 = pasJeu(L1,ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 1, 5);
+
+Oracle :
+	//Le fait de payer 1PO a rendu l'hotel de ville des hoome qui passe de 16 a une richesse de 17
+	HotelDeVille(L2,1).orRestant() == OrHotelVilleBefore + 1
+
+rapport : 
+	HotelDeVille(L2,1).orRestant() != OrHotelVilleBefore + 1
+		->EntrerVille n'a pas bien marché , il devrait avoir une gold de plus qu'à l'init
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 3.1 : entrer dans une mine qui ne t'appartient pas		
+	
+//Une Mine est déjà conquit par les orcs et un pauvre minier HUMAIN se trouvant dans les parages tente d'entrer	
+Condition initiales :
+L0 = init(1664,1000,1000);
+L1 = getMine(L0,0).setAppartenance(ERace.ORC);
+//on mets le minier à côté de la mine
+L2 =positionsVillageois(L1,1).put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMineX(moteurJeu.getMine(0)),moteurJeu.positionMineY(moteurJeu.getMine(0))));
+				
+Opérations :
+//le paysans tente venement d'entrée, il est très vite repousser par un champ de force
+
+L3 = pasJeu(L2,ECommande.ENTRERMINE, ECommande.RIEN, 1, 3, 0, 5);
+
+Oracle :
+//on a donc toujours une appartenance orc pour la mine
+		getMine(L3 , 0).appartenance() == ERace.ORC
+
+rapport : 
+	getMine(L3 , 0).appartenance() != ERace.ORC
+	  => L'appartenance devrait être ORC ce n'est pas le cas
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 4.1 : entrer dans un Hotel de ville qui ne t'appartient pas		
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = positionsVillageois(L0).put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionHotelVilleX(2),moteurJeu.positionHotelVilleY(2)));
+		
+Opérations :
+	L2 = pasJeu(L1,ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 2, 5);
+Oracle :
+	HotelDeVille(L2,2).appartenance() == ERace.ORC
+
+rapport : 
+	HotelDeVille(L2,2).appartenance() != ERace.ORC
+		=> L'appartenance devrait être ORC pour l'hotel de ville J2 ce n'est pas le cas 
 		

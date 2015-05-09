@@ -28,7 +28,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	public void test0_1() {
 		
 		//Condition Initiale : aucune
-		moteurJeu.init(1664, 1000, 1000);
+		
 		//Opération
 		moteurJeu.init(1664, 1000, 1000);
 		
@@ -109,35 +109,79 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	public void test1_1() {
 		
 		//Condition Initiale : aucune
+		moteurJeu.init(1664, 1000, 1000);
+		
+		//on a bouger le villageois 1
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMineX(moteurJeu.getMine(0)),moteurJeu.positionMineY(moteurJeu.getMine(0))));
+		
 		
 		//Opération
-	
+		moteurJeu.pasJeu(ECommande.ENTRERMINE, ECommande.RIEN, 1, 3, 0, 5);
+		//moteurJeu.getVillageois(1)
+		
+		//Oracle
+		assertPerso("estEntrerMine a raté",moteurJeu.MineMinee().get(1)==0 );
+		
+		
 	}
 	
 	//entrer dans un hotel de ville
+	//prerequis de l'exemple : Un villageois homme, le 1 ,aura une piece d'or
+				//MEMORISER L OR DANS UNE VARIABLE
+		//pasJeu : ENTRERHOTELDEVILLE => HotelDeVille(1).QTOR = 
 	public void test2_1() {
-		
 		//Condition Initiale : aucune
+		moteurJeu.init(1664, 1000, 1000);
+		int OrHotelVilleBefore = 16; 
+		//-> set piece d'or
+			moteurJeu.getVillageois(1).setQtor(1);
+			
+			
+	
 		
 		//Opération
+		moteurJeu.pasJeu(ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 1, 5);
+		
+		
+		//Oracle
+		assertPerso("Entrer dans Hotel Ville pas ok car posséder par l'hotel de ville est différent de la quatité a l'initialisation + 1  ", moteurJeu.HotelDeVille(1).orRestant()== OrHotelVilleBefore + 1 );
 	
 	}
 
 	//entrer dans une mine qui ne t'appartient pas
 	public void test3_1() {
+		//LES ORC ON DEJA CONQUIS LA MINE
 		
-		//Condition Initiale : aucune
-		
+		//Condition Initiale : 
+			moteurJeu.init(1664, 1000, 1000);
+			moteurJeu.getMine(0).setAppartenance(ERace.ORC);
+				
+			//on a bouger le villageois 1
+			moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMineX(moteurJeu.getMine(0)),moteurJeu.positionMineY(moteurJeu.getMine(0))));
+				
 		//Opération
+			moteurJeu.pasJeu(ECommande.ENTRERMINE, ECommande.RIEN, 1, 3, 0, 5);
+			
+		//oracle
+			assertPerso("test3 : L'appartenance devrait être ORC ce n'est pas le cas  ",moteurJeu.getMine(0).appartenance() == ERace.ORC );
+			
 	
 	}
 	
-	//mêm chose pour hotel de ville
+	//même chose pour hotel de ville
 	public void test4_1() {
 		
 		//Condition Initiale : aucune
+		moteurJeu.init(1664,1000,1000);
+		
+		//on a bouger le villageois 1 a côté de l'hotel de ville des orcs //EN L OCCURENCE DEDANS...
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionHotelVilleX(2),moteurJeu.positionHotelVilleY(2)));
 		
 		//Opération
+		//hotel ville du joueur2...
+		moteurJeu.pasJeu(ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 2, 5);
+		//Oracle
+		assertPerso("test4 : L'appartenance devrait être ORC pour l'hotel de ville J2 ce n'est pas le cas  ",moteurJeu.HotelDeVille(2).appartenance() == ERace.ORC); 
 	
 	}
 	
@@ -170,6 +214,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	
 	
 	//entrer dans une hotel de ville abandonné
+			//=>verifier que la partie est gagner? 
 	public void test8_1() {
 		
 		//Condition Initiale : aucune
@@ -196,6 +241,10 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	
 	}
 
+	//test hotel de ville abandonné au bout de 51 pas de JEU
+	public void test11_01(){
+		
+	}
 
 }
 	

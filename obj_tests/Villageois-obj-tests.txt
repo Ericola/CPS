@@ -54,3 +54,4 @@ Condition initiales :
 		getType(L2) != 1
 			=>retrait, retrait ne s'est pas fait correctement
 
+
