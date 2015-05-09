@@ -178,19 +178,28 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionHotelVilleX(2),moteurJeu.positionHotelVilleY(2)));
 		
 		//Opération
+		
 		//hotel ville du joueur2...
 		moteurJeu.pasJeu(ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 2, 5);
-		//Oracle
-		assertPerso("test4 : L'appartenance devrait être ORC pour l'hotel de ville J2 ce n'est pas le cas  ",moteurJeu.HotelDeVille(2).appartenance() == ERace.ORC); 
-	
+		
+		assertPerso("test4 : L'appartenance devrait être ORC pour l'hotel de ville J2 ce n'est pas le cas ",moteurJeu.HotelDeVille(2).appartenance() == ERace.ORC); 
+		
 	}
 	
-	//se déplacer
+	//se déplacer en Haut
 	public void test5_1() {
 		
 		//Condition Initiale : aucune
-		
+		moteurJeu.init(1664,1000,1000);
+		//on recupere l'ancience position du villageois.
+		Point PosBefore = moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1));
 		//Opération
+			//le villageois descend
+		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
+		//Oracle
+		
+		assertPerso("test5 : Le villageois 1 s'est bien déplacé", PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		
 	
 	}
 	
@@ -198,18 +207,37 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	public void test6_1() {
 		
 		//Condition Initiale : aucune
+		moteurJeu.init(1664,1000,1000);
+		
+		//on mets le villageois juste en dessus d'un muraille
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMurailleX(moteurJeu.getMuraille(0)),moteurJeu.positionMurailleX(moteurJeu.getMuraille(0))+15));
 		
 		//Opération
-	
+		//le villageois 1  va vers le bas et se retrouve dans la muraille
+		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
+		
+		//Oracle
+			//je test si le villageois est bien monter d'une pas qui le fait allez sur la muraille
+		assertPerso("test6 : le villageois c'est déplacé dans la muraille , c'est impossible ",moteurJeu.estSurMuraille(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		
+		
 	}
 	
 	//se déplacé en dehors du terrain
 	public void test7_1() {
 		
 		//Condition Initiale : aucune
+		moteurJeu.init(1664,1000,1000);
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(0), new Point(1,1));
+		Point PosBefore = moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1));
 		
 		//Opération
-	
+			//en ce déplacant vers le haut en dehors 
+				
+				moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
+		//Oracle
+				assertPerso("test7 : le villageois c'est déplacé en dehors, a été remis a sa position d'origine normalement mais c'est pas le cas",PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+				
 	}
 	
 	
@@ -218,32 +246,62 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	public void test8_1() {
 		
 		//Condition Initiale : aucune
-		
+			moteurJeu.init(1664,1000,1000);
+			//l hotel de ville est abandonné
+			moteurJeu.HotelDeVille(1).abandoned();
+			//un villageois pour entrer doit avoir un PO
+			moteurJeu.getVillageois(1).setQtor(1);
+			
+			
 		//Opération
-	
+			moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
+		
+		//Oracle
+			assertPerso("test8 : le villageois 1 prend possession de son hotel de ville",moteurJeu.HotelDeVille(1).appartenance()==ERace.HUMAIN); 
+			
 	}
 	
-	//entrer dans une mine abandonné
+
+	
+	//deplacement même case si ils sont de race différent
 	public void test9_1() {
 		
 		//Condition Initiale : aucune
-		
+		moteurJeu.init(1664,1000,1000);
+		//HUMAIN
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(1,1)); //1+4 =5
+		//ORC
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(3), new Point(1,8));//8-3 =5
 		//Opération
-	
-	}
-	
-	//deplacement même case si meme race ok sinon error
-	public void test10_1() {
+		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.DEPLACER, 1, 3, 49 , 267);
+		//Oracle
+	assertPerso("test9 : le villageois 1 HUMAIN et LE VILLAGEOIS 3 ORC , ne sont pas senser être mis sur la meme case et pourtant. ", ! moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(3)).equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1))) ); 
 		
-		//Condition Initiale : aucune
-		
-		//Opération
 	
 	}
 
-	//test hotel de ville abandonné au bout de 51 pas de JEU
-	public void test11_01(){
-		
+	//test hotel de ville abandonné des ennemis 
+	//verifier que la partie est gagné
+	public void test10_1(){
+		//Condition Initiale : aucune
+				moteurJeu.init(1664,1000,1000);
+				
+				//l hotel de ville est abandonné
+				moteurJeu.HotelDeVille(2).abandoned();
+				//un villageois pour entrer doit avoir un PO
+				moteurJeu.getVillageois(1).setQtor(1);
+				//mettre le villageois 1 a côté
+				moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1),new Point(moteurJeu.positionHotelVilleX(2),moteurJeu.positionHotelVilleY(2) )); //1+4 =5
+				
+				
+		//Opération
+				moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
+		//Oracle
+				assertPerso("test10_assert1 :VILLE n'est pas DEVENUE HUMAINE alors qu'elle le devrait  ", moteurJeu.HotelDeVille(2).appartenance() ==ERace.HUMAIN);
+				
+				assertPerso("test10_assert2 : partie fini PAS FINI les HOMME DEVRAIT AVOIR GAGNE mais ce n'est pas le cas alors que il le  devrait ", moteurJeu.estFini());
+				
+	
 	}
 
 }
