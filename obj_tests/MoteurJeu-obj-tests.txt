@@ -1,1 +1,118 @@
 Cas de test 0.1 : Test de moteurJeu à la création (init)
+Condition initiales : aucune
+	Opérations : L0 = init(1664,1000,1000); //MaxPasJeu
+	
+			//after all tests without pasJeuCourant(pasJeu())=pasJeuCourant() +1 
+				L1=pasJeu(L0,ECommande.DEPLACER, ECommande.DEPLACER, 1, 3, 240, 30)
+	Oracle : 
+		getMaxPasJeu(L0) == 1664
+		getPasJeuCourant(L0) == 0
+		LargeurTerrain(L0) == 1000
+		HauteurTerrain(L0) == 1000
+		
+		Pour tout villageois appartenant à numerosVillageois(L0) de i=0 à numerosVillageois(L0).size() :
+			- getVillageois(L0,i).getLargeur() == 10
+			- getVillageois(L0,i).getHauteur() == 10
+			
+			V =getVillageois(L0,i)
+			
+			SI getVillageois(L0,i).getRace() == ERACE.HOMME
+				-getVillageois(L0,i).getForce() == 3
+				-getVillageois(L0,i).getVitesse() == 4	
+				-distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+			
+			SI getVillageois(L0,i).getRace() == ERACE.ORC
+				-getVillageois(L0,i).getForce() == 4
+				-getVillageois(L0,i).getVitesse() == 3
+				-distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+			
+		Pour toute mine m in numerosMine(L0)
+		   Mine::getLargeur(m) == 50
+		   Mine::getHauteur(m) == 50
+		   
+		Pour tout HotelVille hv in HotelVille(L0, 1) V HotelVille(L0, 2)
+		   HotelVille::getLargeur(hv) == 50
+		   HotelVille::getHauteur(hv) == 50
+		   
+		HotelVille(1)::appartenance(hv) == HUMAIN
+		HotelVille(2)::appartenance(hv) == ORC
+		
+		MineMinee(L0).size() == numerosVillageois(L0).size()
+		
+	    VillageoisAttente(L0).size() == numerosVillageois(L0).size()
+	    
+	    Pour tout x in [0, MineMinee(L0).size()[
+		   MineMinee(L0).get(x) == -1
+		
+		Pour tout x in [0, VillageoisAttente(L0).size()[
+		   VillageoisAttente(L0).get(x) == -1
+		
+		pasJeuCourant(L1) == pasJeuCourant(L0) + 1
+		
+		
+		rapport:
+			getMaxPasJeu(L0) != 1664
+				=>MJ init,Le nombre de pas de jeu n'est pas égale à 1664
+			getPasJeuCourant(L0) != 0
+				=>MJ init,La valeur du pas courant n'est pas initialiser à 0
+			LargeurTerrain(L0) != 1000
+				=>MJ init,La valeur de la largeur n'est pas initialiser correctement
+			HauteurTerrain(L0) != 1000
+				=>MJ init,La valeur du pas courant n'est pas initialiser correctement
+		
+			Pour tout villageois appartenant à numerosVillageois(L0) de i=0 à numerosVillageois(L0).size() :
+				- getVillageois(L0,i).getLargeur() == 10
+					=>in moteurJeu init: Le villageois numero i a une largeur mal initialiser
+				- getVillageois(L0,i).getHauteur() == 10
+					=>in moteurJeu init: Le villageois numero i a une hauteur mal initialiser
+			
+				V =getVillageois(L0,i)
+				
+			
+				SI getVillageois(L0,i).getRace() == ERACE.HOMME
+					-getVillageois(L0,i).getForce() != 3
+						=>in moteurJeu init: Le villageois HOMME i a une force mal initialiser
+					-getVillageois(L0,i).getVitesse() != 4	
+						=>in moteurJeu init: Le villageois HOMME i a une vitesse mal initialiser
+					-distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+						=>in moteurJeu init: Le villageois HOMME i est à une dist initialiser trop loin de son hotel de ville
+				SI getVillageois(L0,i).getRace() == ERACE.ORC
+					-getVillageois(L0,i).getForce() != 4
+						=>in moteurJeu init: Le villageois ORC i a une force mal initialiser
+					-getVillageois(L0,i).getVitesse() != 3
+						=>in moteurJeu init: Le villageois ORC i a une force mal initialiser
+					-distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
+						=>in moteurJeu init: Le villageois HOMME i est à une dist initialiser trop loin de son hotel de ville
+			Pour toute mine m in numerosMine(L0)
+		  		Mine::getLargeur(m) != 50
+		  			=>in moteurJeu init: La Mine m a une largeur mal initialiser.
+		   		Mine::getHauteur(m) != 50
+		   			=> in moteurJeu init: La Mine m a une hauteur mal initialiser.
+		   
+			Pour tout HotelVille hv in HotelVille(L0, 1) V HotelVille(L0, 2)
+		  		HotelVille::getLargeur(hv) != 50
+		  			=>in moteurJeu init: L hotel de ville hv a une Hauteur a une largeur mal initialiser
+		   		HotelVille::getHauteur(hv) != 50
+		   			=>in moteurJeu init: L hotel de ville hv a une Hauteur a une largeur mal initialiser
+		   
+			HotelVille(1)::appartenance(hv) != HUMAIN
+				=>in moteurJeu init: L hotel de ville 1 n'appartient pas au HOMME a l'init alors qu'il le devrait
+			HotelVille(2)::appartenance(hv) != ORC
+				=>in moteurJeu init: L hotel de ville 2 n'appartient pas au ORC a l'init alors qu'il le devrait
+			MineMinee(L0).size() != numerosVillageois(L0).size()
+				=>in moteurJeu init: size MineMinee non ok car different de size liste villageois
+		    VillageoisAttente(L0).size() != numerosVillageois(L0).size()
+	    		=>in moteurJeu init: size villageoisAttente non ok car different de size liste villageois
+		    Pour tout x in [0, MineMinee(L0).size()[
+			   MineMinee(L0).get(x) != -1
+				=>in moteurJeu init: le villageois x est entrain de miné (trouver via MineMinee(i) != -1) alors qu'il ne devrait pas
+				
+			Pour tout x in [0, VillageoisAttente(L0).size()[
+		   		VillageoisAttente(L0).get(x) != -1
+				=>in moteurJeu init: le villageois x est en attente (trouver via villageoisAttente(i) != -1) alors qu'il ne devrait pas
+			
+				
+			pasJeuCourant(L1) != pasJeuCourant(L0) + 1
+				=>in moteurJeu init: pasJeu s'est mal effectué
+		
+		
