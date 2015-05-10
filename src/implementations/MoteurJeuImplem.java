@@ -278,12 +278,6 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		// TODO Auto-generated method stub
 		positions =new HashMap<Object, Point>();
 		positionsVillageois = new HashMap<IVillageoisService, Point>();
-		
-		hotelDeVille = new HotelVilleImplem();
-		hotelDeVille2 = new HotelVilleImplem();
-
-		hotelDeVille.init(50, 50, ERace.HUMAIN);
-		hotelDeVille2.init(50, 50, ERace.ORC);
 
 //		positions.put(hotelDeVille, new Point(l/2, 10));
 //		positions.put(hotelDeVille2, new Point(l/2, h -60));
@@ -547,7 +541,11 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindHotelVille(Point positionHotelVille1,
 			Point positionHotelVille2) {
-		System.out.println("hey"+ HotelDeVille(1)+ " yo " + positionHotelVille1);
+		hotelDeVille = new HotelVilleImplem();
+		hotelDeVille2 = new HotelVilleImplem();
+
+		hotelDeVille.init(50, 50, ERace.HUMAIN);
+		hotelDeVille2.init(50, 50, ERace.ORC);
 		positions.put(HotelDeVille(1), positionHotelVille1);
 		positions.put(HotelDeVille(2), positionHotelVille2);
 	}
@@ -555,9 +553,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindMine(List<IMineService> mines,
 			List<Point> positionsMines) {
+		this.mines = mines;
 		for(int i = 0; i < mines.size(); i++){
-			System.out.println(i +" "+mines.size());
-			numerosMine().add(mines.get(i));
 			positions().put(mines.get(i), positionsMines.get(i));
 		}		
 	}
@@ -565,8 +562,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindRoute(List<IRouteService> routes,
 			List<Point> positionsRoutes) {
+		this.routes = routes;
 		for(int i = 0; i < routes.size(); i++){
-			numerosRoute().add(routes.get(i));
 			positions().put(routes.get(i), positionsRoutes.get(i));
 		}			
 	}
@@ -574,8 +571,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindVillageois(List<IVillageoisService> villageois,
 			List<Point> positionsVillageois) {
+		this.villageois = villageois;
 		for(int i = 0; i < villageois.size(); i++){
-			numerosVillageois().add(villageois.get(i));
 			positionsVillageois().put(villageois.get(i), positionsVillageois.get(i));
 			MineMinee().add(-1);
 			VillageoisAttente.add(-1);
@@ -586,8 +583,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindMuraille(List<IMurailleService> murailles,
 			List<Point> positionsMurailles) {
+		this.murailles = murailles;
 		for(int i = 0; i < murailles.size(); i++){
-			numerosMuraille().add(murailles.get(i));
 			positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
