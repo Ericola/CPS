@@ -186,7 +186,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		
 	}
 	
-	//se déplacer en Haut
+	//se déplacer en bas
 	public void test5_1() {
 		
 		//Condition Initiale : aucune
@@ -198,7 +198,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
 		//Oracle
 		
-		assertPerso("test5 : Le villageois 1 s'est bien déplacé", PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		assertPerso("test5 : Le villageois 1 ne s'est pas bien déplacé", PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
 		
 	
 	}
@@ -218,7 +218,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		
 		//Oracle
 			//je test si le villageois est bien monter d'une pas qui le fait allez sur la muraille
-		assertPerso("test6 : le villageois c'est déplacé dans la muraille , c'est impossible ",moteurJeu.estSurMuraille(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		assertPerso("test6 : le villageois s'est déplacé dans la muraille , c'est impossible ",moteurJeu.estSurMuraille(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
 		
 		
 	}
@@ -236,7 +236,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 				
 				moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
 		//Oracle
-				assertPerso("test7 : le villageois c'est déplacé en dehors, a été remis a sa position d'origine normalement mais c'est pas le cas",PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+				assertPerso("test7 : le villageois s'est déplacé en dehors du terrain puis doit être remis a sa position d'origine normalement mais ce n'est pas le cas",PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
 				
 	}
 	
@@ -254,10 +254,10 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 			
 			
 		//Opération
-			moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
+			moteurJeu.pasJeu(ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 1 , 5);
 		
 		//Oracle
-			assertPerso("test8 : le villageois 1 prend possession de son hotel de ville",moteurJeu.HotelDeVille(1).appartenance()==ERace.HUMAIN); 
+			assertPerso("test8 : le villageois 1 prend possession de son hotel de ville",moteurJeu.HotelDeVille(1).appartenance() == ERace.HUMAIN); 
 			
 	}
 	
@@ -297,12 +297,17 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		//Opération
 				moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
 		//Oracle
-				assertPerso("test10_assert1 :VILLE n'est pas DEVENUE HUMAINE alors qu'elle le devrait  ", moteurJeu.HotelDeVille(2).appartenance() ==ERace.HUMAIN);
+				assertPerso("test10_assert1 :HOTEL DE VILLE n'est pas DEVENUE HUMAINE alors qu'elle le devrait  ", moteurJeu.HotelDeVille(2).appartenance() ==ERace.HUMAIN);
 				
 				assertPerso("test10_assert2 : partie fini PAS FINI les HOMME DEVRAIT AVOIR GAGNE mais ce n'est pas le cas alors que il le  devrait ", moteurJeu.estFini());
 				
 	
 	}
+	
+	//SI le temps 
+	//tester 51 pas jeu pour abandonné
+	//tester FIN DE PARTIE AU BOUT DE 1664 PAS JEU
+	//TESTER GAGNER PARTIE AVEC 1664 PO...
 
 }
 	

@@ -200,4 +200,110 @@ Oracle :
 rapport : 
 	HotelDeVille(L2,2).appartenance() != ERace.ORC
 		=> L'appartenance devrait être ORC pour l'hotel de ville J2 ce n'est pas le cas 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 5.1 : se déplacer 
+
+///On verifit si le villageois 1 a changé de position après la commande
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	P0 = positionsVillageois(L0).get(getVillageois(L0,1));
+		
+Opérations :
+	L1 = pasJeu(L0,ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
+Oracle :
+	PosBefore.equals(positionsVillageois(L1).get(getVillageois(L1,1))) rend true
+
+rapport : 
+	PosBefore.equals(positionsVillageois(L1).get(getVillageois(L1,1))) rend false
+		=> test5 : Le villageois 1 ne s'est pas bien déplacé 
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 6.1 : se déplacer sur une muraille
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = positionsVillageois(L0).put(getVillageois(L0,1), new Point(positionMurailleX(L0,getMuraille(L0,0)),positionMurailleX(L0,getMuraille(L0,0))+15));
+		
+		
+Opérations :
+	L2 = pasJeu(L1,ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
+Oracle :
+	estSurMuraille(positionsVillageois(L2).get(getVillageois(L2,1)))) rend true 
+
+rapport : 
+	   estSurMuraille(positionsVillageois(L2).get(getVillageois(L2,1)))) rend false
+		=> test6 : le villageois s'est déplacé dans la muraille , c'est impossible 	
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 7.1 : se déplacé en dehors du terrain
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = positionsVillageois(L0).put(getVillageois(L0,1), new Point(1,1));
+	P0 = positionsVillageois(L0).get(getVillageois(L0,1));
+		
+Opérations :
+	L2 = pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);  //se deplacer vers le haut
+Oracle :
+       P0.equals(positionsVillageois(L2).get(getVillageois(L2,1)) rend true
+rapport : 
+	   P0.equals(positionsVillageois(L2).get(getVillageois(L2,1)) rend false
+		=> test7 : le villageois s'est déplacé en dehors du terrain puis doit être remis a sa position d'origine normalement mais ce n'est pas le cas
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 8.1 : entrer dans un hotel de ville abandonné (celui de son équipe)
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = HotelDeVille(L1,1).abandoned();
+	L2 =getVillageois(L2,1).setQtor(1);
+		
+Opérations :
+	L3 = pasJeu(ECommande.ENTRERHOTELVILLE, ECommande.RIEN, 1, 3, 1 , 5);
+Oracle :
+       HotelDeVille(L3,1).appartenance() == ERace.HUMAIN
+rapport : 
+	 HotelDeVille(L3,1).appartenance() == ERace.HUMAIN
+		=> test8 : le villageois 1 prend possession de son hotel de ville raté
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 9.1 : deplacement même case si ils sont de race différent
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = positionsVillageois(L0).put(getVillageois(L0,1), new Point(1,1));
+	L2 = positionsVillageois(L1).put(getVillageois(L1,3), new Point(1,8));
+		
+Opérations :
+	L3 = pasJeu(ECommande.DEPLACER, ECommande.DEPLACER, 1, 3, 49 , 267);
+Oracle :
+       positionsVillageois(L3).get(getVillageois(L3,3)).equals(positionsVillageois(L3).get(getVillageois(L3,1))) rend false
+rapport : 
+	positionsVillageois(L3).get(getVillageois(L3,3)).equals(positionsVillageois(L3).get(getVillageois(L3,1))) rend true
+		=>test9 : le villageois 1 HUMAIN et LE VILLAGEOIS 3 ORC , ne sont pas senser être mis sur la meme case et pourtant. 
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Cas de test 10.1 : test hotel de ville abandonné des ennemis 
+	 et verifier que la partie est gagné	
+
+Condition initiales :
+	L0 = init(1664,1000,1000);
+	L1 = moteurJeu.HotelDeVille(2).abandoned();
+	L2=moteurJeu.getVillageois(1).setQtor(1);
+	L3=positionsVillageois(L2).put(getVillageois(L2,1),new Point(positionHotelVilleX(L2,2),positionHotelVilleY(L2,2) )); 
+				
+				
+		
+Opérations :
+	L4 =pasJeu(L3,ECommande.DEPLACER, ECommande.RIEN, 1, 3, 49 , 5);
+Oracle :
+       HotelDeVille(L4,2).appartenance() ==ERace.HUMAIN
+       estFini(L4) rend true
+rapport : 
+	 HotelDeVille(L4,2).appartenance() !=ERace.HUMAIN
+	 	=>HOTEL DE VILLE n'est pas DEVENUE HUMAINE alors qu'elle le devrait
+	 estFini(L4) rend false
+	 	=>partie fini PAS FINI les HOMME DEVRAIT AVOIR GAGNE mais ce n'est pas le cas
+	
+
 		
