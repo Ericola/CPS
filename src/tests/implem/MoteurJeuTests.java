@@ -13,6 +13,8 @@ public class MoteurJeuTests extends AbstractMoteurJeu {
 	@Before
 	public void before() {
 		moteurJeu = new MoteurJeuImplem();	
+		
+		
 	}
 
 }

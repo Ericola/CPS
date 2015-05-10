@@ -547,6 +547,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindHotelVille(Point positionHotelVille1,
 			Point positionHotelVille2) {
+		System.out.println("hey"+ HotelDeVille(1)+ " yo " + positionHotelVille1);
 		positions.put(HotelDeVille(1), positionHotelVille1);
 		positions.put(HotelDeVille(2), positionHotelVille2);
 	}
@@ -555,6 +556,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public void bindMine(List<IMineService> mines,
 			List<Point> positionsMines) {
 		for(int i = 0; i < mines.size(); i++){
+			System.out.println(i +" "+mines.size());
 			numerosMine().add(mines.get(i));
 			positions().put(mines.get(i), positionsMines.get(i));
 		}		
@@ -589,5 +591,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
+	
+	public void showMap() {
+		
+	}
+	
 
 }
