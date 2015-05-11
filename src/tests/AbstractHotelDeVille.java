@@ -35,7 +35,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		assertPerso("init, La hauteur de la hdv ne s'est pas initialisée correctement", hdv.getHauteur() == h);
 		assertPerso("init, La largeur de la hdv ne s'est pas initialisée correctement",  hdv.getLargeur() == l);
 		assertPerso("init, L'appartenance de la hdv ne s'est pas initialisée correctement",  hdv.appartenance() == race);
-		assertPerso("init, L'or restant de la hdv ne s'est pas initialisé correctement",  hdv.orRestant() == 51);
+		assertPerso("init, L'or restant de la hdv ne s'est pas initialisé correctement",  hdv.orRestant() == 16);
 		assertPerso("init, L'or restant de la hdv ne s'est pas initialisé correctement",  hdv.abandonCompteur() == 0);
 	}
 	
@@ -53,7 +53,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		  
 		hdv.depot(4); 
 		//oracle
-		assertPerso("depot, Le depot de l'hdv n'a pas fonctionné", hdv.orRestant() == 55);
+		assertPerso("depot, Le depot de l'hdv n'a pas fonctionné", hdv.orRestant() == 20);
 	
 	}
 	

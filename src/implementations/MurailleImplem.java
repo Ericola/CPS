@@ -37,6 +37,9 @@ public class MurailleImplem implements IMurailleService{
 	@Override
 	public IMurailleService retrait(int s) {
 		this.pointDeVie = this.pointDeVie - s;
+		if(this.pointDeVie<=0){
+			estMort = true;
+		}
 		return this;
 	}
 
