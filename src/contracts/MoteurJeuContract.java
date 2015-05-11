@@ -1,5 +1,8 @@
 package contracts;
 
+import implementations.HotelVilleImplem;
+import implementations.MineImplem;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import enums.ECommande;
 import enums.ERace;
 import enums.EResultat;
 import exceptions.InvariantError;
+import exceptions.PostconditionError;
 import exceptions.PreconditionError;
 
 public class MoteurJeuContract extends MoteurJeuDecorator{
@@ -52,13 +56,17 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 			throw new InvariantError("resultatFinal(M) = EResultat.DRAW =(min) pasJeuCourant(M)=MaxPasJeu(M) incorrecte");
 		}
 
-		/* peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51 
+		/* peutEntrer(M, numVillageois, numMine) =(min) soit r = Rectangle(positionMineX(M, getMine(M, numMine)), positionMineY(M, getMine(M, numMine)), Mine::getLargeur(getMine(M, numMine)), Mine::getHauteur(getMine(M, numMine))),
+		 * r1 = Rectangle(positionVillageoisX(M, getVillageois(M, numVillageois)) + Villageois::getLargeur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getLargeur(getVillageois(M, numVillageois))/2, positionVillageoisY(M, getVillageois(M, numVillageois)) + Villageois::getHauteur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getHauteur(getVillageois(M, numVillageois))/2, Villageois::getLargeur(getVillageois(M, numVillageois))/2 + 51, Villageois::getHauteur(getVillageois(M, numVillageois))/2 + 51),
+		 * r.intersects(r1)
 		&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))
 		&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0*/
 		for(int i = 0; i < numerosVillageois().size(); i++){
+			Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(i)) + getVillageois(i).getLargeur()/2 - 23 - getVillageois(i).getLargeur()/2, positionVillageoisY(getVillageois(i)) + getVillageois(i).getHauteur()/2 - 23 - getVillageois(i).getHauteur()/2, 51 + getVillageois(i).getHauteur()/2, 51 + getVillageois(i).getLargeur()/2);
 			for(int j = 0; j < numerosMine().size(); j++){
-				if(!(peutEntrer(i, j) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionMineX(getMine(j)), positionMineY(getMine(j))) <= 51 && getMine(j).appartenance() == ERace.RIEN || getMine(j).appartenance() == getVillageois(i).getRace())){
-					throw new InvariantError("peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51" +  
+				Rectangle r = new Rectangle(positionMineX(getMine(j)), positionMineY(getMine(j)), getMine(j).getLargeur(), getMine(j).getHauteur());
+				if(!(peutEntrer(i, j) && r.intersects(r1) && (getMine(j).appartenance() == ERace.RIEN || getMine(j).appartenance() == getVillageois(i).getRace()))){
+					throw new InvariantError("peutEntrer(M, numVillageois, numMine) =(min) distance(numVillageois, numMine) < 51" +  
 							"&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))"
 							+ "&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0 incorrecte");	
 				}
@@ -78,18 +86,23 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 			}	
 		}
 
-		/* peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
+		/* peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) soit r = Rectangle(positionHotelVilleX(M, HotelDeVille(M, numHotelVille)), positionHotelVilleY(M, HotelDeVille(M, numHotelVille)), HotelVille::getLargeur(HotelDeVille(M, numHotelVille)), HotelVille::getHauteur(HotelDeVille(M, numHotelVille))),
+		 * r1 = Rectangle(positionVillageoisX(M, getVillageois(M, numVillageois)) + Villageois::getLargeur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getLargeur(getVillageois(M, numVillageois))/2, positionVillageoisY(M, getVillageois(M, numVillageois)) + Villageois::getHauteur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getHauteur(getVillageois(M, numVillageois))/2, Villageois::getLargeur(getVillageois(M, numVillageois))/2 + 51, Villageois::getHauteur(getVillageois(M, numVillageois)) /2),
+		 * r.intersects(r1)
 		&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) */
+		Rectangle r = new Rectangle(positionHotelVilleX(1), positionHotelVilleY(1), HotelDeVille(1).getLargeur(), HotelDeVille(1).getHauteur());
+		Rectangle r2 = new Rectangle(positionHotelVilleX(2), positionHotelVilleY(2), HotelDeVille(2).getLargeur(), HotelDeVille(2).getHauteur());
 		for(int i = 0; i < numerosVillageois().size(); i++){
-			if(!(peutEntrerHotelVille(i, 1) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionHotelVilleX(1), positionHotelVilleY(1)) <= 51
+			Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(i)) + getVillageois(i).getLargeur()/2 - 23 - getVillageois(i).getLargeur()/2, positionVillageoisY(getVillageois(i)) + getVillageois(i).getHauteur()/2 - 23 - getVillageois(i).getHauteur()/2, 51 + getVillageois(i).getHauteur()/2, 51 + getVillageois(i).getLargeur()/2);
+			if(!(peutEntrerHotelVille(i, 1) && r.intersects(r1)
 					&& (getVillageois(i).getRace() == HotelDeVille(1).appartenance() || HotelDeVille(1).appartenance() == ERace.RIEN))){
-				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51"
+				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(numVillageois, HotelVille(1)) <= 51"
 						+"&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) incorrecte");	
 			}	
 
-			if(!(peutEntrerHotelVille(i, 2) && Point.distance(positionVillageoisX(getVillageois(i)), positionVillageoisY(getVillageois(i)), positionHotelVilleX(2), positionHotelVilleY(2)) <= 51
+			if(!(peutEntrerHotelVille(i, 2) && r2.intersects(r1)
 					&& (getVillageois(i).getRace() == HotelDeVille(2).appartenance() || HotelDeVille(2).appartenance() == ERace.RIEN))){
-				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51"
+				throw new InvariantError("peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(numVillageois, HotelVille(2)) <= 51"
 						+"&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) incorrecte");	
 			}	
 		}
@@ -464,21 +477,21 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 		if(!(h >= 400)){
 			throw new PreconditionError("init(MaxPasJeu) require h>=400 incorrecte");
 		}
-		
+
 		//inv avant
 		checkInvariants();
-		
+
 		//run
 		super.init(maxPasJeu, l, h);
-		
+
 		//inv apres
 		checkInvariants();
-		
+
 		//post MaxPasJeu(init(p,l,h)) = p
 		if(!(MaxPasJeu() == maxPasJeu)){
 			throw new PreconditionError("MaxPasJeu(init(p,l,h)) = p incorrecte");
 		}
-		
+
 		//post pasJeuCourant(init(p,l,h)) = 0
 		if(!(pasJeuCourant() == 0)){
 			throw new PreconditionError("pasJeuCourant(init(p,l,h)) = 0 incorrecte");
@@ -491,20 +504,190 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 		if(!(HauteurTerrain() == h)){
 			throw new PreconditionError("HauteurTerrain(init(p,l,h)) = h incorrecte");
 		}
-		
+
 		return this;
 	}
 
 	public IMoteurJeuService pasJeu(ECommande Commande, ECommande Commande2, int numVillageois, int numVillageois2, int argument, int argument2) {
-		//pre estFini(init(C,C2,n1,n2,a1,a2)) require !estfini
-		if(estFini()==true ){
-			throw new PreconditionError("init(MaxPasJeu) require maxPasJeu >= 0  incorrecte");
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require not estFini(M) 
+		if(!(estFini()==true) ){
+			throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require not estFini(M) incorrecte");
 		}
-		//
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require numVillageois in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, numVillageois)) == ERace.HUMAIN ^ VillageoisAttente(M, numVillageois) = -1
+		if(!(numVillageois >= 0 && numVillageois < numerosVillageois().size() && getVillageois(numVillageois).getRace() == ERace.HUMAIN && VillageoisAttente().get(numVillageois) == -1)){
+			throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require numVillageois in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, numVillageois)) == ERace.HUMAIN ^ VillageoisAttente(M, numVillageois) = -1 incorrecte");
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require n2 in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ORC ^ VillageoisAttente(M, n2) = -1
+		if(!(numVillageois2 >= 0 && numVillageois2 < numerosVillageois().size() && getVillageois(numVillageois2).getRace() == ERace.ORC && VillageoisAttente().get(numVillageois2) == -1)){
+			throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require n2 in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ORC ^ VillageoisAttente(M, n2) = -1 incorrecte");
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require c = DEPLACER => 0 <= a <= 360 
+		if(Commande == ECommande.DEPLACER){
+			if(!(argument >= 0 && argument <= 360)){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require c = DEPLACER => 0 <= a <= 360 incorrecte");
+			}
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require c = ENTRERMINE => a in [0, numerosMine.size[ ^ peutEntrer(M, n, a)
+		if(Commande == ECommande.ENTRERMINE){
+			if(!(argument >= 0 && argument <= numerosMine().size() && peutEntrer(numVillageois, argument))){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require c = ENTRERMINE => a in [0, numerosMine.size[ ^ peutEntrer(M, n, a) incorrecte");
+			}
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n) && a = 1 || a = 2
+		if(Commande == ECommande.ENTRERHOTELVILLE){
+			if(!((argument == 1 || argument == 2) && peutEntrerHotelVille(numVillageois, argument))){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n) && a = 1 || a = 2 incorrecte");
+			}
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require c2 = DEPLACER => 0 <= a2 <= 360 
+		if(Commande2 == ECommande.DEPLACER){
+			if(!(argument2 >= 0 && argument2 <= 360)){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require c2 = DEPLACER => 0 <= a2 <= 360 incorrecte");
+			}
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require c = ENTRERMINE => a in [0, numerosMine.size[ ^ peutEntrer(M, n, a)
+		if(Commande2 == ECommande.ENTRERMINE){
+			if(!(argument2 >= 0 && argument2 <= numerosMine().size() && peutEntrer(numVillageois2, argument2))){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require c2 = ENTRERMINE => a2 in [0, numerosMine.size[ ^ peutEntrer(M, n2, a2) incorrecte");
+			}
+		}
+
+		//pre pasJeu(M ,c, c2, n, n2, a, a2) require Commande2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2) && a2 = 1 || a2 = 2
+		if(Commande2 == ECommande.ENTRERHOTELVILLE){
+			if(!((argument2 == 1 || argument2 == 2) && peutEntrerHotelVille(numVillageois2, argument2))){
+				throw new PreconditionError("pasJeu(M ,c, c2, n, n2, a, a2) require Commande2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2) && a2 = 1 || a2 = 2 incorrecte");
+			}
+		}
+
+		//capture
+		int oldQtor = getVillageois(numVillageois).getQtor();
+		int oldPdv = getVillageois(numVillageois).getPdv();
+		int oldQtor2 = getVillageois(numVillageois2).getQtor();
+		int oldPdv2 = getVillageois(numVillageois2).getPdv();
+		int oldOrRestantH = 0;
+		int oldOrRestantH2 = 0;
+		int oldPasJeuCourant = pasJeuCourant();
+		IHotelVilleService oldHv = null;
+		IHotelVilleService oldHv2 = null;
+		IMineService oldM = null;
+		IMineService oldM2 = null;
 		
-		return super.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
+		if(Commande == ECommande.ENTRERHOTELVILLE){
+			oldHv = new HotelVilleImplem();
+			oldHv.init(HotelDeVille(argument).getLargeur(), HotelDeVille(argument).getHauteur(), HotelDeVille(argument).appartenance());
+			oldHv.setAbandonCompteur(HotelDeVille(argument).abandonCompteur());
+			oldHv.setOrRestant(HotelDeVille(argument).orRestant());
+			oldOrRestantH = HotelDeVille(argument).orRestant();
+		}
+		
+		if(Commande2 == ECommande.ENTRERHOTELVILLE){
+			oldHv2 = new HotelVilleImplem();
+			oldHv2.init(HotelDeVille(argument2).getLargeur(), HotelDeVille(argument2).getHauteur(), HotelDeVille(argument2).appartenance());
+			oldHv2.setAbandonCompteur(HotelDeVille(argument2).abandonCompteur());
+			oldHv2.setOrRestant(HotelDeVille(argument2).orRestant());
+			oldOrRestantH2 = HotelDeVille(argument2).orRestant();
+		}
+		
+		if(Commande == ECommande.ENTRERMINE){
+			oldM = new MineImplem();
+			oldM.init(getMine(argument).getLargeur(), getMine(argument).getHauteur());
+			oldM.setAbandonCompteur(getMine(argument).abandonCompteur());
+			oldM.setOrRestant(getMine(argument).orRestant());
+			oldM.setAppartenance(getMine(argument).appartenance());
+		}
+		if(Commande2 == ECommande.ENTRERMINE){
+			oldM2 = new MineImplem();
+			oldM2.init(getMine(argument2).getLargeur(), getMine(argument2).getHauteur());
+			oldM2.setAbandonCompteur(getMine(argument2).abandonCompteur());
+			oldM2.setOrRestant(getMine(argument2).orRestant());
+			oldM2.setAppartenance(getMine(argument2).appartenance());
+		}
+		//inv avant
+		checkInvariants();
+		
+		super.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
+
+		//inv apres
+		checkInvariants();
+		
+		if(Commande == ECommande.DEPLACER){
+			checkDeplacer(numVillageois, argument, oldQtor, oldPdv);
+		}
+		
+		if(Commande2 == ECommande.DEPLACER){
+			checkDeplacer(numVillageois2, argument2, oldQtor2, oldPdv2);
+		}
+		
+		if(Commande == ECommande.ENTRERMINE){
+			checkEntrerMine(numVillageois, argument, oldPasJeuCourant, oldM);
+		}
+		
+		if(Commande2 == ECommande.ENTRERMINE){
+			checkEntrerMine(numVillageois2, argument2, oldPasJeuCourant, oldM2);
+		}
+		
+		if(Commande == ECommande.ENTRERHOTELVILLE){
+			checkEntrerHotelVille(numVillageois, argument, oldQtor, oldOrRestantH, oldHv);
+		}
+		
+		if(Commande2 == ECommande.ENTRERHOTELVILLE){
+			checkEntrerHotelVille(numVillageois2, argument2, oldQtor2, oldOrRestantH, oldHv2);
+		}
+		return this;
+	}
 	
+	private void checkDeplacer(int numVillageois, int argument, int oldQtor, int oldPdv){
+		//post Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getQtor(M, n) 
+		if(!(getVillageois(numVillageois).getQtor() == oldQtor)){
+			throw new PostconditionError("Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getQtor(M, n) incorrecte");
+		}
 		
+		//post Villageois::getPdv(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getPdv(M, n)
+		if(!(getVillageois(numVillageois).getPdv() == oldPdv)){
+			throw new PostconditionError("Villageois::getPdv(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getPdv(M, n) incorrecte");
+		}
+	}
+	
+	private void checkEntrerMine(int numVillageois, int numMine, int oldPasJeuCourant, IMineService oldM){
+		//pre VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = PasJeuCourant(M) + 16
+		if(!(VillageoisAttente().get(numVillageois) == oldPasJeuCourant + 16)){
+			throw new PostconditionError("VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = PasJeuCourant(M) + 16 incorrecte");
+		}
+		
+		//pre MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = a
+		if(!(MineMinee().get(numVillageois) == numMine)){
+			throw new PostconditionError("MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = a");
+		}
+		
+		//pre Mine::accueil(getMine(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2), a)
+		oldM.accueil(getVillageois(numVillageois).getRace());
+		if(!(oldM.estAbandonnee() == getMine(numMine).estAbandonnee() && oldM.abandonCompteur() == getMine(numMine).abandonCompteur() && getMine(numMine).appartenance() == oldM.appartenance())){
+			throw new PostconditionError("Mine::accueil(getMine(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2), a) incorrecte");
+		}
+	}
+	
+	private void checkEntrerHotelVille(int numVillageois, int numHotelVille, int oldQtor, int oldOrRestant, IHotelVilleService oldHv){
+		//pre HotelVille::orRestant(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2)), 2) = HotelVille::orRestant(getHotelVille(M, 2) + Villageois::getQtor(getVillageois(M, n2)
+		if(!(HotelDeVille(numHotelVille).orRestant() == oldQtor + oldOrRestant)){
+			throw new PostconditionError("HotelVille::orRestant(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2)), 2) = HotelVille::orRestant(getHotelVille(M, 2) + Villageois::getQtor(getVillageois(M, n2) incorrecte");
+		}
+		
+		//pre Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) = 0	
+		if(!(getVillageois(numVillageois).getQtor() == 0)){
+			throw new PostconditionError("Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) = 0 incorrecte");
+		}
+		
+		//pre HotelVille::accueil(HotelDeVille(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), a)
+		oldHv.accueil(getVillageois(numVillageois).getRace());
+		if(!(oldHv.estAbandonnee() == HotelDeVille(numHotelVille).estAbandonnee() && oldHv.abandonCompteur() == HotelDeVille(numHotelVille).abandonCompteur() && HotelDeVille(numHotelVille).appartenance() == oldHv.appartenance())){
+			throw new PostconditionError("HotelVille::accueil(HotelDeVille(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), a)");
+		}
 	}
 
 

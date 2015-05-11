@@ -80,10 +80,10 @@ Operators :
 
 	pasJeu : [MoteurJeu] x ECommande x ECommande x int x int x int x int -> [MoteurJeu]
 		pre pasJeu(M ,c, c2, n, n2, a, a2)  require not estFini(M) 
-		^ n in [0, numerosVillageois.size[ ^ getVillageois(M, n)::getRace() == HUMAIN ^ VillageoisAttente(M, n) = 0
-		^ n2 in [0, numerosVillageois.size[ ^ getVillageois(M, n)::getRace() == ORC ^ VillageoisAttente(M, n2) = 0
-		 c = DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in numerosMine(M) ^ 
-		 peutEntrer(M, n, a)  ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n)
+		^ n in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == HUMAIN ^ VillageoisAttente(M, n) = -1
+		^ n2 in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ORC ^ VillageoisAttente(M, n2) = -1
+		 c = DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in [0, numerosMine.size[ ^ 
+		 peutEntrer(M, n, a) ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n) && a = 1 || a = 2
 		 ^ c2 = DEPLACER => 0 <= a2 <= 360 ^ c2 = ENTRERMINE => a2 in numerosMine(M)
 		 ^ peutEntrer(M, n2, a2)  ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
 		
@@ -98,12 +98,14 @@ Observations :
 		resultatFinal(M) = EResultat.ORCGAGNE =(min) HotelVille:orRestant(hotelDeville(M, 2)) >= 1664 ||(HotelVille:appartenance(M,1) = ERace.ORC && HotelVille::appartenance(M,2) = ERace.ORC)
 		resultatFinal(M) = EResultat.DRAW =(min) PasJeuCourant(M)=MaxPasJeu(M) 
 		
-		peutEntrer(M, numVillageois, numMine) =(min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionMineX(M, numMine), positionMineY(M, numMine)) <= 51 
-		&& (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))
+		peutEntrer(M, numVillageois, numMine) =(min) soit r = Rectangle(positionMineX(M, getMine(M, numMine)), positionMineY(M, getMine(M, numMine)), Mine::getLargeur(getMine(M, numMine)), Mine::getLargeur(getMine(M, numMine))),
+		r1 = Rectangle(positionVillageoisX(M, getVillageois(M, numVillageois)) + Villageois::getLargeur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getLargeur(getVillageois(M, numVillageois))/2, positionVillageoisY(M, getVillageois(M, numVillageois)) + Villageois::getHauteur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getHauteur(getVillageois(M, numVillageois))/2, Villageois::getLargeur(getVillageois(M, numVillageois)) + 51, Villageois::getHauteur(getVillageois(M, numVillageois)) + 51),
+		alors r.intersects(r1) && (!Mine::estLaminee(getMine(M, numMine))) && (Mine::appartenance(getMine(M, numMine)) == ERace.RIEN || Mine::appartenance(getMine(M, numMine)) == Villageois::getRace(getVillageois(M, numVillageois))
 		&& soit nbVillageoisDansMine = nbr(i in [0, MineMinee(M).size()[ tel que MineMinee(M).get(i) = numMine, Mine::orRestant(getMine(M, numMine)) - nbVillageoisDansMine > 0
 		
-		peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) distance(positionVillageoisX(M, numVillageois), positionVillageoisY(M, numVillageois), positionHotelVilleX(M), positionHotelVilleY(M)) <= 51
-		&& (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN)
+		peutEntrerHotelVille(M, numVillageois, numHotelVille) = (min) soit r = Rectangle(positionHotelVilleX(M, HotelDeVille(M, numHotelVille)), positionHotelVilleY(M, HotelDeVille(M, numHotelVille)), HotelVille::getLargeur(HotelDeVille(M, numHotelVille)), HotelVille::getHauteur(HotelDeVille(M, numHotelVille))),
+		r1 = Rectangle(positionVillageoisX(M, getVillageois(M, numVillageois)) + Villageois::getLargeur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getLargeur(getVillageois(M, numVillageois))/2, positionVillageoisY(M, getVillageois(M, numVillageois)) + Villageois::getHauteur(getVillageois(M, numVillageois))/2 - 23 - Villageois::getHauteur(getVillageois(M, numVillageois))/2, Villageois::getLargeur(getVillageois(M, numVillageois))/2 + 51, Villageois::getHauteur(getVillageois(M, numVillageois))/2 + 51),
+		alors r.intersects(r1) && (Villageois::getRace(getVillageois(numVillageois)) == HotelVille::appartenance(HotelDeVille(numHotelVille)) || HotelVille::appartenance(HotelDeVille(M, numHotelVille)) == ERace.RIEN) */
      
         estSurRoute(M, numVillageois) = (min) Rectangle(positionRouteX(R, n), positionRouteY(R, n), Route::getLargeur(R), Route::getHauteur(R)).contains(Point(PositionVillageoisX(M, numVillageois), PositionVillageoisY(M, numVillageois))) pour au moins un n in [0, numeroRoutes(M).size() - 1]
       
@@ -123,80 +125,6 @@ Observations :
 		pasJeuCourant(init(p,l,h)) = 0
 		LargeurTerrain(init(p,l,h)) = l
 		HauteurTerrain(init(p,l,h)) = h
-		
-		
-		Pour tout n in [0, numerosVillageois(init(p,l,h)).size()[   
-		   Villageois::getLargeur(getVillageois(init(p,l,h), n)) = 10
-		   Villageois::getHauteur(getVillageois(init(p,l,h), n)) = 10
-		
-		Pour tout Villageois V ayant ERace = HUMAIN && in numerosVillageois(init(p,l,h))
-		   Villageois::getForce(V) = 3
-	   	   Villageois::getVitesseinit(V) = 4
-		   distance(positionVillageoisX(M, V), positionVillageoisY(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
-		
-		
-		Pour tout Villageois V ayant ERace = ORC && in numerosVillageois(init(p,l,h))
-		   Villageois::getForce(V) = 4
-		   Villageois::getVitesse(V) = 3
-		   distance(positionVillageoisX(M, V), positionVillageoisY(M, V), positionHotelVilleX(M, 2), positionHotelVilleY(M, 2)) <= 51
-		
-		Pour toute mine m in numerosMine(init(p,l,h))
-		   Mine::getLargeur(m) = 50
-		   Mine::getHauteur(m) = 50
-		
-		Pour tout HotelVille hv in HotelVille(init(p,l,h), 1) V HotelVille(init(p,l,h), 2)
-		   HotelVille::getLargeur(hv) = 50
-		   HotelVille::getHauteur(hv) = 50
-		   
-		HotelVille(1)::appartenance(hv) = HUMAIN
-		HotelVille(2)::appartenance(hv) = ORC
-		
-		MineMinee(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
-		   VillageoisAttente(init(p,l,h)).size() = numerosVillageois(init(p,l,h)).size()
-		
-		Pour tout x in [0, MineMinee(init(p,l,h)).size()[
-		   MineMinee(init(p,l,h)).get(x) = -1
-		
-		Pour tout x in [0, VillageoisAttente(init(p,l,h)).size()[
-		   VillageoisAttente(init(p,l,h)).get(x) = -1
-		
-		Soit Rectangle r = Rectangle(0, 0, l, h)  
-		
-		Pour chaque Mine M in numerosMine(init(p,l,h))
-		   Soit px = positions(init(p,l,h)).get(M).x
-		   Soit py = positions(init(p,l,h)).get(M).y
-		   r.contains(Point(px,py)) = true
-		   r.contains(Point(px + 50,py)) = true
-		   r.contains(Point(px + 50,py + 50)) = true
-		   r.contains(Point(px,py + 50)) = true 
-		   
-		Pour chaque HotelVille H in HotelDeVille(init(p,l,h), 1) V HotelDeVille(init(p,l,h), 2)
-		   Soit px = positions(init(p,l,h)).get(H).x
-		   Soit py = positions(init(p,l,h)).get(H).y
-		   r.contains(Point(px,py)) = true
-		   r.contains(Point(px + 50,py)) = true
-		   r.contains(Point(px + 50,py + 50)) = true
-		   r.contains(Point(px,py + 50)) = true   
-	
-		Pour chaque Route R in numerosRoute(init(p,l,h))
-		   Soit px = positions(init(p,l,h)).get(R).x
-		   Soit py = positions(init(p,l,h)).get(R).y
-		   r.contains(Point(px,py)) = true
-		   r.contains(Point(px + 50,py)) = true
-		   r.contains(Point(px + 50,py + 50)) = true
-		   r.contains(Point(px,py + 50)) = true
-		   
-		Pour chaque Muraille M in numerosMuraille(init(p,l,h))
-		   Soit px = positions(init(p,l,h)).get(M).x
-		   Soit py = positions(init(p,l,h)).get(M).y
-		   r.contains(Point(px,py)) = true
-		   r.contains(Point(px + 50,py)) = true
-		   r.contains(Point(px + 50,py + 50)) = true
-		   r.contains(Point(px,py + 50)) = true
-		   
-		   
-		
-		pasJeuCourant(pasJeu(M ,c, c2, n, n2, a, a2)) = pasJeuCourant(M) + 1
 	[pasJeu] : 
 		let deplacer(M, n, a) =
 			 1. On recupere la vitesse du villageois
@@ -235,7 +163,6 @@ Observations :
 		        //POSTCONDITIONS
 		        positionVillageoisX(pasJeu(M ,c, c2, n, n2, a, a2), getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = p.x
 		        positionVillageoisY(pasJeu(M ,c, c2, n, n2, a, a2), getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = p.y
-
 				 
 		     Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getQtor(M, n) 
 		     Villageois::getPdv(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) =  Villageois::getPdv(M, n) 
@@ -244,12 +171,12 @@ Observations :
 		    //POSTCONDITIONS     
 		    VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = PasJeuCourant(M) + 16
 		    MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(n) = a
-		    Mine::accueil(getMine(pasJeu(M ,c, c2, n, n2, a, a2)), a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2), a)
+		    Mine::accueil(getMine(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = getMine(pasJeu(M ,c, c2, n, n2, a, a2), a)
 		    
 		let entrerHotelVille(M, n, a) =
-		    HotelVille::orRestant(getHotelVille(pasJeu(M ,c, c2, n, n2, a, a2)), 2) = HotelVille::orRestant(getHotelVille(M, 2) + Villageois::getQtor(getVillageois(M, n2)
-		   	Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n2) = 0	   
-			HotelVille::accueil(getMine(pasJeu(M ,c, c2, n, n2, a, a2)), a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), a)
+		    HotelVille::orRestant(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2)), a) = HotelVille::orRestant(getHotelVille(M, a) + Villageois::getQtor(getVillageois(M, n)
+		   	Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n) = 0	   
+			HotelVille::accueil(HotelDeVille(M, a), Villageois::getRace(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) = HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), a)
 			
 		0. On incremente le nombre de pas de jeu
 		PasJeuCourant(pasJeu(pasJeu(M ,c, c2, n, n2, a, a2))) = PasJeuCourant(M) + 1         

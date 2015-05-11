@@ -11,7 +11,7 @@ Observators :
 
 Constructors :
 	init : int * int -> [Mine]
-		pre init(largeur,hauteur) require largeur%2=1 ^ hauteur%2=1 
+		pre init(largeur,hauteur) require largeur > 0 ^ hauteur > 0
 Operators
 	retrait : [Mine] * int -> [Mine]
 		pre retrait(M,s) require ¬estLaminee(M) && s>0

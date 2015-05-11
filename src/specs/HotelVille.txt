@@ -10,7 +10,7 @@ Observators :
 
 Constructors :
 	init : int * int * ERace -> [HotelVille]
-		pre init(largeur,hauteur, r) require largeur%2=1 ˆ hauteur%2=1
+		pre init(largeur,hauteur, r) require largeur > 0 ^ hauteur > 0
 
 Operators
 	depot : [HotelVille] * int -> [HotelVille]
