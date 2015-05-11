@@ -459,11 +459,14 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			//ajouter un boolean au villageois actif/inactif
 
 			//tester si la mine si abandonnee -> non abandonnee
-			if(getMine(argument2).estAbandonnee()){
-				getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
+			if(this.peutEntrer(numVillageois2, argument2)){
+				if(getMine(argument2).estAbandonnee()){
+					getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
+				}
+				VillageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
+
+				MineMinee().add(numVillageois2, argument2);
 			}
-			VillageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
-			MineMinee().add(numVillageois2, argument2);
 			break;
 
 		case ENTRERHOTELVILLE : 

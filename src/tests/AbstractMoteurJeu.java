@@ -111,6 +111,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//entrer dans une mine
+	@Test
 	public void test1_1() {
 
 		//Condition Initiale : aucune
@@ -134,6 +135,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	//prerequis de l'exemple : Un villageois homme, le 1 ,aura une piece d'or
 	//MEMORISER L OR DANS UNE VARIABLE
 	//pasJeu : ENTRERHOTELDEVILLE => HotelDeVille(1).QTOR = 
+	@Test
 	public void test2_1() {
 		//Condition Initiale : aucune
 		moteurJeu.init(1664, 1000, 1000);
@@ -153,7 +155,13 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 	}
 
+	
+	
+	
+
 	//entrer dans une mine qui ne t'appartient pas
+	
+	@Test
 	public void test3_1() {
 		//LES ORC ON DEJA CONQUIS LA MINE
 
@@ -174,6 +182,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//même chose pour hotel de ville
+	@Test
 	public void test4_1() {
 
 		//Condition Initiale : aucune
@@ -192,6 +201,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//se déplacer en bas
+	@Test
 	public void test5_1() {
 
 		//Condition Initiale : aucune
@@ -203,12 +213,13 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
 		//Oracle
 
-		assertPerso("test5 : Le villageois 1 ne s'est pas bien déplacé", PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		assertPerso("test5 : Le villageois 1 ne s'est pas bien déplacé", !PosBefore.equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
 
 
 	}
 
 	//se déplacé sur une muraille
+	@Test
 	public void test6_1() {
 
 		//Condition Initiale : aucune
@@ -229,6 +240,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//se déplacé en dehors du terrain
+	@Test
 	public void test7_1() {
 
 		//Condition Initiale : aucune
@@ -248,6 +260,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 	//entrer dans une hotel de ville abandonné
 	//=>verifier que la partie est gagner? 
+	@Test
 	public void test8_1() {
 
 		//Condition Initiale : aucune
@@ -269,6 +282,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 
 	//deplacement même case si ils sont de race différent
+	@Test
 	public void test9_1() {
 
 		//Condition Initiale : aucune
@@ -287,6 +301,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 	//test hotel de ville abandonné des ennemis 
 	//verifier que la partie est gagné
+	@Test
 	public void test10_1(){
 		//Condition Initiale : aucune
 		moteurJeu.init(1664,1000,1000);
@@ -309,7 +324,8 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 	}
 
-	//tester 51 pas jeu pour abandonné hotel ville 
+	//tester 51 pas jeu pour abandonné hotel ville
+	@Test
 	public void test11_1(){
 		//Condition Initiale : aucune
 				moteurJeu.init(1664,1000,1000);
@@ -329,6 +345,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//tester 51 pas jeu pour abandonné mine
+	@Test
 	public void test12_1(){
 		//Condition Initiale : 
 		moteurJeu.init(1664,1000,1000);
@@ -348,6 +365,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//tester FIN DE PARTIE AU BOUT DE 100 PAS JEU pour une partie a 100 pas jeu
+	@Test
 	public void test13_1(){
 		//Condition Initiale : 
 				moteurJeu.init(100,1000,1000);
@@ -368,6 +386,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 	}
 
 	//TESTER GAGNER PARTIE AVEC 1664 PO...
+	@Test
 	public void test14_1(){
 		//Condition Initiale : 
 		moteurJeu.init(1664,1000,1000);
