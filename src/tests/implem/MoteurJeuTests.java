@@ -49,10 +49,10 @@ public class MoteurJeuTests extends AbstractMoteurJeu {
 		v3.init(ERace.ORC, 10, 10, 4, 3, 60);
 		//
 		//moteurJeu.positions
-		positionsVillageois.add( new Point(500-60,60));
-		positionsVillageois.add( new Point(500+60,60));
-		positionsVillageois.add( new Point(500-60, 940));
-		positionsVillageois.add(new Point(500+60, 940));
+		positionsVillageois.add( new Point(500-30,60));
+		positionsVillageois.add( new Point(500+30,60));
+		positionsVillageois.add( new Point(500-30, 940));
+		positionsVillageois.add(new Point(500, 940 - 30));
 
 		villageois.add(v);
 		villageois.add(v1);

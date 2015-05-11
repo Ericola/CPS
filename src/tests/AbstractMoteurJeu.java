@@ -2,14 +2,15 @@ package tests;
 
 
 import java.awt.Point;
-
-import services.IMoteurJeuService;
-import services.IVillageoisService;
+import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import services.IMoteurJeuService;
+import services.IVillageoisService;
 import enums.ECommande;
 import enums.ERace;
 
@@ -52,16 +53,18 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"a une force mal initialiser",temp.getForce()==3);
 				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"a une vitesse mal initialiser",temp.getVitesse()==4);
 				//distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
-				int dist = (int) Point.distance(moteurJeu.positionVillageoisX(temp),moteurJeu.positionVillageoisX(temp), moteurJeu.positionHotelVilleX(1), moteurJeu.positionHotelVilleY(1));
-				System.out.println(dist);
-				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"est à une dist initialiser trop loin de son hotel de ville",dist<=51);
+				Rectangle r = new Rectangle(moteurJeu.positionHotelVilleX(1), moteurJeu.positionHotelVilleY(1), 50, 50);
+				Rectangle r1 = new Rectangle(moteurJeu.positionVillageoisX(temp) + 5 - 28, moteurJeu.positionVillageoisY(temp) + 5 - 28, 56, 56);
+
+				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"est à une dist initialiser trop loin de son hotel de ville",r.intersects(r1));
 			}else{
 				assertPerso("in moteurJeu init: Le villageois ORC "+i+"a une largeur mal initialiser",temp.getForce()==4);
 				assertPerso("in moteurJeu init: Le villageois ORC "+i+"a une hauteur mal initialiser",temp.getVitesse()==3);
 
-				int dist = (int) Point.distance(moteurJeu.positionVillageoisX(temp),moteurJeu.positionVillageoisX(temp), moteurJeu.positionHotelVilleX(1), moteurJeu.positionHotelVilleY(1));
+				Rectangle r = new Rectangle(moteurJeu.positionHotelVilleX(2), moteurJeu.positionHotelVilleY(2), 50, 50);
+				Rectangle r1 = new Rectangle(moteurJeu.positionVillageoisX(temp) + 5 - 28, moteurJeu.positionVillageoisY(temp) + 5 - 28, 56, 56);
 
-				assertPerso("in moteurJeu init: Le villageois ORC"+i+"est à une dist initialiser trop loin de son hotel de villeinitialiser",dist<=51);
+				assertPerso("in moteurJeu init: Le villageois ORC"+i+"est à une dist initialiser trop loin de son hotel de ville initialise",r.intersects(r1));
 			}
 		}
 

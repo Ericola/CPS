@@ -213,7 +213,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		for(int numRoute = 0; numRoute < routes.size(); numRoute++){
 			Rectangle rect = new Rectangle(positionRouteX(getRoute(numRoute)), positionRouteY(getRoute(numRoute)),
 					getRoute(numRoute).getLargeur(), getRoute(numRoute).getHauteur());
-			if(rect.contains(positions.get(getVillageois(numVillageois))))
+			if(rect.contains(positionsVillageois.get(getVillageois(numVillageois))))
 				return true;
 		}
 		return false;
