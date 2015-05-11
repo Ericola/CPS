@@ -15,29 +15,19 @@ public class HotelVilleImplem implements IHotelVilleService{
 	private ERace appartenance;
 	
 	public HotelVilleImplem(){}
-	
-	public int hauteur(){
-		return hauteur;
-	}
-	
-	public int largeur(){
-		return largeur;
-	}
-	
+
 	public int orRestant(){
 		return orRestant;
 	}
 	
 	@Override
 	public int getLargeur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return largeur;
 	}
 
 	@Override
 	public int getHauteur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hauteur;
 	}
 
 	@Override

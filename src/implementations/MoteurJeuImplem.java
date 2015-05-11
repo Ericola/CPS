@@ -574,6 +574,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		this.villageois = villageois;
 		for(int i = 0; i < villageois.size(); i++){
 			positionsVillageois().put(villageois.get(i), positionsVillageois.get(i));
+			if(MineMinee())
 			MineMinee().add(-1);
 			VillageoisAttente.add(-1);
 		}
