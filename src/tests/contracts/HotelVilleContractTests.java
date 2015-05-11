@@ -15,6 +15,8 @@ public class HotelVilleContractTests extends AbstractHotelDeVille{
 	public void before() {
 		hdv= new HotelVilleContract(new HotelVilleImplem());
 	}
+	
+	
 
 	/*@Test(expected=PreconditionError.class)
 	public void testInitFail() {
