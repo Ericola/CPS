@@ -130,10 +130,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 				||(getMine(numMine).appartenance() != ERace.RIEN && getMine(numMine).appartenance() != getVillageois(numVillageois).getRace())){
 			return false;
 		}
-		
-		double distance=positions.get(getMine(numMine)).distance(positions.get(villageois.get(numVillageois)));
+		Rectangle r = new Rectangle(positionMineX(getMine(numMine)), positionMineY(getMine(numMine)), 50, 50);
+		Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(numVillageois)) + 5 - 28, positionVillageoisY(getVillageois(numVillageois)) + 5 - 28, 56, 56);
 		if(getMine(numMine).estAbandonnee()){
-			return distance < 51;
+			r.intersects(r1);
 		}
 		int nbVillageoisDansMine = 0;
 		for(int i = 0; i < MineMinee.size(); i++){
@@ -141,9 +141,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 				nbVillageoisDansMine++;
 			}
 		}
-		
-		return getMine(numMine).orRestant() - nbVillageoisDansMine > 0 && distance < 51;
-		
+
+		return getMine(numMine).orRestant() - nbVillageoisDansMine > 0 && r.intersects(r1);
+
 	}
 
 	@Override
@@ -174,15 +174,14 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public boolean peutEntrerHotelVille(int numVillageois, int hv) {
 		// TODO Auto-generated method stub
 		double distance = 0.0;
-		if(hv == 1)
-			distance=positions.get(hotelDeVille).distance(positions.get(hotelDeVille));
-		else{
-			distance=positions.get(hotelDeVille2).distance(positions.get(hotelDeVille));
-		}
-		return distance<=51 && (getVillageois(numVillageois).getRace() == HotelDeVille(hv).appartenance()) 
+
+		Rectangle r = new Rectangle(positionHotelVilleX(hv), positionHotelVilleY(hv), 50, 50);
+		Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(numVillageois)) + 5 - 28, positionVillageoisY(getVillageois(numVillageois)) + 5 - 28, 56, 56);
+		
+		return r.intersects(r1) && (getVillageois(numVillageois).getRace() == HotelDeVille(hv).appartenance()) 
 				|| HotelDeVille(hv).appartenance() == ERace.RIEN;
 	}
-	
+
 	@Override
 	public List<IRouteService> numerosRoute() {
 		// TODO Auto-generated method stub
@@ -255,19 +254,19 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		}
 		return false;
 	}
-	
+
 	public List<Integer> VillageoisAttente(){
 		return VillageoisAttente;
 	}
-	
+
 	public List<Integer> MineMinee(){
 		return MineMinee;
 	}
-	
+
 	public HashMap<IVillageoisService, Point> positionsVillageois(){
 		return positionsVillageois;
 	}
-	
+
 	public HashMap<Object, Point> positions(){
 		return positions;
 	}
@@ -279,76 +278,76 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		//positions =new HashMap<Object, Point>();
 		//positionsVillageois = new HashMap<IVillageoisService, Point>();
 
-//		positions.put(hotelDeVille, new Point(l/2, 10));
-//		positions.put(hotelDeVille2, new Point(l/2, h -60));
+		//		positions.put(hotelDeVille, new Point(l/2, 10));
+		//		positions.put(hotelDeVille2, new Point(l/2, h -60));
 
 		//villageois= new ArrayList<IVillageoisService>();
-//		IVillageoisService v = new VillageoisImplem();
-//		IVillageoisService v1 = new VillageoisImplem();
-//		IVillageoisService v2 = new VillageoisImplem();
-//		IVillageoisService v3 = new VillageoisImplem();
+		//		IVillageoisService v = new VillageoisImplem();
+		//		IVillageoisService v1 = new VillageoisImplem();
+		//		IVillageoisService v2 = new VillageoisImplem();
+		//		IVillageoisService v3 = new VillageoisImplem();
 
-//		v.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
-//		v1.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
-//		v2.init(ERace.ORC, 10, 10, 4, 3, 60);
-//		v3.init(ERace.ORC, 10, 10, 4, 3, 60);
-//
-//		positionsVillageois.put(v, new Point(positionHotelVilleX(1) - 10, positionHotelVilleY(1)));
-//		positionsVillageois.put(v1, new Point(positionHotelVilleX(1) + 60, positionHotelVilleY(1)));
-//		positionsVillageois.put(v2, new Point(positionHotelVilleX(2) - 10, positionHotelVilleY(2)));
-//		positionsVillageois.put(v3,  new Point(positionHotelVilleX(2) + 60, positionHotelVilleY(2)));
-//		villageois.add(v);
-//		villageois.add(v1);
-//		villageois.add(v2);
-//		villageois.add(v3);
+		//		v.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
+		//		v1.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
+		//		v2.init(ERace.ORC, 10, 10, 4, 3, 60);
+		//		v3.init(ERace.ORC, 10, 10, 4, 3, 60);
+		//
+		//		positionsVillageois.put(v, new Point(positionHotelVilleX(1) - 10, positionHotelVilleY(1)));
+		//		positionsVillageois.put(v1, new Point(positionHotelVilleX(1) + 60, positionHotelVilleY(1)));
+		//		positionsVillageois.put(v2, new Point(positionHotelVilleX(2) - 10, positionHotelVilleY(2)));
+		//		positionsVillageois.put(v3,  new Point(positionHotelVilleX(2) + 60, positionHotelVilleY(2)));
+		//		villageois.add(v);
+		//		villageois.add(v1);
+		//		villageois.add(v2);
+		//		villageois.add(v3);
 
 		//VillageoisAttente = new ArrayList<>();
-//		for(int i = 0; i < villageois.size(); i++){
-//			VillageoisAttente.add(-1);
-//		}
+		//		for(int i = 0; i < villageois.size(); i++){
+		//			VillageoisAttente.add(-1);
+		//		}
 
 		//MineMinee = new ArrayList<>();
 		//mines=new ArrayList<IMineService>();
-//		IMineService m = new MineImplem();
-//		IMineService m1 = new MineImplem();
-//		IMineService m2 = new MineImplem();
-//		IMineService m3 = new MineImplem();
-//
-//		m.init(50, 50);
-//		m1.init(50, 50);
-//		m2.init(50, 50);
-//		m3.init(50, 50);
-//
-//		positions.put(m, new Point(10, 10));
-//		positions.put(m1, new Point(l-60, 10));
-//		positions.put(m2, new Point(l-60, h-60));
-//		positions.put(m3, new Point(10, h-60));
-//		mines.add(m);
-//		mines.add(m1);
-//		mines.add(m2);
-//		mines.add(m3);
+		//		IMineService m = new MineImplem();
+		//		IMineService m1 = new MineImplem();
+		//		IMineService m2 = new MineImplem();
+		//		IMineService m3 = new MineImplem();
+		//
+		//		m.init(50, 50);
+		//		m1.init(50, 50);
+		//		m2.init(50, 50);
+		//		m3.init(50, 50);
+		//
+		//		positions.put(m, new Point(10, 10));
+		//		positions.put(m1, new Point(l-60, 10));
+		//		positions.put(m2, new Point(l-60, h-60));
+		//		positions.put(m3, new Point(10, h-60));
+		//		mines.add(m);
+		//		mines.add(m1);
+		//		mines.add(m2);
+		//		mines.add(m3);
 
 		//routes=new ArrayList<IRouteService>();
-//		IRouteService r = new RouteImplem();
-//		IRouteService r1 = new RouteImplem();
-//
-//		r.init(l, 50);
-//		r1.init(50 , h - 150);
-//
-//		positions.put(r, new Point(0, h/2));
-//		positions.put(r1, new Point(l/2, 80));
-//
-//		routes.add(r);
-//		routes.add(r1);
+		//		IRouteService r = new RouteImplem();
+		//		IRouteService r1 = new RouteImplem();
+		//
+		//		r.init(l, 50);
+		//		r1.init(50 , h - 150);
+		//
+		//		positions.put(r, new Point(0, h/2));
+		//		positions.put(r1, new Point(l/2, 80));
+		//
+		//		routes.add(r);
+		//		routes.add(r1);
 
 		//murailles=new ArrayList<IMurailleService>();
-//		IMurailleService mu = new MurailleImplem();
-//
-//		mu.init(50, 50, 100);
-//
-//		positions.put(mu, new Point(l/2, h/2));
-//
-//		murailles.add(mu);
+		//		IMurailleService mu = new MurailleImplem();
+		//
+		//		mu.init(50, 50, 100);
+		//
+		//		positions.put(mu, new Point(l/2, h/2));
+		//
+		//		murailles.add(mu);
 
 		this.maxPasJeu=maxPasJeu;
 		pasJeuCourant=0;
@@ -409,7 +408,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		case DEPLACER : 
 			Point yo=deplacer(argument,positionsVillageois.get(villageois.get(numVillageois)), numVillageois);
 			// On teste si la position finale yo est sur une muraille;
-		    Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
+			Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
 			if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
 					&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
 				positionsVillageois.put(villageois.get(numVillageois), yo);
@@ -450,7 +449,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		case DEPLACER : 
 			Point yo=deplacer(argument2,positionsVillageois.get(villageois.get(numVillageois2)), numVillageois2);
 			// On teste si la position finale yo est sur une muraille;
-		    Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
+			Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
 			if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
 					&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
 				positionsVillageois.put(villageois.get(numVillageois), yo);
@@ -510,7 +509,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			else if(getMine(i).abandonCompteur() == 51 && !getMine(i).estAbandonnee()){
 				getMine(i).abandoned();
 			}
-			
+
 			if(getMine(i).orRestant() == 0 || getMine(i).orRestant() - nbVillageoisDansMine <= 0){
 				getMine(i).setLaminee();
 			}
@@ -529,9 +528,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		else if(HotelDeVille(2).abandonCompteur() == 51 && !HotelDeVille(2).estAbandonnee()){
 			HotelDeVille(2).abandoned();
 		}
-		
+
 		pasJeuCourant++;
-		
+
 		return this;
 	}
 
@@ -589,7 +588,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			MineMinee().add(-1);
 			VillageoisAttente.add(-1);
 		}
-		
+
 	}
 
 	@Override
@@ -600,13 +599,13 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			this.positions = new HashMap<Object, Point>();
 		}
 		for(int i = 0; i < murailles.size(); i++){
-				positions().put(murailles.get(i), positionsMurailles.get(i));
+			positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
-	
+
 	public void showMap() {
-		
+
 	}
-	
+
 
 }

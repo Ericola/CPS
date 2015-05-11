@@ -68,16 +68,15 @@ public class HotelVilleContract extends HotelVilleDecorator{
 
 	public IHotelVilleService init(int largeur, int hauteur, ERace r){
 
-		// pre init(l, h, r) require largeur %2 = 1
-		if(!( (largeur %2) == 1)){
-			throw new PreconditionError(" init(l, h, r) require largeur % 2 = 1.");
+		// pre init(l, h, r) require largeur > 0
+		if(!( largeur > 0)){
+			throw new PreconditionError(" init(l, h, r) require largeur > 0.");
 		}
 
-		// pre init(l, h, r) require largeur %2 = 1
-		if(!( (hauteur %2) == 1)){
-			throw new PreconditionError("init(l, h, r) require hauteur % 2 = 1.");
+		// pre init(l, h, r) require hauteur > 0
+		if(!(hauteur > 0)){
+			throw new PreconditionError("init(l, h, r) require hauteur > 0.");
 		}
-
 
 		// inv avant 
 		checkInvariants();

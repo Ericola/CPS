@@ -21,7 +21,7 @@ public interface IHotelVilleService {
 		 */
 	 /*
 		 * pre 
-		 * 		init(l,h, r) require l % 2 = 1 ^ h % 2 = 1
+		 * 		init(l,h, r) require l > 0 ^ h > 0
 		 *                                                
 		 * post 
 				getLargeur(init(l, h, r)) = l

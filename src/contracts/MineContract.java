@@ -83,14 +83,14 @@ public class MineContract extends MineDecorator {
 
 	public IMineService init(int largeur, int hauteur){
 
-		// pre init(l, h) require largeur %2 = 1
-		if(!( (largeur %2) == 1)){
-			throw new PreconditionError(" init(l, h) require largeur % 2 = 1.");
+		// pre init(l, h) require largeur > 0
+		if(!( largeur > 0)){
+			throw new PreconditionError(" init(l, h) require largeur > 0.");
 		}
 
-		// pre init(l, h) require largeur %2 = 1
-		if(!( (hauteur %2) == 1)){
-			throw new PreconditionError("init(l, h) require hauteur % 2 = 1.");
+		// pre init(l, h) require hauteur > 0
+		if(!(hauteur > 0)){
+			throw new PreconditionError("init(l, h) require hauteur > 0.");
 		}
 
 		// inv avant 
