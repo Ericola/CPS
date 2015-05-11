@@ -15,14 +15,6 @@ public class MineImplem implements IMineService{
 	
 	public MineImplem(){}
 	
-	public int hauteur(){
-		return hauteur;
-	}
-	
-	public int largeur(){
-		return largeur;
-	}
-	
 	public int orRestant(){
 		return orRestant;
 	}
@@ -45,14 +37,12 @@ public class MineImplem implements IMineService{
 
 	@Override
 	public int getLargeur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hauteur;
 	}
 
 	@Override
 	public int getHauteur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hauteur;
 	}
 
 	@Override
@@ -62,6 +52,7 @@ public class MineImplem implements IMineService{
 		this.hauteur = hauteur;
 		this.orRestant = 51;
 		this.abandonCompteur = 51;
+		this.estAbandonnee = true;
 		return this;
 	}
 
@@ -69,6 +60,9 @@ public class MineImplem implements IMineService{
 	public IMineService retrait(int s) {
 		// TODO Auto-generated method stub
 		this.orRestant = this.orRestant - s;
+		if(this.orRestant == 0){
+			estLaminee = true;
+		}
 		return this;
 	}
 

@@ -81,7 +81,4 @@ public class VillageoisImplem implements IVillageoisService{
 		return this;
 	}
 	
-	
-	
-	
 }
