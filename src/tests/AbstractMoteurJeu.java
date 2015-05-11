@@ -52,8 +52,8 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"a une force mal initialiser",temp.getForce()==3);
 				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"a une vitesse mal initialiser",temp.getVitesse()==4);
 				//distance(positionVillageoisX(M, V), positionVillageois(M, V), positionHotelVilleX(M, 1), positionHotelVilleY(M, 1)) <= 51
-				System.out.println(moteurJeu.positions());
 				int dist = (int) Point.distance(moteurJeu.positionVillageoisX(temp),moteurJeu.positionVillageoisX(temp), moteurJeu.positionHotelVilleX(1), moteurJeu.positionHotelVilleY(1));
+				System.out.println(dist);
 				assertPerso("in moteurJeu init: Le villageois HOMME"+i+"est à une dist initialiser trop loin de son hotel de ville",dist<=51);
 			}else{
 				assertPerso("in moteurJeu init: Le villageois ORC "+i+"a une largeur mal initialiser",temp.getForce()==4);
