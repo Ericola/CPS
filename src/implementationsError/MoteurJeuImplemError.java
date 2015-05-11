@@ -546,8 +546,11 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	}
 
 	@Override
-	public void bindHotelVille(Point positionHotelVille1,
+	public void bindHotelVille(IHotelVilleService h1 , IHotelVilleService h2, Point positionHotelVille1,
 			Point positionHotelVille2) {
+	
+		this.hotelDeVille = h1;
+		this.hotelDeVille2 = h2;
 		positions.put(HotelDeVille(1), positionHotelVille1);
 		positions.put(HotelDeVille(2), positionHotelVille2);
 	}

@@ -282,7 +282,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 //		positions.put(hotelDeVille, new Point(l/2, 10));
 //		positions.put(hotelDeVille2, new Point(l/2, h -60));
 
-		villageois= new ArrayList<IVillageoisService>();
+		//villageois= new ArrayList<IVillageoisService>();
 //		IVillageoisService v = new VillageoisImplem();
 //		IVillageoisService v1 = new VillageoisImplem();
 //		IVillageoisService v2 = new VillageoisImplem();
@@ -302,13 +302,13 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 //		villageois.add(v2);
 //		villageois.add(v3);
 
-		VillageoisAttente = new ArrayList<>();
+		//VillageoisAttente = new ArrayList<>();
 //		for(int i = 0; i < villageois.size(); i++){
 //			VillageoisAttente.add(-1);
 //		}
 
-		MineMinee = new ArrayList<>();
-		mines=new ArrayList<IMineService>();
+		//MineMinee = new ArrayList<>();
+		//mines=new ArrayList<IMineService>();
 //		IMineService m = new MineImplem();
 //		IMineService m1 = new MineImplem();
 //		IMineService m2 = new MineImplem();
@@ -328,7 +328,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 //		mines.add(m2);
 //		mines.add(m3);
 
-		routes=new ArrayList<IRouteService>();
+		//routes=new ArrayList<IRouteService>();
 //		IRouteService r = new RouteImplem();
 //		IRouteService r1 = new RouteImplem();
 //
@@ -341,7 +341,7 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 //		routes.add(r);
 //		routes.add(r1);
 
-		murailles=new ArrayList<IMurailleService>();
+		//murailles=new ArrayList<IMurailleService>();
 //		IMurailleService mu = new MurailleImplem();
 //
 //		mu.init(50, 50, 100);
@@ -550,6 +550,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			List<Point> positionsMines) {
 		this.mines = mines;
 		for(int i = 0; i < mines.size(); i++){
+			if(positions() == null){
+				this.positions = new HashMap<Object, Point>();
+			}
 			positions().put(mines.get(i), positionsMines.get(i));
 		}		
 	}
@@ -559,6 +562,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			List<Point> positionsRoutes) {
 		this.routes = routes;
 		for(int i = 0; i < routes.size(); i++){
+			if(positions() == null){
+				this.positions = new HashMap<Object, Point>();
+			}
 			positions().put(routes.get(i), positionsRoutes.get(i));
 		}			
 	}
@@ -568,6 +574,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			List<Point> positionsVillageois) {
 		this.villageois = villageois;
 		for(int i = 0; i < villageois.size(); i++){
+			if(positionsVillageois() == null){
+				this.positionsVillageois = new HashMap<IVillageoisService, Point>();
+			}
 			positionsVillageois().put(villageois.get(i), positionsVillageois.get(i));
 			if(MineMinee() == null){
 				MineMinee =new ArrayList<>();
@@ -586,6 +595,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 			List<Point> positionsMurailles) {
 		this.murailles = murailles;
 		for(int i = 0; i < murailles.size(); i++){
+			if(positions() == null){
+				this.positions = new HashMap<Object, Point>();
+			}
 			positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
