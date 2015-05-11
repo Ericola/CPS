@@ -496,7 +496,15 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 	}
 
 	public IMoteurJeuService pasJeu(ECommande Commande, ECommande Commande2, int numVillageois, int numVillageois2, int argument, int argument2) {
+		//pre estFini(init(C,C2,n1,n2,a1,a2)) require !estfini
+		if(estFini()==true ){
+			throw new PreconditionError("init(MaxPasJeu) require maxPasJeu >= 0  incorrecte");
+		}
+		//
+		
 		return super.pasJeu(Commande, Commande2, numVillageois, numVillageois2, argument, argument2);
+	
+		
 	}
 
 
