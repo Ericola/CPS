@@ -308,9 +308,6 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 //		}
 
 		MineMinee = new ArrayList<>();
-		for(int i = 0; i < villageois.size(); i++){
-			MineMinee.add(-1);
-		}
 		mines=new ArrayList<IMineService>();
 //		IMineService m = new MineImplem();
 //		IMineService m1 = new MineImplem();

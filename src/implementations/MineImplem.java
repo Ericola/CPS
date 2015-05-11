@@ -52,6 +52,7 @@ public class MineImplem implements IMineService{
 		this.hauteur = hauteur;
 		this.orRestant = 51;
 		this.abandonCompteur = 51;
+		this.appartenance = ERace.RIEN;
 		this.estAbandonnee = true;
 		return this;
 	}
