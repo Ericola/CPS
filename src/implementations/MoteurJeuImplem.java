@@ -276,8 +276,8 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	// 1 muraille 
 	public IMoteurJeuService init(int maxPasJeu, int l, int h) {
 		// TODO Auto-generated method stub
-		positions =new HashMap<Object, Point>();
-		positionsVillageois = new HashMap<IVillageoisService, Point>();
+		//positions =new HashMap<Object, Point>();
+		//positionsVillageois = new HashMap<IVillageoisService, Point>();
 
 //		positions.put(hotelDeVille, new Point(l/2, 10));
 //		positions.put(hotelDeVille2, new Point(l/2, h -60));
@@ -538,7 +538,9 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	@Override
 	public void bindHotelVille(IHotelVilleService h1 , IHotelVilleService h2, Point positionHotelVille1,
 			Point positionHotelVille2) {
-	
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		this.hotelDeVille = h1;
 		this.hotelDeVille2 = h2;
 		positions.put(HotelDeVille(1), positionHotelVille1);
@@ -549,10 +551,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public void bindMine(List<IMineService> mines,
 			List<Point> positionsMines) {
 		this.mines = mines;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < mines.size(); i++){
-			if(positions() == null){
-				this.positions = new HashMap<Object, Point>();
-			}
 			positions().put(mines.get(i), positionsMines.get(i));
 		}		
 	}
@@ -561,10 +563,10 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public void bindRoute(List<IRouteService> routes,
 			List<Point> positionsRoutes) {
 		this.routes = routes;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < routes.size(); i++){
-			if(positions() == null){
-				this.positions = new HashMap<Object, Point>();
-			}
 			positions().put(routes.get(i), positionsRoutes.get(i));
 		}			
 	}
@@ -573,18 +575,18 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public void bindVillageois(List<IVillageoisService> villageois,
 			List<Point> positionsVillageois) {
 		this.villageois = villageois;
+		if(positionsVillageois() == null){
+			this.positionsVillageois = new HashMap<IVillageoisService, Point>();
+		}
+		if(MineMinee() == null){
+			MineMinee =new ArrayList<>();
+		}
+		if(VillageoisAttente() == null){
+			VillageoisAttente = new ArrayList<>();
+		}
 		for(int i = 0; i < villageois.size(); i++){
-			if(positionsVillageois() == null){
-				this.positionsVillageois = new HashMap<IVillageoisService, Point>();
-			}
 			positionsVillageois().put(villageois.get(i), positionsVillageois.get(i));
-			if(MineMinee() == null){
-				MineMinee =new ArrayList<>();
-			}
 			MineMinee().add(-1);
-			if(VillageoisAttente() == null){
-				VillageoisAttente = new ArrayList<>();
-			}
 			VillageoisAttente.add(-1);
 		}
 		
@@ -594,11 +596,11 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 	public void bindMuraille(List<IMurailleService> murailles,
 			List<Point> positionsMurailles) {
 		this.murailles = murailles;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < murailles.size(); i++){
-			if(positions() == null){
-				this.positions = new HashMap<Object, Point>();
-			}
-			positions().put(murailles.get(i), positionsMurailles.get(i));
+				positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
 	

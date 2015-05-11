@@ -112,7 +112,7 @@ public class MoteurJeuTests extends AbstractMoteurJeu {
 		moteurJeu.bindMuraille(murailles, positionsMurailles);
 		moteurJeu.bindRoute(routes, positionsRoutes);
 		moteurJeu.bindVillageois(villageois, positionsVillageois);
-
+		System.out.println(positionsVillageois);
 		moteurJeu.bindHotelVille(hotelDeVille,hotelDeVille2,new Point(500,60), new Point(500,940));
 	}
 
