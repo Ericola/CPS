@@ -122,7 +122,7 @@ public class MoteurJeuContractTests extends AbstractMoteurJeu{
 		// condition initale
 		
 		// opérations
-		moteurJeu.init(-1, -1, -1);
+		//moteurJeu.init(-1, -1, -1);
 		
 		// oracle (Cf. expected dans le @Test)
 	}

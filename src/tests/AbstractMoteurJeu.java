@@ -13,6 +13,7 @@ import services.IMoteurJeuService;
 import services.IVillageoisService;
 import enums.ECommande;
 import enums.ERace;
+import enums.EResultat;
 
 public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
@@ -308,10 +309,80 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 	}
 
-	//SI le temps 
-	//tester 51 pas jeu pour abandonné
-	//tester FIN DE PARTIE AU BOUT DE 1664 PAS JEU
+	//tester 51 pas jeu pour abandonné hotel ville 
+	public void test11_1(){
+		//Condition Initiale : aucune
+				moteurJeu.init(1664,1000,1000);
+				
+				
+				
+	    //Opération
+				for(int i=0 ;i<51;i++)
+					   moteurJeu.pasJeu(ECommande.RIEN, ECommande.RIEN, 1, 3, 0 , 0);
+
+				
+		//Oracle
+				assertPerso("test11: l'hotel de ville n'est pas abandonné alors qu'il le devrait ", moteurJeu.HotelDeVille(1).appartenance() == ERace.RIEN);
+
+		
+		
+	}
+
+	//tester 51 pas jeu pour abandonné mine
+	public void test12_1(){
+		//Condition Initiale : 
+		moteurJeu.init(1664,1000,1000);
+		moteurJeu.getMine(1).setAppartenance(ERace.HUMAIN);
+		
+		
+		
+//Opération
+		for(int i=0 ;i<51;i++)
+			   moteurJeu.pasJeu(ECommande.RIEN, ECommande.RIEN, 1, 3, 0 , 0);
+
+		
+//Oracle
+		assertPerso("test12: la mine n'est pas abandonné alors qu'il le devrait ", moteurJeu.getMine(1).appartenance() == ERace.RIEN);
+
+		
+	}
+
+	//tester FIN DE PARTIE AU BOUT DE 100 PAS JEU pour une partie a 100 pas jeu
+	public void test13_1(){
+		//Condition Initiale : 
+				moteurJeu.init(100,1000,1000);
+				
+				
+				
+				
+		//Opération
+				for(int i=0 ;i<100;i++)
+					   moteurJeu.pasJeu(ECommande.RIEN, ECommande.RIEN, 1, 3, 0 , 0);
+
+				
+		//Oracle
+				assertPerso("test13_1: La partie devrait être fini au bout de nbPasJeu max mais ce n'est pas le cas ", moteurJeu.estFini()==true);
+				assertPerso("test13_2: La partie n est pas DRAW ,error ", moteurJeu.resultatFinal()==EResultat.DRAW);
+				
+		
+	}
+
 	//TESTER GAGNER PARTIE AVEC 1664 PO...
+	public void test14_1(){
+		//Condition Initiale : 
+		moteurJeu.init(1664,1000,1000);
+		
+		moteurJeu.HotelDeVille(1).depot(1664);
+		//Opération
+		moteurJeu.HotelDeVille(1).depot(1664);
+		
+		//Oracle
+		assertPerso("test14: La partie devrait être fini au bout de nbPasJeu max mais ce n'est pas le cas ", moteurJeu.estFini()==true);
+
+	}
+	
+	
+	
 
 }
 
