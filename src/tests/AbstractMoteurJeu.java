@@ -33,10 +33,11 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		moteurJeu.init(1664, 1000, 1000);
 		
 		//Oracle
+		System.out.println(moteurJeu.pasJeuCourant());
 		assertPerso("MJ init,Le nombre de pas de jeu n'est pas égale à 1664", moteurJeu.MaxPasJeu() == 1664);
 		assertPerso("MJ init,La valeur du pas courant n'est pas initialiser à 0", moteurJeu.pasJeuCourant() == 0);
 		assertPerso("MJ init,La valeur de la largeur n'est pas initialiser correctement", moteurJeu.LargeurTerrain() == 1000);
-		assertPerso("MJ init,La valeur du pas courant n'est pas initialiser correctement", moteurJeu.HauteurTerrain() == 0);
+		assertPerso("MJ init,La valeur du pas courant n'est pas initialiser correctement", moteurJeu.HauteurTerrain() == 1000);
 		
 		//villageois Hauteur Largeur
 		for(int i=0 ;i<moteurJeu.numerosVillageois().size();i++){

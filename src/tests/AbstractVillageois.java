@@ -69,7 +69,7 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 	}
 	
 	@Test
-	public void testRetraitOrPositif() {
+	public void testRetraitPdvPosition() {
 		int l = 2;
 		int h = 2;
 		int f =3;
@@ -79,13 +79,13 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
 		villageois.init(type, l,  h, f,v,pdv);
-		villageois.setQtor(2);
+	
 		// opération
 	
-		villageois.retrait(1);
+		villageois.retrait(5);
 		
 		// oracle
-		assertPerso("retrait, retrait ne s'est pas fait correctement", villageois.getQtor() == 1);
+		assertPerso("retrait, retrait ne s'est pas fait correctement", villageois.getPdv() == 5);
 		
 	}
 		

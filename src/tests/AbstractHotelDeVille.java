@@ -29,6 +29,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		// condition initiale : aucune
 
 		// opération
+	
 		hdv.init( l,  h, race);
 		
 		//oracle
