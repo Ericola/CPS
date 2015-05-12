@@ -50,10 +50,8 @@ public interface IVillageoisService {
 	 /*	pre 
 	  * setQtor(V, s) require s > 0
 	  *	post
-			getQtor(setQtor(V, s)) = getQtor(V)
 			getQtor(setQtor(V, s)) = s 
-			
-				
+			getPdv(setQtor(V, s)) = getPdv(V)
 		 */
 	 IVillageoisService setQtor(int s);
      /**

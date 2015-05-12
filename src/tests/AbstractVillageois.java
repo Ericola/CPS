@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import enums.ERace;
-
 import services.IVillageoisService;
 
 
@@ -37,7 +36,6 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 
 		// operation
 		villageois.init(type, l,  h, f,v,pdv);
-		
 		// oracle
 		assertPerso("init, La Race du villageois ne s'est pas initialisee correctement", villageois.getRace() == type);
 		assertPerso("init, La hauteur du villageois ne s'est pas initialisee correctement", villageois.getHauteur() == h);

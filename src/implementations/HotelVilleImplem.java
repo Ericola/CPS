@@ -88,6 +88,7 @@ public class HotelVilleImplem implements IHotelVilleService{
 		// TODO Auto-generated method stub
 		this.estAbandonnee = true;
 		this.appartenance = ERace.RIEN;
+		this.abandonCompteur = 51;
 		return this;
 	}
 
@@ -100,6 +101,10 @@ public class HotelVilleImplem implements IHotelVilleService{
 	@Override
 	public IHotelVilleService setAppartenance(ERace r) {
 		this.appartenance = r;
+		if(r != ERace.RIEN){
+			this.abandonCompteur = 0;
+			estAbandonnee = false;
+		}
 		return this;
 	}
 }

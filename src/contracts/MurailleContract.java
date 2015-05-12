@@ -52,23 +52,20 @@ public class MurailleContract extends MurailleDecorator {
 	
 	public IMurailleService init(int largeur, int hauteur, int pdv){
 
-		// pre init(l, h, pdv) require largeur %2 = 1
-		if(!( (largeur %2) == 1)){
-			throw new PreconditionError("init(largeur, hauteur, pdv) require largeur % 2 = 1.");
+		// pre init(l, h, pdv) require largeur > 0
+		if(!( largeur > 0)){
+			throw new PreconditionError("init(largeur, hauteur, pdv) require largeur > 0");
 		}
 
-		// pre init(l, h, pdv) require hauteur %2 = 1
-		if(!( (hauteur %2) == 1)){
-			throw new PreconditionError("init(largeur, hauteur, pdv) require hauteur % 2 = 1.");
+		// pre init(l, h, pdv) require hauteur > 0
+		if(!( hauteur > 0)){
+			throw new PreconditionError("init(largeur, hauteur, pdv) require hauteur > 0");
 		}
 
 		// pre init(l, h, pdv) require 0 < pdv
 		if(!(0 < pdv)){
 			throw new PreconditionError("init(largeur, hauteur,pdv) require 0 < pdv");
 		}
-
-		// inv avant 
-		checkInvariants();
 
 		// run
 		super.init(largeur, hauteur, pdv);

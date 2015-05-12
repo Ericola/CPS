@@ -30,9 +30,6 @@ public class RouteContract extends RouteDecorator {
 			throw new PreconditionError("init(l, h) require h > 0");
 		}
 
-		// inv avant 
-		checkInvariants();
-
 		// run
 		super.init(largeur, hauteur);
 

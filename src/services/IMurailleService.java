@@ -15,7 +15,7 @@ public interface IMurailleService {
 		 */
 	 /*
 		 * pre 
-		 * 		init(l,h, pdv) require l % 2 = 1 ^ h % 2 = 1 ^ pdv > 0
+		 * 		init(l,h, pdv) require l > 0 ^ h > 0 ^ pdv > 0
 		 *                                                
 		 * post 
 				getLargeur(init(l, h)) = l

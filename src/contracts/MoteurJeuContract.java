@@ -479,9 +479,6 @@ public class MoteurJeuContract extends MoteurJeuDecorator{
 			throw new PreconditionError("init(MaxPasJeu) require h>=400 incorrecte");
 		}
 
-		//inv avant
-		checkInvariants();
-
 		//run
 		super.init(maxPasJeu, l, h);
 

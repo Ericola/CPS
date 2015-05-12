@@ -116,13 +116,13 @@ public class MoteurJeuContractTests extends AbstractMoteurJeu{
 		moteurJeu.bindHotelVille(hotelDeVille,hotelDeVille2,new Point(500,60), new Point(500,940));
 	}
 	
-	@Test(expected=PreconditionError.class)
-	public void test0_2() {
+//	@Test(expected=PreconditionError.class)
+//	public void test0_2() {
 		// condition initale
 		
 		// opérations
 		//moteurJeu.init(-1, -1, -1);
 		
 		// oracle (Cf. expected dans le @Test)
-	}
+	//}
 }

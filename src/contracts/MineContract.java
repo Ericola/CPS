@@ -88,9 +88,6 @@ public class MineContract extends MineDecorator {
 			throw new PreconditionError("init(l, h) require hauteur > 0.");
 		}
 
-		// inv avant 
-		checkInvariants();
-
 		// run
 		super.init(largeur, hauteur);
 
@@ -169,7 +166,7 @@ public class MineContract extends MineDecorator {
 		}
 
 		/* pre accueil(M, r) require r != RIEN */
-		if((!(r == ERace.RIEN))){
+		if((!(r != ERace.RIEN))){
 			throw new PreconditionError("accueil(M, r) require r != RIEN incorrecte");
 		}
 

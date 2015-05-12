@@ -11,7 +11,7 @@ public class VillageoisImplem implements IVillageoisService{
 	private int vitesse;
 	private int pointDeVie;
 	private int quantiteDor;
-	private boolean estMort = false;	
+	private boolean estMort;	
 
 	public ERace getRace() {
 		return type;
@@ -58,6 +58,7 @@ public class VillageoisImplem implements IVillageoisService{
 		this.vitesse = vitesse;
 		this.pointDeVie = pdv;
 		this.quantiteDor = 0;
+		this.estMort = (pdv <= 0);
 		return this;
 	}
 
@@ -65,6 +66,9 @@ public class VillageoisImplem implements IVillageoisService{
 	@Override
 	public IVillageoisService retrait(int s) {
 		this.pointDeVie = this.pointDeVie - s;
+		if(this.pointDeVie <= 0){
+			this.estMort = true;
+		}
 		return this;
 	}
 

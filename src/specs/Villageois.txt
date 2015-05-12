@@ -33,9 +33,7 @@ Observations :
 	[retrait]
 		getPdv(retrait(V, s)) = getPdv(V) - s
 		getQtor(retrait(V, s)) = getQtor(V)
-		getVitesse(retrait(V, s)) = getVitesse(V) 
 
     [setQtor]
-		getQtor(setQtor(V, s)) = getQtor(V)
+		getPdv(setQtor(V, s)) = getPdv(V)
 		getQtor(setQtor(V, s)) = s
-		getVitesse(retrait(V, s)) = getVitesse(V) 

@@ -106,9 +106,6 @@ public class VillageoisContract extends VillageoisDecorator {
 			throw new PreconditionError("init(type,largeur, hauteur, force, vitesse, pdv) require 0 <= vitesse");
 		}
 
-		// inv avant 
-		checkInvariants();
-
 		// run
 		super.init(type,largeur, hauteur, force, vitesse, pdv);
 
@@ -161,7 +158,6 @@ public class VillageoisContract extends VillageoisDecorator {
 		// capture 
 		int oldPdv = getPdv();
 		int oldQtor = getQtor();
-		int oldVitesse = getVitesse();
 		
 		// run
 		super.retrait(s);
@@ -193,8 +189,8 @@ public class VillageoisContract extends VillageoisDecorator {
 
 		// capture 
 		int oldQtor = getQtor();
-		int oldVitesse = getVitesse();
-
+		int oldPdv = getPdv();
+		
 		// inv avant 
 		checkInvariants();
 
@@ -204,9 +200,9 @@ public class VillageoisContract extends VillageoisDecorator {
 		// inv apres
 		checkInvariants();
 
-		//post getQtor(setQtor(V, s)) = getQtor(V)
-		if (!(getQtor() == oldQtor)) {
-			throw new PostconditionError("getQtor(setQtor(V, s)) = getQtor(V) incorrecte");
+		//post getPdv(setQtor(V, s)) = getPdv(V)
+		if (!(getPdv() == oldPdv)) {
+			throw new PostconditionError("etPdv(setQtor(V, s)) = getPdv(V) incorrecte");
 		}	
 
 		//post getQtor(setQtor(V, s)) = s

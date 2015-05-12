@@ -12,25 +12,25 @@ public class MineImplem implements IMineService{
 	private boolean estLaminee;
 	private int abandonCompteur;
 	private ERace appartenance;
-	
+
 	public MineImplem(){}
-	
+
 	public int orRestant(){
 		return orRestant;
 	}
-	
+
 	public boolean estAbandonnee(){
 		return estAbandonnee;
 	}
-	
+
 	public boolean estLaminee(){
 		return estLaminee;
 	}
-	
+
 	public int abandonCompteur(){
 		return abandonCompteur;
 	}
-	
+
 	public ERace appartenance(){
 		return appartenance;
 	}
@@ -83,22 +83,26 @@ public class MineImplem implements IMineService{
 		this.appartenance = ERace.RIEN;
 		return this;
 	}
-	
+
 	public IMineService setAbandonCompteur(int s){
 		this.abandonCompteur = s;
 		return this;
 	}
-	
+
 
 	@Override
 	public IMineService setOrRestant(int s) {
 		this.orRestant = s;
 		return this;
 	}
-	
+
 	@Override
 	public IMineService setAppartenance(ERace r) {
 		this.appartenance = r;
+		if(r != ERace.RIEN){
+			this.abandonCompteur = 0;
+			estAbandonnee = false;
+		}
 		return this;
 	}
 
@@ -107,5 +111,5 @@ public class MineImplem implements IMineService{
 		this.estLaminee = true;
 		return this;
 	}
-	
+
 }

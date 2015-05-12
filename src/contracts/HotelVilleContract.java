@@ -78,9 +78,6 @@ public class HotelVilleContract extends HotelVilleDecorator{
 			throw new PreconditionError("init(l, h, r) require hauteur > 0.");
 		}
 
-		// inv avant 
-		checkInvariants();
-
 		// run
 		super.init(largeur, hauteur, r);
 
@@ -173,7 +170,7 @@ public class HotelVilleContract extends HotelVilleDecorator{
 		}
 
 		/* pre accueil(H, r) require r != RIEN */
-		if((!(r == ERace.RIEN))){
+		if((!(r != ERace.RIEN))){
 			throw new PreconditionError("accueil(H, r) require r != RIEN incorrecte");
 		}
 
