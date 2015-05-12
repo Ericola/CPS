@@ -30,13 +30,13 @@
 	    </java>
 	  </target>
     <target name="test" depends="compile"
-            description="run all tests with bugged implementation">
+            description="run all implementations tests">
       <echo>================ Run All Tests with bugged implementation ================</echo>
       <java classname="org.junit.runner.JUnitCore" classpath="${build}:${junit}">
           <arg value="tests.implem.AllTestsImplem"/>
       </java>
     </target>
-	  <target name="etest" depends="compile"
+	  <target name="btest" depends="compile"
 	          description="run all tests with bugged implementation">
 	    <echo>================ Run All Tests with bugged implementation ================</echo>
 	    <java classname="org.junit.runner.JUnitCore" classpath="${build}:${junit}">
