@@ -16,23 +16,18 @@ public class MineContract extends MineDecorator {
 
 	private void checkInvariants() {
 		/* estLaminee(M) =(min) orRestant(M) <=  0 */
-		if(!(estLaminee() && (orRestant() <= 0))){
+		if(!(estLaminee() == (orRestant() <= 0))){
 			throw new InvariantError("estLaminee(M) =(min) orRestant(M) <=  0 incorrecte");
 		}
 
-		/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 */
-		if(!(estAbandonnee() && abandonCompteur() == 51)){
+		/* estAbandonnee(M) =(min) abandonCompteur(M) = 51 && =(min) appartenance(M) = RIEN */
+		if(!(estAbandonnee() == (abandonCompteur() == 51) && estAbandonnee() == (appartenance() == ERace.RIEN))){
 			throw new InvariantError("estAbandonnee(M) =(min) abandonCompteur(M) = 51 incorrecte");
 		}
 
 		/* 0 <= abandonCompteur(M) <= 51 */
 		if(!(abandonCompteur() >= 0 && abandonCompteur() <= 51 )){
 			throw new InvariantError("0 <= abandonCompteur(M) <= 51 incorrecte");
-		}
-
-		/* estAbandonnee(M) <=> appartenance(M) = RIEN */
-		if(! (estAbandonnee() && appartenance() == ERace.RIEN)){
-			throw new InvariantError("estAbandonnee(M) <=> appartenance(M) = RIEN incorrecte");
 		}
 	}
 

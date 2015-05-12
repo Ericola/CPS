@@ -11,8 +11,7 @@ Observators :
 	estMort : [villageois] -> boolean
 Constructors :
 	init : ERace x int x int x int x int x int -> [Villageois]
-		pre init(t,l,h,f,v,pdv) require largeur %2 = 1 ^
-		hauteur %2 = 1 ^ 0 < force < pdv ^ 0 <= vitesse
+		pre init(t,l,h,f,v,pdv) require largeur > 0 ^ hauteur ^ 0 ^ 0 < force < pdv ^ 0 <= vitesse
 Operators : 
 	retrait : [Villageois] x int -> [Villageois]
 		pre getPdv(retrait(V, s)) require s > 0 ^ !estMort(V)

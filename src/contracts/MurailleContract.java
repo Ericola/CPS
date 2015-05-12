@@ -15,7 +15,7 @@ public class MurailleContract extends MurailleDecorator {
 
 	private void checkInvariants() {
 		/* estMort(V) =(min) getpdv(V) <= 0 */
-		if(!(estMort() && (getPdv() <= 0))){
+		if(!(estMort() == (getPdv() <= 0))){
 			throw new InvariantError("estMort(V) = getpdv(V) <= 0 incorrecte");
 		}
 	}

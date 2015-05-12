@@ -16,7 +16,7 @@ public class VillageoisContract extends VillageoisDecorator {
 
 	private void checkInvariants() {
 		/* estMort(V) =(min) getpdv(V) <= 0 */
-		if(!(estMort() && (getPdv() <= 0))){
+		if(!(estMort() == (getPdv() <= 0))){
 			throw new InvariantError("estMort(V) = getpdv(V) <= 0 incorrecte");
 		}
 	}
@@ -86,13 +86,13 @@ public class VillageoisContract extends VillageoisDecorator {
 	public IVillageoisService init(ERace type, int largeur, int hauteur,
 			int force, int vitesse, int pdv){
 
-		// pre init(t,l,h,f,v,pdv) require largeur %2 = 1
-		if(!( (largeur %2) == 1)){
+		// pre init(t,l,h,f,v,pdv) require largeur > 0
+		if(!(largeur > 0)){
 			throw new PreconditionError("init(type,largeur, hauteur, force, vitesse, pdv) require largeur % 2 = 1.");
 		}
 
-		// pre init(t,l,h,f,v,pdv) require largeur %2 = 1
-		if(!( (hauteur %2) == 1)){
+		// pre init(t,l,h,f,v,pdv) require largeur > 0
+		if(!( hauteur > 0)){
 			throw new PreconditionError("init(type,largeur, hauteur, force, vitesse, pdv) require hauteur % 2 = 1.");
 		}
 

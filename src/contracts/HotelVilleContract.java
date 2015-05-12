@@ -16,7 +16,7 @@ public class HotelVilleContract extends HotelVilleDecorator{
 
 	private void checkInvariants() {
 		/* estAbandonnee(H) =(min) abandonCompteur(H) = 51 && =(min) appartenance(H) = RIEN */
-		if(!(estAbandonnee() && abandonCompteur() == 51 && appartenance() == ERace.RIEN)){
+		if(!(estAbandonnee() == (abandonCompteur() == 51) && estAbandonnee() == (appartenance() == ERace.RIEN))){
 			throw new InvariantError("estAbandonnee(H) =(min) abandonCompteur(H) = 51 && =(min) appartenance(H) = RIEN incorrecte");
 		}
 

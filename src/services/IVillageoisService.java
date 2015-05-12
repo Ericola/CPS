@@ -21,7 +21,7 @@ public interface IVillageoisService {
 		 */
 	 /*
 		 * pre 
-		 * 		init(type, l, h, f, v, pdv) require l % 2 = 1 ^ h % 2 = 1
+		 * 		init(type, l, h, f, v, pdv) require l > 0 ^ h > 0
 		 *                                                ^ 0 < f < pdv ^ 0 <= v
 		 * post 
 				getLargeur(init(type, l, h, f, v, pdv)) = l

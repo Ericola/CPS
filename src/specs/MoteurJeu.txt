@@ -205,12 +205,15 @@ Observations :
 		   positionVillageoisX(pasJeu(M ,c, c2, n, n2, a, a2), V) = positionVillageoisX(M, V)
 		   positionVillageoisY(pasJeu(M, c, c2, n, n2, a, a2), V) = positionVillageoisY(M, V)
 		   
-	    3. Villageois ayant fini la corvee
+	    3. Villageois ayant fini la corvee et Gestion orRestant des mines
 		Pour tout x in [0, numerosVillageois(M).size()[ ^ VillageoisAttente(M).get(x) == pasJeuCourant(M)
 		       Villageois::getQtor(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), x) =  Villageois::getQtor(M, x) + 1
-		       VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(n2) = -1
-		       Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), MineMinee(M).get(x)) = orRestant(getMine(M, MineMinee(M).get(x)) - 1
+		       VillageoisAttente(pasJeu(M ,c, c2, n, n2, a, a2)).get(x) = -1	
 		       MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(x) = -1
+		
+		 Soit nbVillageoisDansMine = nombre de n tel que getVillageois(M, n) dans la mine m avec VillageoisAttente(M).get(n) == pasJeuCourant(M);
+		Pour tout m in [0, numerosMine(M).size()[
+	         Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m) = orRestant(getMine(M, m) - nbVillageoisDansMine(m)
 		      
 		4.Gestion AbandonCompteur et appartenance 
 		  Pour tout m in [0, numerosMine(pasJeu(M ,c, c2, n, n2, a, a2)).size() ^ !(Mine::estLaminee(getMine(M, m))
@@ -222,7 +225,8 @@ Observations :
 		  	 Sinon
 		  	    Mine::appartenance(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = Mine::appartenance(getMine(M, m)) 
 
-		  Pour tout h in [1,2] ^ si c = ENTRERHOTELVILLE, h != a ^ si c2 = ENTRERHOTELVILLE, h!= a2 ^ HotelVille::abandonCompteur(HotelDeVille(M, h)) != 51
+		  Pour tout h in [1,2] ^ si c = ENTRERHOTELVILLE, h != a ^ si c2 = ENTRERHOTELVILLE, h!= a2 
+		     Si HotelVille::abandonCompteur(HotelDeVille(M, h)) != 51
 		     HotelVille::abandonCompteur(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), h)) =  HotelVille::abandonCompteur(HotelDeVille(M, h)) + 1
 		  
 		     Si HotelVille::abandonCompteur(getMine(pasJeu(M ,c, c2, n, n2, a, a2), h)) == 51
@@ -231,18 +235,16 @@ Observations :
 		     Sinon
 		  	   HotelVille::appartenance(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), h)) = HotelVille::appartenance(HotelDeVille(M, h))
 	         
-	    5. Gestion OrRestant et mine laminee
-		     Pour tout m in [0, numerosMine(pasJeu(M ,c, c2, n, n2, a, a2)).size()[ ^^ !(Mine::estLaminee(getMine(M, m))
+	    5. Gestion OrRestant HotelVille et mine laminee
+		     Pour tout m in [0, numerosMine(pasJeu(M ,c, c2, n, n2, a, a2)).size()[ 
 		       Soit x = 0
 		       Pour tout i in MineMinee(pasJeu(M ,c, c2, n, n2, a, a2))
-		     	 Si MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(i) != m || (MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(i) == m && VillageoisAttente(M).get(i) != PasJeuCourant(M))
-		     	   Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) =  Mine::orRestant(getMine(M, m))
 		     	 Si MineMinee(pasJeu(M ,c, c2, n, n2, a, a2)).get(i) = m
 		     	   x = x + 1
-		   
 		     	 Si Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = 0 || Mine::orRestant(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) - x <= 0
 		           Mine::estLaminee(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = true
-		    Pour tout h in [1, 2[ 
+		           
+		     Pour tout h in [1, 2[ 
 		         Si !((c = ENTRERHOTELVILLE ^ h = a) || (c2 = ENTRERHOTELVILLE ^ h = a2))
 		           HotelVille::orRestant(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), m)) =  HotelVille::orRestant(HotelDeVille(M, m))   
 		 
@@ -251,4 +253,4 @@ Observations :
 		      Villageois::getPdv(getVillageois(pasJeu(M ,c, c2, n, n2, a, a2), n)) =  Villageois::getPdv(getVillageois(M, n))
 		     
 		    Pour tout m in [0, numerosVillageois(pasJeu(M ,c, c2, n, n2, a, a2)).size()[   
-		      Muraille::getPdv(getMuraille(pasJeu(M ,c, c2, n, n2, a, a2), m)) =  Muraille::getMuraille(getVillageois(M, m))
+		      Muraille::getPdv(getMuraille(pasJeu(M ,c, c2, n, n2, a, a2), m)) =  Muraille::getMuraille(getMuraille(M, m))

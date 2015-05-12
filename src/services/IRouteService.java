@@ -13,7 +13,7 @@ public interface IRouteService {
 		 */
 	 /*
 		 * pre 
-		 * 		init(l,h) require l % 2 = 1 ^ h % 2 = 1
+		 * 		init(l,h) require l > 0 ^ h > 0
 		 *                                                
 		 * post 
 				getLargeur(init(l, h)) = l

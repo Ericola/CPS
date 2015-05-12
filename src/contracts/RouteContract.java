@@ -1,6 +1,6 @@
 package contracts;
 
-import services.IMineService;
+
 import services.IRouteService;
 import decorators.RouteDecorator;
 import exceptions.InvariantError;
@@ -20,14 +20,14 @@ public class RouteContract extends RouteDecorator {
 	
 	public IRouteService init(int largeur, int hauteur){
 
-		// pre init(l, h) require largeur %2 = 1
-		if(!( (largeur %2) == 1)){
-			throw new PreconditionError(" init(l, h) require largeur % 2 = 1.");
+		// pre init(l, h) require l > 0
+		if(!( largeur > 0)){
+			throw new PreconditionError(" init(l, h) require l > 0");
 		}
 
-		// pre init(l, h) require largeur %2 = 1
-		if(!( (hauteur %2) == 1)){
-			throw new PreconditionError("init(l, h) require hauteur % 2 = 1.");
+		// pre init(l, h) require h > 0
+		if(!( hauteur > 0)){
+			throw new PreconditionError("init(l, h) require h > 0");
 		}
 
 		// inv avant 

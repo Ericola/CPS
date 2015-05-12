@@ -233,9 +233,9 @@ public class MoteurJeuDecorator implements IMoteurJeuService {
 	}
 
 	@Override
-	public void bindHotelVille(Point positionHotelVille1,
+	public void bindHotelVille(IHotelVilleService h1 , IHotelVilleService h2, Point positionHotelVille1,
 			Point positionHotelVille2) {
-		delegate.bindHotelVille(positionHotelVille1, positionHotelVille2);
+		delegate.bindHotelVille(h1, h2, positionHotelVille1, positionHotelVille2);;
 	}
 
 	@Override

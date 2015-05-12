@@ -35,16 +35,16 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
 
-		// opération
+		// operation
 		villageois.init(type, l,  h, f,v,pdv);
-
+		
 		// oracle
-		assertPerso("init, La Race du villageois ne s'est pas initialiser correctement", villageois.getRace() == type);
-		assertPerso("init, La hauteur du villageois ne s'est pas initialiser fait correctement", villageois.getHauteur() == h);
-		assertPerso("init, La largeur du villageois ne s'est pas initialiser fait correctement",  villageois.getLargeur() == l);
-		assertPerso("init, La force du villageois ne s'est pas initialiser fait correctement", villageois.getForce() == f);
-		assertPerso("init, Les point de vie du villageois ne s'est pas initialiser fait correctement", villageois.getPdv() == pdv);
-		assertPerso("init, la vitesse du villageois ne s'est pas initialiser fait correctement", villageois.getVitesse() == v);
+		assertPerso("init, La Race du villageois ne s'est pas initialisee correctement", villageois.getRace() == type);
+		assertPerso("init, La hauteur du villageois ne s'est pas initialisee correctement", villageois.getHauteur() == h);
+		assertPerso("init, La largeur du villageois ne s'est pas initialisee correctement",  villageois.getLargeur() == l);
+		assertPerso("init, La force du villageois ne s'est pas initialisee correctement", villageois.getForce() == f);
+		assertPerso("init, Les point de vie du villageois ne s'est pas initialisee correctement", villageois.getPdv() == pdv);
+		assertPerso("init, la vitesse du villageois ne s'est pas initialisee correctement", villageois.getVitesse() == v);
 	
 	}
 
@@ -59,12 +59,12 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 		ERace type = ERace.HUMAIN;
 		// condition initiale : aucune
 		villageois.init(type, l,  h, f,v,pdv);
-		// opération
+		// operation
 		
 		villageois.setQtor(2);
 		
 		// oracle
-		assertPerso("setQtor, setQtor ne ce fait pas correctement", villageois.getQtor() == 2);
+		assertPerso("setQtor, setQtor ne s'est pas correctement executee", villageois.getQtor() == 2);
 		
 	}
 	
@@ -80,12 +80,12 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 		// condition initiale : aucune
 		villageois.init(type, l,  h, f,v,pdv);
 	
-		// opération
+		// operation
 	
 		villageois.retrait(5);
 		
 		// oracle
-		assertPerso("retrait, retrait ne s'est pas fait correctement", villageois.getPdv() == 5);
+		assertPerso("retrait, retrait ne s'est  pas correctement executee", villageois.getPdv() == 5);
 		
 	}
 		
