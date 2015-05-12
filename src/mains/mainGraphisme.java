@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,7 +36,8 @@ import implementations.RouteImplem;
 import implementations.VillageoisImplem;
 
 public class mainGraphisme extends JPanel{
-	public void paintHashMap(Graphics g,IMoteurJeuService MJ) {
+	
+	/*public void paintHashMap(Graphics g,IMoteurJeuService MJ) {
 		Graphics2D g2d = (Graphics2D) g;
 		
 	
@@ -63,7 +65,8 @@ public class mainGraphisme extends JPanel{
 		g2d.drawRect(50, 50, 30, 30);
 
 		g2d.draw(new Ellipse2D.Double(0, 100, 30, 30));
-	}
+	}*/
+	
 	public static void main(String[] args) {
 		
 		
@@ -159,49 +162,27 @@ murailles.add(mu);
 		
 		moteurJeu.bindHotelVille(hotelDeVille, hotelDeVille2, new Point(500,60), new Point(500,940));
 		
-		//moteurJeu.showingMap
-		
-		
-	/*	IBlocService [][] blocs = new IBlocService[MoteurJeuImpl.nbColonnes][MoteurJeuImpl.nbLignes];
-		for (int i = 0; i < blocs.length; i++) {
-			for (int j = 0; j < blocs[i].length; j++) {
-				blocs[i][j] = new BlocImpl();
-			}
-		}
-		ITerrainService terrain = new TerrainImpl();
-		terrain.bind(blocs);
-		
-		IChampionService hero = new ChampionImpl();
-		IChampionService kidnappeur = new ChampionImpl();
-		List<IVilainService> vilains = new ArrayList<IVilainService>();
-		for (int i = 0; i < VilainImpl.nbBallonOrange + VilainImpl.nbFantomeBleu; i++) {
-			vilains.add(new VilainImpl());
-		}
-		
-		moteurJeu = new MoteurJeuImpl();
-		moteurJeu.bind(terrain);
-		moteurJeu.bind(vilains);
-		moteurJeu.bind(hero, kidnappeur);
-
-		moteurJeu.init(100);
-		moteurJeu.showMap();
-		*/
+	
 		ThreadListener t = new ThreadListener(moteurJeu);
 		t.start();
 		
 		while (!moteurJeu.estFini())
 		{
 			synchronized (moteurJeu) {
-
+				System.out.println("Entrer une commande Villageois HUMAIN et argument");
+				Scanner s = new Scanner(System.in);
+				System.out.println("Entrer une commande Villageois ORC et argument");
+				Scanner s1 = new Scanner(System.in);
+				
 				moteurJeu.pasJeu(ECommande.RIEN, ECommande.RIEN,0, 0, 0, 0);
 				System.out.println(moteurJeu.pasJeuCourant());
-				JFrame frame = new JFrame("Mini Tennis");
+				/*JFrame frame = new JFrame("Mini Tennis");
 				frame.add( new mainGraphisme());
 				frame.setSize(300, 300);
 				frame.setVisible(true);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 			}
-	System.out.println();
+	
 	//		moteurJeu.showMap();
 			System.out.println();
 			try {
@@ -215,56 +196,7 @@ murailles.add(mu);
 	}
 	
 	
-	public static void main2(String[] args) {
-		JFrame frame = new JFrame("Mini Tennis");
-		frame.add( new mainGraphisme());
-		frame.setSize(300, 300);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
 	
-	/* public static void main1 (String [] arg){
-		 MoteurJeuImplem MJ = new MoteurJeuImplem();
-		 //print hashmap
-		 MJ.init(1000, 1000, 1000);
-		
-		 
-		  JFrame f = new JFrame();
-		  
-		  JPanel topPanel = new JPanel();
-			topPanel.setLayout( new BorderLayout() );
-			
-			JScrollPane scrollPane = new JScrollPane();
-			//scrollPane.getViewport().add( label );
-			topPanel.add( scrollPane, BorderLayout.CENTER );
-			JPanel show = new JPanel();
-			show.getGraphics().setColor(Color.RED);
-			show.getGraphics().fillRect(10,10, 10, 10);
-			topPanel.add(show);
-			f.add(topPanel);
-		
-		
-
-	System.out.println("coucou");
-	//scrollPane.setViewport(viewport);
 	
-	      // affectation du titre et de l'icône
-	      f.setTitle("le titre");
-	  //    f.setIconImage(Toolkit.getDefaultToolkit().getImage(Appli0.class.getResource("/icone.gif")));
-	      // affectation de l'opération à effectuer lors de la fermeture de la fenêtre
-	      f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	      // taille et position
-	      f.setPreferredSize(new Dimension(1000, 1000));
-	      f.setLocation(100,100); // la fenêtre est en 100, 100
-	      f.setLocationRelativeTo(null); // la fenêtre est centrée à l'écran
-	      // rendre la fenêtre visible, pack fait en sorte que tous les composants de l'application soient à
-	      // leur preferredSize, ou au dessus
-	      f.pack();
-	      f.setVisible(true);
-	      
-	  	System.out.println("end");
-		 
-	 }
-	*/
 	
 }
