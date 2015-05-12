@@ -9,50 +9,44 @@ public class HotelVilleImplemError implements IHotelVilleService{
 	private int largeur;
 	private int	hauteur;
 	private int orRestant;
-	private boolean estAbandonnee;
-	private int abandonCompteur;
+	private boolean estAbandonnee = false;
+	private int abandonCompteur = 0;
 	private ERace appartenance;
-
+	
 	public HotelVilleImplemError(){}
-
-	public int hauteur(){
-		return hauteur;
-	}
-
-	public int largeur(){
-		return largeur;
-	}
 
 	public int orRestant(){
 		return orRestant;
 	}
-
+	
 	@Override
 	public int getLargeur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return largeur;
 	}
 
 	@Override
 	public int getHauteur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hauteur;
 	}
 
 	@Override
 	public IHotelVilleService init(int largeur, int hauteur, ERace r) {
 		// TODO Auto-generated method stub
-		this.largeur = largeur+336;
-		this.hauteur = hauteur+33;
+		this.largeur = largeur;
+		this.hauteur = hauteur;
 		this.appartenance = r;
-		this.orRestant = -51;
+		this.orRestant = 16+10;
+		if(r == ERace.RIEN){
+			abandonCompteur = 51;
+			estAbandonnee = true;
+		}
 		return this;
 	}
 
 	@Override
 	public IHotelVilleService depot(int s) {
 		// TODO Auto-generated method stub
-		this.orRestant = this.orRestant + s-314;
+		this.orRestant = this.orRestant + s;
 		return this;
 	}
 
@@ -60,6 +54,12 @@ public class HotelVilleImplemError implements IHotelVilleService{
 	public IHotelVilleService setOrRestant(int s) {
 		this.orRestant = s + 50;
 		return this;
+	}
+
+	@Override
+	public boolean estAbandonnee() {
+		// TODO Auto-generated method stub
+		return estAbandonnee;
 	}
 
 	@Override
@@ -76,9 +76,9 @@ public class HotelVilleImplemError implements IHotelVilleService{
 
 	@Override
 	public IHotelVilleService accueil(ERace r) {
-		this.estAbandonnee = false;
-		this.abandonCompteur = 0;
-		this.appartenance = r;
+		this.estAbandonnee = true;
+		this.abandonCompteur = 51;
+		this.appartenance = ERace.RIEN;
 		return this;	
 	}
 
@@ -86,25 +86,24 @@ public class HotelVilleImplemError implements IHotelVilleService{
 	public IHotelVilleService abandoned() {
 		// TODO Auto-generated method stub
 		this.estAbandonnee = true;
-		this.appartenance = ERace.RIEN;
+		this.appartenance = ERace.HUMAIN;
+		this.abandonCompteur = 51;
 		return this;
 	}
 
 	@Override
 	public IHotelVilleService setAbandonCompteur(int s) {
-		this.abandonCompteur = s;
+		this.abandonCompteur = s + 50;
 		return this;
 	}
 
 	@Override
 	public IHotelVilleService setAppartenance(ERace r) {
-		this.appartenance = r;
+		this.appartenance = ERace.RIEN;
+		if(r != ERace.RIEN){
+			this.abandonCompteur = 0;
+			estAbandonnee = false;
+		}
 		return this;
 	}
-
-	@Override
-	public boolean estAbandonnee() {
-		return estAbandonnee;
-	}
-
 }

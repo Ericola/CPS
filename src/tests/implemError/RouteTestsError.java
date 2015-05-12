@@ -2,6 +2,7 @@ package tests.implemError;
 
 import implementations.RouteImplem;
 import implementations.VillageoisImplem;
+import implementationsError.RouteImplemError;
 
 import org.junit.Before;
 
@@ -13,7 +14,7 @@ public class RouteTestsError extends AbstractRoute {
 	@Override
 	@Before
 	public void before() {
-		route = new RouteImplem();
+		route = new RouteImplemError();
 		
 	}
 

@@ -101,7 +101,7 @@ public class MineImplemError implements IMineService{
 
 	@Override
 	public IMineService setAppartenance(ERace r) {
-		this.appartenance = r;
+		this.appartenance = ERace.RIEN;
 		return this;
 	}
 	

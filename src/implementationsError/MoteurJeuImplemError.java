@@ -24,9 +24,6 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	private int largeurTerrain;
 	private int hauteurTerrain;
 
-	private boolean estFini;
-	private EResultat resultatFinal;
-
 	private List<IVillageoisService> villageois;
 	private List<IMineService> mines;
 	private IHotelVilleService hotelDeVille;
@@ -66,13 +63,42 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	@Override
 	public boolean estFini() {
 		// TODO Auto-generated method stub
-		return estFini;
+		if(pasJeuCourant == maxPasJeu)
+			return false;
+
+		if((HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.HUMAIN) 
+				|| (HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.HUMAIN) 
+				||(HotelDeVille(1).appartenance() == ERace.HUMAIN && HotelDeVille(2).appartenance() == ERace.HUMAIN)){
+			return false;
+		}
+
+		if((HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.ORC) 
+				|| (HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.ORC) 
+				||(HotelDeVille(1).appartenance() == ERace.ORC && HotelDeVille(2).appartenance() == ERace.ORC)){
+			return false;
+		}
+
+		return false;
 	}
 
 	@Override
 	public EResultat resultatFinal() {
 		// TODO Auto-generated method stub
-		return resultatFinal;
+		if(pasJeuCourant == maxPasJeu){
+			return EResultat.ORCGAGNE;
+		}
+		if((HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.HUMAIN) 
+				|| (HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.HUMAIN) 
+				||(HotelDeVille(1).appartenance() == ERace.HUMAIN && HotelDeVille(2).appartenance() == ERace.HUMAIN)){
+			return EResultat.ORCGAGNE;
+		}
+		if((HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.ORC) 
+				|| (HotelDeVille(1).orRestant() > 1664 && HotelDeVille(1).appartenance() == ERace.ORC) 
+				||(HotelDeVille(1).appartenance() == ERace.ORC && HotelDeVille(2).appartenance() == ERace.ORC)){
+			return EResultat.HUMAINGAGNE;
+		}
+
+		return EResultat.HUMAINGAGNE;
 	}
 
 	@Override
@@ -131,10 +157,10 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 				||(getMine(numMine).appartenance() != ERace.RIEN && getMine(numMine).appartenance() != getVillageois(numVillageois).getRace())){
 			return false;
 		}
-		
-		double distance=positions.get(getMine(numMine)).distance(positions.get(villageois.get(numVillageois)));
+		Rectangle r = new Rectangle(positionMineX(getMine(numMine)), positionMineY(getMine(numMine)), 50, 50);
+		Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(numVillageois)) + 5 - 28, positionVillageoisY(getVillageois(numVillageois)) + 5 - 28, 56, 56);
 		if(getMine(numMine).estAbandonnee()){
-			return distance < 51;
+			r.intersects(r1);
 		}
 		int nbVillageoisDansMine = 0;
 		for(int i = 0; i < MineMinee.size(); i++){
@@ -142,9 +168,9 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 				nbVillageoisDansMine++;
 			}
 		}
-		
-		return getMine(numMine).orRestant() - nbVillageoisDansMine > 0 && distance < 51;
-		
+
+		return getMine(numMine).orRestant() - nbVillageoisDansMine > 0 && r.intersects(r1);
+
 	}
 
 	@Override
@@ -175,15 +201,14 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	public boolean peutEntrerHotelVille(int numVillageois, int hv) {
 		// TODO Auto-generated method stub
 		double distance = 0.0;
-		if(hv == 1)
-			distance=positions.get(hotelDeVille).distance(positions.get(hotelDeVille));
-		else{
-			distance=positions.get(hotelDeVille2).distance(positions.get(hotelDeVille));
-		}
-		return distance<=51 && (getVillageois(numVillageois).getRace() == HotelDeVille(hv).appartenance()) 
+
+		Rectangle r = new Rectangle(positionHotelVilleX(hv), positionHotelVilleY(hv), 50, 50);
+		Rectangle r1 = new Rectangle(positionVillageoisX(getVillageois(numVillageois)) + 5 - 28, positionVillageoisY(getVillageois(numVillageois)) + 5 - 28, 56, 56);
+
+		return r.intersects(r1) && (getVillageois(numVillageois).getRace() == HotelDeVille(hv).appartenance()) 
 				|| HotelDeVille(hv).appartenance() == ERace.RIEN;
 	}
-	
+
 	@Override
 	public List<IRouteService> numerosRoute() {
 		// TODO Auto-generated method stub
@@ -214,7 +239,7 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		for(int numRoute = 0; numRoute < routes.size(); numRoute++){
 			Rectangle rect = new Rectangle(positionRouteX(getRoute(numRoute)), positionRouteY(getRoute(numRoute)),
 					getRoute(numRoute).getLargeur(), getRoute(numRoute).getHauteur());
-			if(rect.contains(positions.get(getVillageois(numVillageois))))
+			if(rect.contains(positionsVillageois.get(getVillageois(numVillageois))))
 				return true;
 		}
 		return false;
@@ -256,19 +281,19 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		}
 		return false;
 	}
-	
+
 	public List<Integer> VillageoisAttente(){
 		return VillageoisAttente;
 	}
-	
+
 	public List<Integer> MineMinee(){
 		return MineMinee;
 	}
-	
+
 	public HashMap<IVillageoisService, Point> positionsVillageois(){
 		return positionsVillageois;
 	}
-	
+
 	public HashMap<Object, Point> positions(){
 		return positions;
 	}
@@ -276,98 +301,12 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	// Chaque joueur commence avec 2 villageois et 1 hotel de ville. Le terrain contient 4 mines, 2 routes, 
 	// 1 muraille 
 	public IMoteurJeuService init(int maxPasJeu, int l, int h) {
-		// TODO Auto-generated method stub
-		positions =new HashMap<Object, Point>();
-		positionsVillageois = new HashMap<IVillageoisService, Point>();
-		
-		hotelDeVille = new HotelVilleImplem();
-		hotelDeVille2 = new HotelVilleImplem();
-
-		hotelDeVille.init(50, 50, ERace.HUMAIN);
-		hotelDeVille2.init(50, 50, ERace.ORC);
-
-//		positions.put(hotelDeVille, new Point(l/2, 10));
-//		positions.put(hotelDeVille2, new Point(l/2, h -60));
-
-		villageois= new ArrayList<IVillageoisService>();
-//		IVillageoisService v = new VillageoisImplem();
-//		IVillageoisService v1 = new VillageoisImplem();
-//		IVillageoisService v2 = new VillageoisImplem();
-//		IVillageoisService v3 = new VillageoisImplem();
-
-//		v.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
-//		v1.init(ERace.HUMAIN, 10, 10, 3, 4, 60);
-//		v2.init(ERace.ORC, 10, 10, 4, 3, 60);
-//		v3.init(ERace.ORC, 10, 10, 4, 3, 60);
-//
-//		positionsVillageois.put(v, new Point(positionHotelVilleX(1) - 10, positionHotelVilleY(1)));
-//		positionsVillageois.put(v1, new Point(positionHotelVilleX(1) + 60, positionHotelVilleY(1)));
-//		positionsVillageois.put(v2, new Point(positionHotelVilleX(2) - 10, positionHotelVilleY(2)));
-//		positionsVillageois.put(v3,  new Point(positionHotelVilleX(2) + 60, positionHotelVilleY(2)));
-//		villageois.add(v);
-//		villageois.add(v1);
-//		villageois.add(v2);
-//		villageois.add(v3);
-
-		VillageoisAttente = new ArrayList<>();
-//		for(int i = 0; i < villageois.size(); i++){
-//			VillageoisAttente.add(-1);
-//		}
-
-		MineMinee = new ArrayList<>();
-		for(int i = 0; i < villageois.size(); i++){
-			MineMinee.add(-1);
-		}
-		mines=new ArrayList<IMineService>();
-//		IMineService m = new MineImplem();
-//		IMineService m1 = new MineImplem();
-//		IMineService m2 = new MineImplem();
-//		IMineService m3 = new MineImplem();
-//
-//		m.init(50, 50);
-//		m1.init(50, 50);
-//		m2.init(50, 50);
-//		m3.init(50, 50);
-//
-//		positions.put(m, new Point(10, 10));
-//		positions.put(m1, new Point(l-60, 10));
-//		positions.put(m2, new Point(l-60, h-60));
-//		positions.put(m3, new Point(10, h-60));
-//		mines.add(m);
-//		mines.add(m1);
-//		mines.add(m2);
-//		mines.add(m3);
-
-		routes=new ArrayList<IRouteService>();
-//		IRouteService r = new RouteImplem();
-//		IRouteService r1 = new RouteImplem();
-//
-//		r.init(l, 50);
-//		r1.init(50 , h - 150);
-//
-//		positions.put(r, new Point(0, h/2));
-//		positions.put(r1, new Point(l/2, 80));
-//
-//		routes.add(r);
-//		routes.add(r1);
-
-		murailles=new ArrayList<IMurailleService>();
-//		IMurailleService mu = new MurailleImplem();
-//
-//		mu.init(50, 50, 100);
-//
-//		positions.put(mu, new Point(l/2, h/2));
-//
-//		murailles.add(mu);
-
 		this.maxPasJeu=maxPasJeu;
 		pasJeuCourant=0;
 		largeurTerrain = l;
-		hauteurTerrain = h;
-		estFini = false;
+		hauteurTerrain = h+50;
 
 		return this;
-
 	}
 
 
@@ -378,32 +317,32 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		if(estSurRoute(numVillageois)){
 			vitesse = 2*vitesse;
 		}
-		if(argument<46){
+		if(argument<46){ // haut droite
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x+vitesse,point.y-vitesse);
 		}
-		if(argument<91){
+		if(argument<91){ // haut
 			return new Point(point.x,point.y-vitesse);
 		}
-		if(argument<136){
+		if(argument<136){ // haut gauche
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x-vitesse,point.y-vitesse);
 		}
-		if(argument<181){
+		if(argument<181){ //  gauche
 			return new Point(point.x-vitesse,point.y);
 		}
-		if(argument<226){
+		if(argument<226){// bas gauche
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x-vitesse,point.y+vitesse);
 		}
-		if(argument<271){
-			return new Point(point.x,point.y+vitesse);
+		if(argument<271){ // bas
+			return new Point(point.x,point.y);
 		}
-		if(argument<316){
+		if(argument<316){// bas droite
 			vitesse = vitesse/2 + 1;
 			return new Point(point.x+vitesse,point.y+vitesse);
 		}
-		if(argument<361){
+		if(argument<361){// droite
 			return new Point(point.x+vitesse,point.y);
 		}
 
@@ -419,38 +358,42 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		case DEPLACER : 
 			Point yo=deplacer(argument,positionsVillageois.get(villageois.get(numVillageois)), numVillageois);
 			// On teste si la position finale yo est sur une muraille;
-		    Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
-			if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
-					&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
+			Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
+//			if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
+//					&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
 				positionsVillageois.put(villageois.get(numVillageois), yo);
 			break;
 
 		case ENTRERMINE : 
-			//ajouter un boolean au villageois actif/inactif
-
-			//tester si la mine si abandonnee -> non abandonnee
-			if(getMine(argument).estAbandonnee()){
-				getMine(argument).accueil(getVillageois(numVillageois).getRace());
+			if(!peutEntrer(numVillageois, argument)){
+				//tester si la mine si abandonnee -> non abandonnee
+				if(getMine(argument).estAbandonnee()){
+					getMine(argument).accueil(ERace.RIEN);
+				}
+				getMine(argument).setAppartenance(ERace.HUMAIN);
+				VillageoisAttente.add(numVillageois, pasJeuCourant() + 16);
+				MineMinee().add(numVillageois, argument);
 			}
-			VillageoisAttente.add(numVillageois, pasJeuCourant() + 16);
-			MineMinee().add(numVillageois, argument);
 			break;
 
 
 		case ENTRERHOTELVILLE : 
-			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
-			if(HotelDeVille(argument).estAbandonnee()){
-				HotelDeVille(argument).accueil(getVillageois(numVillageois).getRace());
-			}
-			HotelDeVille(argument).setOrRestant(HotelDeVille(argument).orRestant() 
-					+ villageois.get(numVillageois).getQtor());
+			if(!peutEntrerHotelVille(numVillageois, argument)){
+				// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
+				if(HotelDeVille(argument).estAbandonnee()){
+					HotelDeVille(argument).accueil(ERace.RIEN);
+				}
+				HotelDeVille(argument).setAppartenance(ERace.HUMAIN);
+				HotelDeVille(argument).setOrRestant(HotelDeVille(argument).orRestant() 
+						+ villageois.get(numVillageois).getQtor());
 
-			//villageois a plus de piece :)
-			//qtor(villageois)=0
-			villageois.get(numVillageois).setQtor(0);
+				//villageois a plus de piece :)
+				//qtor(villageois)=0
+				villageois.get(numVillageois).setQtor(0);
+			}
 			break;
 
-		default:
+		default: // CAS RIEN
 			break;
 
 
@@ -460,37 +403,44 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		case DEPLACER : 
 			Point yo=deplacer(argument2,positionsVillageois.get(villageois.get(numVillageois2)), numVillageois2);
 			// On teste si la position finale yo est sur une muraille;
-		    Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
-			if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
-					&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
+			Rectangle r = new Rectangle(0,0, LargeurTerrain(), HauteurTerrain());
+			//if(!estSurMuraille(yo) && r.contains(new Point(yo.x, yo.y)) && r.contains(new Point(yo.x + 10, yo.y))
+					//&& r.contains(new Point(yo.x +10, yo.y + 10)) && r.contains(new Point(yo.x, yo.y+10)))
 				positionsVillageois.put(villageois.get(numVillageois), yo);
 			break;
 
 		case ENTRERMINE : 
-			//ajouter un boolean au villageois actif/inactif
+			if(!peutEntrer(numVillageois2, argument2)){
+				//tester si la mine si abandonnee -> non abandonnee
+				if(this.peutEntrer(numVillageois2, argument2)){
+					if(getMine(argument2).estAbandonnee()){
+						getMine(argument2).accueil(ERace.RIEN);
+					}
+					getMine(argument2).setAppartenance(ERace.HUMAIN);
+					VillageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
 
-			//tester si la mine si abandonnee -> non abandonnee
-			if(getMine(argument2).estAbandonnee()){
-				getMine(argument2).accueil(getVillageois(numVillageois2).getRace());
+					MineMinee().add(numVillageois2, argument2);
+				}
 			}
-			VillageoisAttente.add(numVillageois2, pasJeuCourant() + 16);
-			MineMinee().add(numVillageois2, argument2);
 			break;
 
 		case ENTRERHOTELVILLE : 
-			// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
-			if(HotelDeVille(argument2).estAbandonnee()){
-				HotelDeVille(argument2).accueil(getVillageois(numVillageois2).getRace());
-			}
-			HotelDeVille(argument2).setOrRestant(HotelDeVille(argument2).orRestant() 
-					+ villageois.get(numVillageois2).getQtor());
+			if(!peutEntrerHotelVille(numVillageois2, argument2)){
+				// qtor(hotelVille) = qtor(hotelVille) + qtor(villageois)
+				if(HotelDeVille(argument2).estAbandonnee()){
+					HotelDeVille(argument2).accueil(ERace.RIEN);
+				}
+				HotelDeVille(argument2).setAppartenance(ERace.HUMAIN);
+				HotelDeVille(argument2).setOrRestant(HotelDeVille(argument2).orRestant() 
+						+ villageois.get(numVillageois2).getQtor());
 
-			//villageois a plus de piece :)
-			//qtor(villageois)=0
-			villageois.get(numVillageois2).setQtor(0);
+				//villageois a plus de piece :)
+				//qtor(villageois)=0
+				villageois.get(numVillageois2).setQtor(0);
+			}
 			break;
 
-
+		default: break; // CAS RIEN	
 		}
 
 		for(int i = 0; i < VillageoisAttente.size(); i++){
@@ -517,10 +467,7 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 			if(getMine(i).abandonCompteur() < 51 && !villageoisDansMine){
 				getMine(i).setAbandonCompteur(getMine(i).abandonCompteur() + 1);
 			}
-			else if(getMine(i).abandonCompteur() == 51 && !getMine(i).estAbandonnee()){
-				getMine(i).abandoned();
-			}
-			
+
 			if(getMine(i).orRestant() == 0 || getMine(i).orRestant() - nbVillageoisDansMine <= 0){
 				getMine(i).setLaminee();
 			}
@@ -530,25 +477,20 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 		if(HotelDeVille(1).abandonCompteur() < 51 && Commande != ECommande.ENTRERHOTELVILLE ||(Commande == ECommande.ENTRERHOTELVILLE && argument != 1)){
 			HotelDeVille(1).setAbandonCompteur(HotelDeVille(1).abandonCompteur() + 1);
 		}
-		else if(HotelDeVille(1).abandonCompteur() == 51){
-			HotelDeVille(1).abandoned();
-		}
 		if(HotelDeVille(2).abandonCompteur() < 51 && Commande2 != ECommande.ENTRERHOTELVILLE ||(Commande2 == ECommande.ENTRERHOTELVILLE && argument2 != 2)){
 			HotelDeVille(2).setAbandonCompteur(HotelDeVille(2).abandonCompteur() + 1);
 		}
-		else if(HotelDeVille(2).abandonCompteur() == 51 && !HotelDeVille(2).estAbandonnee()){
-			HotelDeVille(2).abandoned();
-		}
-		
 		pasJeuCourant++;
-		
+
 		return this;
 	}
 
 	@Override
 	public void bindHotelVille(IHotelVilleService h1 , IHotelVilleService h2, Point positionHotelVille1,
 			Point positionHotelVille2) {
-	
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		this.hotelDeVille = h1;
 		this.hotelDeVille2 = h2;
 		positions.put(HotelDeVille(1), positionHotelVille1);
@@ -558,8 +500,11 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	@Override
 	public void bindMine(List<IMineService> mines,
 			List<Point> positionsMines) {
+		this.mines = mines;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < mines.size(); i++){
-			numerosMine().add(mines.get(i));
 			positions().put(mines.get(i), positionsMines.get(i));
 		}		
 	}
@@ -567,8 +512,11 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	@Override
 	public void bindRoute(List<IRouteService> routes,
 			List<Point> positionsRoutes) {
+		this.routes = routes;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < routes.size(); i++){
-			numerosRoute().add(routes.get(i));
 			positions().put(routes.get(i), positionsRoutes.get(i));
 		}			
 	}
@@ -576,21 +524,34 @@ public class MoteurJeuImplemError implements IMoteurJeuService{
 	@Override
 	public void bindVillageois(List<IVillageoisService> villageois,
 			List<Point> positionsVillageois) {
+		this.villageois = villageois;
+		if(positionsVillageois() == null){
+			this.positionsVillageois = new HashMap<IVillageoisService, Point>();
+		}
+		if(MineMinee() == null){
+			MineMinee =new ArrayList<>();
+		}
+		if(VillageoisAttente() == null){
+			VillageoisAttente = new ArrayList<>();
+		}
 		for(int i = 0; i < villageois.size(); i++){
-			numerosVillageois().add(villageois.get(i));
 			positionsVillageois().put(villageois.get(i), positionsVillageois.get(i));
 			MineMinee().add(-1);
 			VillageoisAttente.add(-1);
 		}
-		
+
 	}
 
 	@Override
 	public void bindMuraille(List<IMurailleService> murailles,
 			List<Point> positionsMurailles) {
+		this.murailles = murailles;
+		if(positions() == null){
+			this.positions = new HashMap<Object, Point>();
+		}
 		for(int i = 0; i < murailles.size(); i++){
-			numerosMuraille().add(murailles.get(i));
 			positions().put(murailles.get(i), positionsMurailles.get(i));
 		}	
 	}
+
 }

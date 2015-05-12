@@ -55,8 +55,8 @@ public class VillageoisImplemError implements IVillageoisService{
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		this.force = force;
-		this.vitesse = vitesse;
-		this.pointDeVie = pdv;
+		this.vitesse = vitesse+3;
+		this.pointDeVie = pdv+50;
 		this.quantiteDor = 10;
 		return this;
 	}

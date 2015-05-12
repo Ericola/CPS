@@ -561,9 +561,4 @@ public class MoteurJeuImplem implements IMoteurJeuService {
 		}	
 	}
 
-	public void showMap() {
-
-	}
-
-
 }

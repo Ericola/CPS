@@ -226,15 +226,14 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		moteurJeu.init(1664,1000,1000);
 
 		//on met le villageois juste en dessous d'une muraille
-		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMurailleX(moteurJeu.getMuraille(0)),moteurJeu.positionMurailleX(moteurJeu.getMuraille(0))+15));
-
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(moteurJeu.positionMurailleX(moteurJeu.getMuraille(0)),moteurJeu.positionMurailleX(moteurJeu.getMuraille(0))+52));
 		//Operation
-		//le villageois 1  va vers le bas et se retrouve dans la muraille
-		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 267 , 5);
+		//le villageois 1  va vers le haut et se retrouve dans la muraille
+		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.RIEN, 1, 3, 90 , 5);
 
 		//Oracle
 		//je teste si le villageois est bien monte d'un pas qui le fait aller sur la muraille
-		assertPerso("test6 : le villageois s'est deplace dans la muraille , c'est impossible ",moteurJeu.estSurMuraille(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
+		assertPerso("test6 : le villageois s'est deplace dans la muraille , c'est impossible ",!moteurJeu.estSurMuraille(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1)))); 
 
 
 	}
@@ -291,11 +290,13 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		//HUMAIN
 		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(1), new Point(1,1)); //1+4 =5
 		//ORC
-		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(3), new Point(1,8));//8-3 =5
+		moteurJeu.positionsVillageois().put(moteurJeu.getVillageois(3), new Point(1,1));//8-3 =5
 		//Operation
-		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.DEPLACER, 1, 3, 49 , 267);
+		moteurJeu.pasJeu(ECommande.DEPLACER, ECommande.DEPLACER, 1, 3, 49 , 49);
 		//Oracle
-		assertPerso("test9 : le villageois 1 HUMAIN et LE VILLAGEOIS 3 ORC , ne sont pas senses ere mis sur la meme case et pourtant. ", ! moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(3)).equals(moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1))) ); 
+		assertPerso("test9 : le villageois 1 HUMAIN et LE VILLAGEOIS 3 ORC , sont censes etre mis sur la meme case et pourtant. ", 
+				moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(3)).equals(
+						moteurJeu.positionsVillageois().get(moteurJeu.getVillageois(1))) ); 
 
 
 	}

@@ -1,6 +1,6 @@
 package tests.implemError;
 
-import implementations.VillageoisImplem;
+import implementationsError.VillageoisImplemError;
 
 import org.junit.Before;
 
@@ -11,7 +11,7 @@ public class VillageoisTestsError extends AbstractVillageois {
 	@Override
 	@Before
 	public void before() {
-		villageois = new VillageoisImplem();
+		villageois = new VillageoisImplemError();
 		
 	}
 
