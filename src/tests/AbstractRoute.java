@@ -26,11 +26,11 @@ public abstract class AbstractRoute extends AbstractAssertion {
 		
 		// condition initiale : aucune
 
-		// opération
+		// operation
 		route.init( l,  h);
 		
-		assertPerso("init, La hauteur du villageois ne ce fait pas correctement", route.getHauteur() == h);
-		assertPerso("init, La largeur du villageois ne ce fait pas correctement",  route.getLargeur() == l);
+		assertPerso("init, La hauteur du villageois ne s'est fait pas correctement", route.getHauteur() == h);
+		assertPerso("init, La largeur du villageois ne s'est fait pas correctement",  route.getLargeur() == l);
 	}
 	
 	

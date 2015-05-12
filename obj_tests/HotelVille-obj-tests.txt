@@ -1,8 +1,8 @@
-Cas de test 0.1 : Test de la création d'un HotelDeVille (init) réussi
+Cas de test 0.1 : Test de la creation d'un HotelDeVille (init) reussi
 
-Condition initiales : 
+Conditions initiales : 
 		aucun
-	Opérations : 
+	Operations : 
 		L0 = init(50,50,ERace.HOMME);
 	Oracle : 
 		getHauteur(L0)==50
@@ -13,35 +13,35 @@ Condition initiales :
 	
 	Rapport :
 		getHauteur(L0)!=50
-			=> init, La hauteur de l'hotel de ville ne s'est pas initialisée correctement
+			=> init, La hauteur de l'hotel de ville ne s'est pas initialisee correctement
 		getLargeur(L0) != 50
-			=> init, La Largeur de l'hotel de ville ne s'est pas initialisée correctement
+			=> init, La Largeur de l'hotel de ville ne s'est pas initialisee correctement
 		orRestant(L0) != 16
-		   => init, La Qtor de l'hotel de ville ne s'est pas initialisée correctement
+		   => init, La Qtor de l'hotel de ville ne s'est pas initialisee correctement
 		abandonCompteur(L0) != 0
-		   => init, L'abandonCompteur de l'hotel de ville ne s'est pas initialisé correctement
+		   => init, L'abandonCompteur de l'hotel de ville ne s'est pas initialisee correctement
 		appartenance(L0) != ERace.HOMME
-		   => init, L'Appartenance de l'hotel de ville ne s'est pas initialisée correctement
+		   => init, L'Appartenance de l'hotel de ville ne s'est pas initialisee correctement
 		
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 1.1 : Test de depot dans un HotelDeVille réussi
+Cas de test 1.1 : Test de depot dans un HotelDeVille reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(50,50,ERACE.HUMAIN);
-	Opérations : 
+	Operations : 
 		L1 = depot(4)
 	Oracle : 
 		orRestant(L1)==55 
 		
 	Rapport :
 		orRestant(L1)!=55 
-			=>depot, Le depot de l'hdv n'a pas bien fonctionné
+			=>depot, Le depot de l'hdv n'a pas bien fonctionne
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 2.1 : Test d'abandoned dans un HotelDeVille positif
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(50,50,ERACE.HUMAIN);
-	Opérations : 
+	Operations : 
 		L1 = abandoned(L0)
 	Oracle : 
 		appartenance(L1)==ERace.RIEN
@@ -50,11 +50,11 @@ Condition initiales :
 		appartenance(L1)!=ERace.RIEN
 			=>abandoned, Le abandoned de hdv ne s'est pas fait pas correctement
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 3.1 : Test d'accueil dans un HotelDeVille réussi
+Cas de test 3.1 : Test d'accueil dans un HotelDeVille reussi
 
 Condition initiales : 
 		L0 = init(50,50,ERACE.HUMAIN);
-	Opérations : 
+	Operations : 
 		L1 = abandoned(L0)
 		L2 = accueil(L1,ERACE.ORC)
 	Oracle : 
@@ -62,24 +62,24 @@ Condition initiales :
 		
 	Rapport :
 		appartenance(L2) != ERace.ORC
-			=> orRestant, accueil de la hdv n'a pas fonctionné
+			=> orRestant, accueil de la hdv n'a pas fonctionne
 ---------------------------------------------------------------------------------------------------------------------------
-Cas de test 4.1 : Test de setOr dans un HotelDeVille réussi
-Condition initiales : 
+Cas de test 4.1 : Test de setOr dans un HotelDeVille reussi
+Conditions initiales : 
 		L0 = init(50,50,ERACE.HUMAIN);
-	Opérations : 
+	Operations : 
 		L1 = abandoned(L0)
 	Oracle : 
 		setOrRestant(L1) == 40
 		
 	Rapport :
 		setOrRestant(L1) != 40
-			=>orRestant, orRestant de la hdv ne s'est pas fait correctement
+			=>orRestant, orRestant de la hdv ne s'est pas faite correctement
 ---------------------------------------------------------------------------------------------------------------------------
-Cas de test 5.1 : Test de setAppartenance dans un HotelDeVille réussi
-Condition initiales : 
+Cas de test 5.1 : Test de setAppartenance dans un HotelDeVille reussi
+Conditions initiales : 
 		L0 = init(50,50,ERACE.RIEN);
-	Opérations : 
+	Operations : 
 		L1 = setAppartenance(L0,ERACE.ORC)
 		
 	Oracle : 
@@ -89,10 +89,10 @@ Condition initiales :
 		appartenance(L1) != ERace.ORC
 			=>setappartenance, SetAppartenance de la hdv ne s'est pas fait correctement
 ---------------------------------------------------------------------------------------------------------------------------
-Cas de test 6.1 : Test de SetAbandonCompteur dans un HotelDeVille réussi
-Condition initiales : 
+Cas de test 6.1 : Test de SetAbandonCompteur dans un HotelDeVille reussi
+Conditions initiales : 
 		L0 = init(50,50,ERACE.HUMAIN);
-	Opérations : 
+	Operations : 
 		L1 = setAbandonCompteur(L0,30)
 	Oracle : 
 		abandonCompteur(L1) == 30

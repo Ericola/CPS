@@ -1,14 +1,14 @@
-Cas de test 0.1 : Test de la création d'une route (init) réussi
+Cas de test 0.1 : Test de la cretion d'une route (init) reussi
 
-Condition initiales : 
+Conditions initiales : 
 		aucun
-	Opérations : 
+	Operations : 
 		L0 = init(900,50);
 	Oracle : 
 		getHauteur(L0) == 900
 		getLargeur(L0) == 50
 	Rapport :
 		getHauteur(L0) != 900
-			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
+			=> init, La hauteur du villageois ne s'est pas initialisee correctement
 		getLargeur(L0) != 50
-			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
+			=> init, La hauteur du villageois ne s'est pas initialisee correctement

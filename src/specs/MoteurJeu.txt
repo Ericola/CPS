@@ -80,12 +80,12 @@ Operators :
 
 	pasJeu : [MoteurJeu] x ECommande x ECommande x int x int x int x int -> [MoteurJeu]
 		pre pasJeu(M ,c, c2, n, n2, a, a2)  require not estFini(M) 
-		^ n in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == HUMAIN ^ VillageoisAttente(M, n) = -1
-		^ n2 in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ORC ^ VillageoisAttente(M, n2) = -1
-		 c = DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in [0, numerosMine.size[ ^ 
-		 peutEntrer(M, n, a) ^ Commande = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n) && a = 1 || a = 2
-		 ^ c2 = DEPLACER => 0 <= a2 <= 360 ^ c2 = ENTRERMINE => a2 in numerosMine(M)
-		 ^ peutEntrer(M, n2, a2)  ^ c2 = ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
+		^ n in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ERace.HUMAIN ^ VillageoisAttente(M, n) = -1
+		^ n2 in [0, numerosVillageois.size[ ^ Villageois::getRace(getVillageois(M, n)) == ERace.ORC ^ VillageoisAttente(M, n2) = -1
+		 c = ECommande.DEPLACER => 0 <= a <= 360 ^ c = ENTRERMINE => a in [0, numerosMine.size[ ^ 
+		 peutEntrer(M, n, a) ^ Commande = ECommande.ENTRERHOTELVILLE => peutEntrerHotelVille(M, n) && a = 1 || a = 2
+		 ^ c2 = ECommande.DEPLACER => 0 <= a2 <= 360 ^ c2 = ECommande.ENTRERMINE => a2 in numerosMine(M)
+		 ^ peutEntrer(M, n2, a2)  ^ c2 = ECommande.ENTRERHOTELVILLE => peutEntrerHotelVille(M, n2)
 		
 		
 
@@ -225,7 +225,7 @@ Observations :
 		  	 Sinon
 		  	    Mine::appartenance(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = Mine::appartenance(getMine(M, m)) 
 
-		  Pour tout h in [1,2] ^ si c = ENTRERHOTELVILLE, h != a ^ si c2 = ENTRERHOTELVILLE, h!= a2 
+		  Pour tout h in [1,2] ^ si c = ECommande.ENTRERHOTELVILLE, h != a ^ si c2 = ECommande.ENTRERHOTELVILLE, h!= a2 
 		     Si HotelVille::abandonCompteur(HotelDeVille(M, h)) != 51
 		     HotelVille::abandonCompteur(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), h)) =  HotelVille::abandonCompteur(HotelDeVille(M, h)) + 1
 		  
@@ -245,7 +245,7 @@ Observations :
 		           Mine::estLaminee(getMine(pasJeu(M ,c, c2, n, n2, a, a2), m)) = true
 		           
 		     Pour tout h in [1, 2[ 
-		         Si !((c = ENTRERHOTELVILLE ^ h = a) || (c2 = ENTRERHOTELVILLE ^ h = a2))
+		         Si !((c = ECommande.ENTRERHOTELVILLE ^ h = a) || (c2 = ECommande.ENTRERHOTELVILLE ^ h = a2))
 		           HotelVille::orRestant(HotelDeVille(pasJeu(M ,c, c2, n, n2, a, a2), m)) =  HotelVille::orRestant(HotelDeVille(M, m))   
 		 
 	   	6. Gestion Point de vie des murailles et Villageois (pas de gestion combat pour l'instant)

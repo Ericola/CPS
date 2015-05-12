@@ -1,8 +1,8 @@
 Cas de test 0.1 : Test de la création d'un villageois (init) réussi
 
-Condition initiales : 
+Conditions initiales : 
 		aucun
-	Opérations : 
+	Operations : 
 		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
 	Oracle : 
 		getRace(L0) == ERace.HUMAIN
@@ -14,44 +14,44 @@ Condition initiales :
 		
 	Rapport :
 		getType(L0) != ERace.HUMAIN
-			=> init, La Race du villageois ne s'est pas initialiser fait  correctement
+			=> init, La Race du villageois ne s'est pas initialisee correctement
 		getHauteur(L0) != 10
-			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
+			=> init, La hauteur du villageois ne s'est pas initialisee correctement
 		getLargeur(L0) != 10
-			=> init, La hauteur du villageois ne s'est pas initialiser fait correctement
+			=> init, La hauteur du villageois ne s'est pas initialisee correctement
 		getForce(L0) != 3
-			=> init, La force du villageois ne s'est pas initialiser fait correctement	
+			=> init, La force du villageois ne s'est pas initialisee correctement	
 		getPdv(L0) != 4
-			=> init, Les point de vie du villageois ne s'est pas initialiser fait correctement
+			=> init, Les point de vie du villageois ne s'est pas initialisee correctement
 		getVitesse(L0) !=10
-		    => init, la vitesse du villageois ne s'est pas initialiser fait correctement
+		    => init, la vitesse du villageois ne s'est pas initialisee correctement
 	
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 1.1 : Test de SetQtor d'un villageois réussi
+Cas de test 1.1 : Test de SetQtor d'un villageois reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
-	Opérations : 
+	Operations : 
 		L1 = setQtor(L0,2);
 	Oracle : 
 		getQtor(L1) == 2
 		
 	Rapport :
 		getType(L1) != 2
-			=> setQtor, setQtor ne ce fait pas correctement
+			=> setQtor, setQtor ne s'est pas faite correctement
 		
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 2.1 : Test de retrait de  d'un villageois réussi
+Cas de test 2.1 : Test de retrait d'un villageois reussi
 
 Condition initiales : 
 		L0 = init(ERace.HUMAIN, 2,  2, 3,4,10);
 	
-	Opérations : 
+	Operations : 
 		L1 = retrait(L1,5)
 	Oracle : 
 	   getPdv(L1) = 5
 	Rapport :
 		getType(L1) != 5
-			=>retrait, retrait ne s'est pas fait correctement
+			=>retrait, retrait ne s'est pas faite correctement
 
 
