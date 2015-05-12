@@ -157,7 +157,7 @@ murailles.add(mu);
 		moteurJeu.bindVillageois(villageois, positionsVillageois);
 		
 		
-		moteurJeu.bindHotelVille(new Point(500,60), new Point(500,940));
+		moteurJeu.bindHotelVille(hotelDeVille, hotelDeVille2, new Point(500,60), new Point(500,940));
 		
 		//moteurJeu.showingMap
 		
