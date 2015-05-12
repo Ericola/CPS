@@ -69,7 +69,7 @@ public abstract class AbstractVillageois extends AbstractAssertion {
 	}
 	
 	@Test
-	public void testRetraitPdvPosition() {
+	public void testRetraitPdvPositif() {
 		int l = 2;
 		int h = 2;
 		int f =3;

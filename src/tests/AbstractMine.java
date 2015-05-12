@@ -32,6 +32,7 @@ public abstract class AbstractMine extends AbstractAssertion {
 		// opération
 		mine.init( l,  h);
 		
+		//oracle
 		assertPerso("init, La hauteur de la mines ne s'est pas initialisée correctement", mine.getHauteur() == h);
 		assertPerso("init, La largeur de la mines ne s'est pas initialisée correctement",  mine.getLargeur() == l);
 		assertPerso("init, La Qtor de la mines ne s'est pas initialisée correctement",  mine.orRestant() == 51);
@@ -47,11 +48,12 @@ public abstract class AbstractMine extends AbstractAssertion {
 		int h = 50;
 		
 		// condition initiale : aucune
-
-		// opération
 		mine.init( l,  h);
-		
+		// opération
 		mine.setAppartenance(ERace.ORC);
+		
+		//oracle
+		
 		assertPerso("setAppartenance, L'appartenance de la mine n'est pas la bonne ", mine.appartenance() == ERace.ORC);
 	
 		
