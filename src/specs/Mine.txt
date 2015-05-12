@@ -16,7 +16,7 @@ Operators
 	retrait : [Mine] * int -> [Mine]
 		pre retrait(M,s) require ¬estLaminee(M) && s>0
 	accueil : [Mine] * ERace-> [Mine]
-		pre accueil(M, r) require ¬estAbandonnee(M) && r != RIEN
+		pre accueil(M, r) require ¬estAbandonnee(M) && r != ERace.RIEN
 	abandoned : [Mine] -> [Mine]
 		pre abandoned(M) require estAbandonee(M)
     setOrRestant : [Mine] * int -> [Mine] 
@@ -29,7 +29,7 @@ Operators
 Observations :
 	[invariants]
 		estLaminee(M) =(min) orRestant(M) <=  0			
-		estAbandonnee(M) =(min) abandonCompteur = 51 && =(min) appartenance(M) = RIEN
+		estAbandonnee(M) =(min) abandonCompteur = 51 && =(min) appartenance(M) = ERace.RIEN
 		0 <=abandonCompteur(M)<= 51 
 	[init]
 	  
@@ -37,7 +37,7 @@ Observations :
         getHauteur(init(l, h)) = h
         orRestant(init(l, h)) = 51
         abandonCompteur(init(l, h)) = 51
-        appartenance(init(l,h)) = RIEN
+        appartenance(init(l,h)) = ERace.RIEN
 	
 	[retrait]
 	    
@@ -51,7 +51,7 @@ Observations :
 		
 	[abandoned]
 		orRestant(abandoned(M))=orRestant(M) 
-		appartenance(abandoned(M)) = RIEN
+		appartenance(abandoned(M)) = ERace.RIEN
 		
 	[setOrRestant]
 		appartenance(setOrRestant(M, s)) = appartenance(M)

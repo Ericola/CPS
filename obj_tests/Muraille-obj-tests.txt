@@ -1,8 +1,8 @@
-Cas de test 0.1 : Test de la création d'une muraille (init) réussi
+Cas de test 0.1 : Test de la creation d'une muraille (init) reussi
 
-Condition initiales : 
+Conditions initiales : 
 		aucun
-	Opérations : 
+	Operations : 
 		L0 = init( 50, 50, 50)
 	Oracle :
 		getHauteur(L0) == 50 
@@ -10,37 +10,37 @@ Condition initiales :
 		getPdv(L0) == 50
 	Rapport :
 		getHauteur(L0) != 50 
-			=> init, La hauteur de la muraille ne s'est pas initialiser correctement
+			=> init, La hauteur de la muraille ne s'est pas initialisee correctement
 		getLargeur(L0) != 50
-			=> init, La largeur de la muraille ne s'est pas initialiser correctement
+			=> init, La largeur de la muraille ne s'est pas initialisee correctement
 		getPdv(L0) != 50
-			=> init, Les point de vie de la muraille ne s'est pas initialiser correctement
+			=> init, Les point de vie de la muraille ne s'est pas initialisee correctement
 		
 -------------------------------------------------------------------------------------------------------------------------------
 
-Cas de test 1.1 : Test de retrait d'une muraille réussi
+Cas de test 1.1 : Test de retrait d'une muraille reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(50,50,50);
-	Opérations : 
+	Operations : 
 		L1 = retrait(L0,5);
 	Oracle : 
 		getPdv(L1) == 45
 	Rapport :
 		getPdv(L1) != 45
-			=> init, Le bloc est crée avec un mauvais type de bloc
+			=> init, Le bloc est cree avec un mauvais type de bloc
 		
 			
 -------------------------------------------------------------------------------------------------------------------------------
 
-Cas de test 2.1 : Test de la "mort" d'une muraille  réussi
+Cas de test 2.1 : Test de la "mort" d'une muraille  reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(50,50,50);
-	Opérations : 
+	Operations : 
 		L1 = retrait(L0,50)
 	Oracle : 
 		estMort(L1) == true
 	Rapport :
 		estMort(L1) != true
-			=> estMort, Le retrait de vie qui doit detruire la muraille n'a pas fonctionner correctement
+			=> estMort, Le retrait de vie qui doit detruire la muraille n'a pas fonctionne correctement

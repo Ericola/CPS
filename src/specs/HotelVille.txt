@@ -15,7 +15,7 @@ Constructors :
 Operators
 	depot : [HotelVille] * int -> [HotelVille]
 	accueil : [HotelVille] * ERace -> [HotelVille] 
-		pre accueil(H) require ¬estAbandonnee(H) && r != RIEN
+		pre accueil(H) require ¬estAbandonnee(H) && r != ERace.RIEN
 	abandoned : [HotelVille] -> [HotelVille]
 		pre abandoned(H) require estAbandonnee(H)
 	 setOrRestant : [HotelVille] * int -> [HotelVille] 
@@ -26,7 +26,7 @@ Operators
 		
 Observations :
 	[invariants]	
-		estAbandonnee(H) =(min) abandonCompteur = 51 && =(min) appartenance(H) = RIEN
+		estAbandonnee(H) =(min) abandonCompteur = 51 && =(min) appartenance(H) = ERace.RIEN
 		0 <= abandonCompteur(H)<= 51 
 		
 	[init]
@@ -42,7 +42,7 @@ Observations :
 		
 	[abandoned]
 		orRestant(abandoned(H))=orRestant(H) 
-		appartenance(abandoned(H)) = RIEN
+		appartenance(abandoned(H)) = ERace.RIEN
 	
 	[depot]
 		orRestant(depot(H,s))=orRestant(H)+s 

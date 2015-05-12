@@ -33,11 +33,11 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		hdv.init( l,  h, race);
 
 		//oracle
-		assertPerso("init, La hauteur de la hdv ne s'est pas initialisee correctement", hdv.getHauteur() == h);
-		assertPerso("init, La largeur de la hdv ne s'est pas initialisee correctement",  hdv.getLargeur() == l);
-		assertPerso("init, L'appartenance de la hdv ne s'est pas initialisee correctement",  hdv.appartenance() == race);
-		assertPerso("init, L'or restant de la hdv ne s'est pas initialisee correctement",  hdv.orRestant() == 16);
-		assertPerso("init, L'or restant de la hdv ne s'est pas initialisee correctement",  hdv.abandonCompteur() == 0);
+		assertPerso("testInitPositif, La hauteur de la hdv ne s'est pas initialisee correctement", hdv.getHauteur() == h);
+		assertPerso("testInitPositif, La largeur de la hdv ne s'est pas initialisee correctement",  hdv.getLargeur() == l);
+		assertPerso("testInitPositif, L'appartenance de la hdv ne s'est pas initialisee correctement",  hdv.appartenance() == race);
+		assertPerso("testInitPositif, L'or restant de la hdv ne s'est pas initialisee correctement",  hdv.orRestant() == 16);
+		assertPerso("testInitPositif, L'or restant de la hdv ne s'est pas initialisee correctement",  hdv.abandonCompteur() == 0);
 	}
 
 
@@ -54,7 +54,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 
 		hdv.depot(4); 
 		//oracle
-		assertPerso("depot, Le depot de l'hdv n'a pas fonctionnee", hdv.orRestant() == 20);
+		assertPerso("testDepotPositif, Le depot de l'hdv n'a pas fonctionnee", hdv.orRestant() == 20);
 
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 
 		hdv.abandoned();
 		//oracle
-		assertPerso("abandoned, abandoned de hdv ne s'est pas fait pas correctement", hdv.appartenance() == ERace.RIEN);
+		assertPerso("testAbandonedPositif, abandoned de hdv ne s'est pas fait pas correctement", hdv.appartenance() == ERace.RIEN);
 
 	}
 
@@ -88,7 +88,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		System.out.println("appartenance : " + hdv.appartenance());
 		hdv.accueil(ERace.ORC);
 		//oracle
-		assertPerso("accueil, L'accueil de la hdv n'a pas fonctionnee", hdv.appartenance() == ERace.ORC);
+		assertPerso("testAccueilPositif, L'accueil de la hdv n'a pas fonctionnee", hdv.appartenance() == ERace.ORC);
 
 	}
 	@Test
@@ -104,7 +104,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		hdv.setOrRestant(40);
 
 		//oracle
-		assertPerso("orRestant, orRestant de la hdv ne s'est pas fait correctement", hdv.orRestant()== 40);
+		assertPerso("testSetOrRestantPositif, orRestant de la hdv ne s'est pas fait correctement", hdv.orRestant()== 40);
 
 	}
 	@Test
@@ -120,7 +120,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 
 		hdv.setAppartenance(ERace.ORC);
 		//oracle
-		assertPerso("setappartenance, SetAppartenance de la hdv ne s'est pas fait correctement", hdv.appartenance()== ERace.ORC);
+		assertPerso("testSetAppartenance, SetAppartenance de la hdv ne s'est pas fait correctement", hdv.appartenance()== ERace.ORC);
 
 
 	}
@@ -140,7 +140,7 @@ public abstract class AbstractHotelDeVille extends AbstractAssertion {
 		hdv.setAbandonCompteur(30);
 
 		//oracle
-		assertPerso("setAbandonCompteur, SetAbandonCompteur de la hdv ne s'est pas fait correctement", hdv.abandonCompteur()==30);
+		assertPerso("testSetAbandonCompteur, SetAbandonCompteur de la hdv ne s'est pas fait correctement", hdv.abandonCompteur()==30);
 
 
 	}

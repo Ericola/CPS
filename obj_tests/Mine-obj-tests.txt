@@ -1,33 +1,33 @@
-Cas de test 0.1 : Test de la création d'une mines (init) réussi
+Cas de test 0.1 : Test de la creation d'une mine (init) reussi
 
-Condition initiales : 
+Conditions initiales : 
 		aucun
-	Opérations : 
+	Operations : 
 		L0 = init(50,50,ERACE.ORC);
 	Oracle : 
 		getHauteur(L0)==50
 		getLargeur(L0)==50
 		orRestant(L0) == 51
 		abandonCompteur() == 51
-		assertPerso("init, La largeur de la mines ne ce fait pas correctement",  mine.appartenance() == ERace.RIEN);
+		assertPerso("init, La largeur de la mine ne s'est pas initialisee correctement",  mine.appartenance() == ERace.RIEN);
 	Rapport :
 		getHauteur(L0)!=50
-			=> init, La hauteur de la mines ne s'est pas initialisée correctement
+			=> init, La hauteur de la mine ne s'est pas initialisee correctement
 		getLargeur(L0) != 50
-			=> init, La Largeur de la mines ne s'est pas initialisée correctement
+			=> init, La Largeur de la mine ne s'est pas initialisee correctement
 		orRestant(L0) != 51
-		   => init, La Qtor de la mines ne s'est pas initialisée correctement
+		   => init, La Qtor de la mine ne s'est pas initialisee correctement
 		abandonCompteur(L0) != 51
-		   => init, L abandonCompteur de la mines ne s'est pas initialisé correctement
+		   => init, L abandonCompteur de la mine ne s'est pas initialisee correctement
 		appartenance(L0) != ERace.RIEN
-		   => init, La Appartenance de la mines ne s'est pas initialisée correctement
+		   => init, La Appartenance de la mine ne s'est pas initialisee correctement
 		
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 1.1 : Test de setAppartenance d'une mines  réussi
+Cas de test 1.1 : Test de setAppartenance d'une mine reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init( 50, 50);
-	Opérations : 
+	Operations : 
 		L1 = setAppartenance(L0,ERace.ORC);
 	Oracle : 
 		appartenance(L1) == ERace.ORC
@@ -35,11 +35,11 @@ Condition initiales :
 		appartenance(L1) != ERace.ORC
 			=> setAppartenance, L'appartenance de la mine n'est pas la bonne
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 2.1 : Test de retrait d'une mines  réussi
+Cas de test 2.1 : Test de retrait d'une mine reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init( 50, 50);
-	Opérations : 
+	Operations : 
 		L1 = retrait(L0,1);
 	Oracle : 
 		orRestant(L1) == 50
@@ -48,13 +48,13 @@ Condition initiales :
 			=> retrait, Le retrait de la mine ne s'est pas fait correctement
 			
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 3.1 : Test de setAbandonnedCpt d'une mines  réussi
+Cas de test 3.1 : Test de setAbandonnedCpt d'une mines  reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init( 50, 50);
 		
 		L1 = setAppartenance(L0 ,ERace.ORC);
-	Opérations : 
+	Operations : 
 		L2 = setAbandonCompteur(L1,1);
 	Oracle : 
 		 abandonCompteur(L2) == 1
@@ -63,46 +63,46 @@ Condition initiales :
 			=> setAbandonCompteur, le setAbandonCompteur de la mine ne s'est pas fait correctement
 
 -------------------------------------------------------------------------------------------------------------------------------
-Cas de test 4.1 : Test de estAbandonné d'une mines  réussi
+Cas de test 4.1 : Test de estAbandonne d'une mines  réussi
 
-Condition initiales : 
+Conditions initiales : 
 		
-	Opérations : 
+	Operations : 
 		L0 = init( 50, 50);
 	Oracle : 
 		estAbandonnee(L0) == true
 	Rapport :
 		abandonCompteur(L0) == true
-			=> estAbandonne, estAbandonne de la mine n'est pas effectif alors qu'il le devrait
+			=> estAbandonne, estAbandonne de la mine n'est pas egal a true alors qu'il le devrait
 -------------------------------------------------------------------------------------------------------------------------------
 
-Cas de test 5.1 : Test de estLaminée d'une mines  réussi
+Cas de test 5.1 : Test de estLaminee d'une mines  reussi
 
-Condition initiales : 
+Conditions initiales : 
 		L0 = init( 50, 50);
 		L1 = setAppartenance(L0 ,ERace.ORC);
-	Opérations : 
+	Operations : 
 		L2 = retrait(L1,51);
 	Oracle : 
 		estLaminee(L0) == true
 		
 	Rapport :
 		estLaminee(L0) != true
-		=> estLaminé, La mine n'est pas Laminée alors qu'elle le devrait
+		=> estLaminee, La mine n'est pas Laminee alors qu'elle le devrait
 
 
 
 -------------------------------------------------------------------------------------------------------------------------------
 Cas de test 6.1 : Test de accueil d'une mine Positif
-Condition initiales : 
+Conditions initiales : 
 		L0 = init(50,50);
-	Opérations : 		
+	Operations : 		
 		L1=accueil(L0,ERace.HUMAIN);
 	Oracle : 
 		appartenance(L1) == ERace.HUMAIN
 	Rapport :
 		appartenance(L1) != ERace.HUMAIN
-			=> accueil, Le accueil de la mine ne s'est pas fait correctement
+			=> accueil, L'accueil de la mine ne s'est pas faite correctement
 
 			
 			

@@ -32,7 +32,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 
 		//Condition Initiale : aucune
 
-		//Opération
+		//Operation
 		moteurJeu.init(1664, 1000, 1000);
 
 		//Oracle
@@ -91,7 +91,7 @@ public abstract class AbstractMoteurJeu extends AbstractAssertion {
 		//villageois attente => is invariant normally.
 		assertPerso("in moteurJeu init: size villageoisAttente non ok car differente de size liste villageois",moteurJeu.VillageoisAttente().size() == moteurJeu.numerosVillageois().size());
 
-		//check si aucune mine est miné a l'init
+		//check si aucune mine est mine a l'init
 		for(int i=0;i<moteurJeu.MineMinee().size();i++){
 			assertPerso("in moteurJeu init: le villageois"+i+ " est entrain de mine (trouve via MineMinee(i) != -1) alors qu'il ne devrait pas",moteurJeu.MineMinee().get(i)==-1);
 		}
